@@ -1,0 +1,25 @@
+{
+  "pattern_path": "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz",
+  "pattern_sha256": "971b747bd46997b9bbfcd52be6cb530d9577c31bae3748d5304b19fe0f292f38",
+  "contact_pattern_path": "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact_v10.npz",
+  "contact_pattern_sha256": "e2a74fcf70bbc56ca1417e835354fe354ecbc6d7a76b68078ac6155e8efd6702",
+  "mount_rotation_wxyz": [
+    0,
+    0.7071067811865476,
+    -0.7071067811865476,
+    0
+  ],
+  "mount_translation_m": [
+    0.0099723599,
+    -0.0100609347,
+    -0.01830278694
+  ],
+  "registration_shift_in_sensor_m": [
+    -0.002775670030963911,
+    -1.6608367746214454e-08,
+    -0.001429236996874047
+  ],
+  "outer_surface_path": "assets/sensors/dex01/DEX-01-FINGERTIP-V10-outer.obj",
+  "outer_surface_sha256": "ddce723e9887a07430219c1d21ba3f04f1c7ce27f67f9ed338b95d5adc4bf43c",
+  "collision_model": "Same exterior-only V10 OBJ as rendering, SDF collision; no interior shells. Contact sampling points lie on the OBJ, while normals retain exact overmold CAD derivatives."
+}

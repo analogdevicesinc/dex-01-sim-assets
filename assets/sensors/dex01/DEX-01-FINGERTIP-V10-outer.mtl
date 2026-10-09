@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: Apache-2.0
+newmtl silver_frame
+Kd 0.55 0.57 0.59
+Ks 0.6 0.6 0.6
+Ns 60
+
+newmtl dark_overmold
+Kd 0.06 0.07 0.08
+Ks 0.04 0.04 0.04
+Ns 8

@@ -1,0 +1,32 @@
+# Python
+.DS_Store
+**/*.egg-info/
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+
+# Virtual environments, in case setup_env.sh is pointed inside the repo
+env_isaaclab/
+.venv/
+
+# Omniverse
+**/*.dmp
+**/.thumbs
+**/*.log*
+
+# Demo output
+videos/
+
+# IDE
+**/.idea/
+**/.vscode/
+
+# Local environment and credentials (direnv)
+.envrc
+
+# Local generated release collateral (distributed separately)
+dex-01-simulation-kit-*-public-files/
+
+# Local package build artifacts
+**/build/
+**/dist/

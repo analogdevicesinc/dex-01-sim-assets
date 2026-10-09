@@ -1,0 +1,53 @@
+# Copyright (c) 2026 Analog Devices, Inc. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify license documents
+        run: |
+          for license_file in LICENSE NOTICE LICENSE_Tesollo; do
+            cmp "$license_file" "source/dex01_sim_asset/$license_file"
+          done
+      - uses: pre-commit/action@v3.0.1
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch taxel pattern and DEX-01 reference geometry from LFS
+        run: git lfs pull --include="source/**/*.npz,assets/sensors/dex01/*.obj,assets/robots/tesollo/*.usda"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pytest matplotlib trimesh scipy rtree usd-core==26.8
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Run tests
+        run: python -m pytest tests -q

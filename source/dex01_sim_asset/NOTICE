@@ -1,0 +1,103 @@
+DEX-01 Tactile Sensor
+Copyright (c) 2026 Analog Devices, Inc. All Rights Reserved.
+
+The license for ADI-authored code and assets is in LICENSE. The third-party
+material identified below retains its own copyright and license terms.
+
+Isaac Lab
+---------
+Portions of the following files are adapted from the RayCaster and
+FrameTransformer sensors in Isaac Lab:
+
+  source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py
+  source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_cfg.py
+
+Upstream: https://github.com/isaac-sim/IsaacLab
+License: BSD-3-Clause
+
+Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+
+All rights reserved.
+
+SPDX-License-Identifier: BSD-3-Clause
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software without
+   specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Tesollo DG-5F hand model
+-----------------------
+The following files derive from the Tesollo DG-5F hand geometry provided
+by Tesollo under the BSD-3-Clause license:
+
+  assets/robots/tesollo/dg5f_right.usda
+  assets/robots/tesollo/fingertip_long.usda
+  assets/robots/tesollo/fingertip_short.usda
+
+The exact license supplied by Tesollo is retained in LICENSE_Tesollo and
+reproduced below.
+
+BSD 3-Clause License
+
+Copyright (c) 2026, Tesollo
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ADI-authored assets
+-------------------
+assets/sensors/dex01/DEX-01-FINGERTIP-V10-outer.obj and its materials,
+assets/robots/tesollo/dex01.usda and
+source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz,
+and
+source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact_v10.npz
+are ADI-authored and covered by LICENSE.
+
+Assets fetched at runtime
+-------------------------
+The demos load Factory/factory_gear_medium.usd from the Isaac Sim asset
+server through ISAACLAB_NUCLEUS_DIR. This asset is not redistributed in
+this repository and is obtained under NVIDIA's terms.

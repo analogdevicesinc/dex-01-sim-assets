@@ -1,0 +1,7 @@
+# Code owners are requested automatically as reviewers on pull requests and
+# at least one approval from them is required to merge into main.
+#
+# Format: <pattern> <owner>...; the last matching line takes precedence.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+* @tyu-adi @IAmNotJosh

@@ -1,0 +1,21 @@
+[package]
+
+# Semantic Versioning is used: https://semver.org/
+version = "0.1.0-a.1"
+
+# Description
+category = "isaaclab"
+license = "Apache-2.0"
+readme = "README.md"
+
+title = "DEX-01 Tactile Sensor"
+author = "Analog Devices, Inc."
+maintainer = "Analog Devices, Inc."
+description = "Penetration-based tactile sensor for Isaac Lab"
+keywords = ["tactile", "sensor", "isaaclab"]
+
+[dependencies]
+"isaaclab" = {}
+
+[[python.module]]
+name = "dex01_sim_asset"
