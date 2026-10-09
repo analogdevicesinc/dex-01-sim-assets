@@ -24,9 +24,9 @@ from isaaclab.sensors import SensorBase, SensorBaseCfg
 from isaaclab.utils import configclass
 from isaaclab.utils.math import quat_apply, quat_from_matrix, quat_inv, quat_mul
 
-from ..measurement import distribute_normal_load, tactile_image
 from ..tactile_sensor_data import TactileSensorData
 from .distance import query_distances
+from .measurement import distribute_normal_load, tactile_image
 
 
 @configclass

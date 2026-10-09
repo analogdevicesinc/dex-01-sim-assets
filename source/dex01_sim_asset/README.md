@@ -1,8 +1,9 @@
 # DEX-01 Tactile Sensor package
 
 This package provides the DEX-01 tactile sensor and taxel layouts for Isaac Lab.
-Run it inside an initialized Isaac Sim application. See the repository's root
-README for environment setup and demos.
+The default sensor runs inside an initialized Isaac Sim 5.1 application. The
+`dex01_sim_asset.newton` sensor uses the separate pinned Isaac Lab 3.0 Early Access
+environment. See the repository's root README for setup, demos and verification.
 
 Install this package into the Isaac Lab Python environment with:
 

@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def load(name):
-    path = ROOT / "source/dex01_sim_asset/dex01_sim_asset" / name
+    path = ROOT / name
     spec = importlib.util.spec_from_file_location("_contract", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -34,7 +34,7 @@ def load(name):
 
 
 def test_normal_load_conservation_and_no_patch():
-    m = load("measurement.py")
+    m = load("source/dex01_sim_asset/dex01_sim_asset/newton/measurement.py")
     depths = torch.tensor([[-0.001, -0.003], [0.0, 0.0]])
     normals = torch.tensor([[[0.0, 0.0, 1.0], [0.0, 0.0, 1.0]]] * 2)
     force = torch.tensor([[0.0, 0.0, -8.0], [0.0, 0.0, -8.0]])
@@ -49,7 +49,7 @@ def test_normal_load_conservation_and_no_patch():
 
 
 def test_curved_normal_projection_rejects_outward_force():
-    m = load("measurement.py")
+    m = load("source/dex01_sim_asset/dex01_sim_asset/newton/measurement.py")
     normals = torch.tensor([[[1.0, 0.0, 0.0], [0.0, 0.0, 1.0]]])
     depths = torch.tensor([[-0.001, -0.001]])
     loads, n = m.distribute_normal_load(depths, normals, torch.tensor([[-2.0, 0.0, -2.0]]))
@@ -59,7 +59,7 @@ def test_curved_normal_projection_rejects_outward_force():
 
 
 def test_report_checker_rejects_missing_ticks_and_fake_geometry():
-    verification = load("newton/verification.py")
+    verification = load("scripts/dex01_newton_verification.py")
     package = ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact_v10.npz"
     pixels = np.load(package)["taxel2pixel"]
     report = {
@@ -91,13 +91,73 @@ def test_report_checker_rejects_missing_ticks_and_fake_geometry():
 @pytest.mark.parametrize("failure", ["shutdown failed", "setup failed"])
 def test_failed_report_is_never_accepted(failure):
     with pytest.raises(ValueError, match="Demo failed"):
-        load("newton/verification.py").check_report({"failure": failure})
+        load("scripts/dex01_newton_verification.py").check_report({"failure": failure})
+
+
+def test_interrupted_report_is_never_accepted(valid_press_report):
+    valid_press_report["interrupted"] = True
+    with pytest.raises(ValueError, match="interrupted"):
+        load("scripts/dex01_newton_verification.py").check_report(valid_press_report)
+
+
+def test_repeated_hand_load_windows_are_checked_independently():
+    entries = []
+    for step in range(2880):
+        finger = 2 + (step // 360) % 4
+        forces = [0.0] * 5
+        forces[finger - 1] = 0.981
+        entries.append({
+            "step": step,
+            "target_finger": finger,
+            "forces_n": forces,
+            "normal_force_w_n": [0, 0, -0.981],
+            "probe_velocity_w": [0] * 6,
+        })
+    verification = load("scripts/dex01_newton_verification.py")
+    verification.check_load({"physics_dt_s": 1 / 240}, entries)
+    entries[-1]["forces_n"][-1] = 0.0
+    with pytest.raises(ValueError, match="did not settle"):
+        verification.check_load({"physics_dt_s": 1 / 240}, entries)
+
+
+def test_report_cli_checks_without_simulator_imports(tmp_path, valid_press_report):
+    import json
+    import os
+    import subprocess
+    import sys
+
+    path = tmp_path / "report.json"
+    path.write_text(json.dumps(valid_press_report))
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "scripts/dex01_newton.py"), "--check-report", str(path)],
+        capture_output=True,
+        text=True,
+        env={**os.environ, "PYTHONPATH": ""},
+    )
+    assert result.returncode == 0, result.stderr
+    assert "validation passed" in result.stdout
+
+
+@pytest.mark.parametrize("flag,requires_ffmpeg", [("--kit", False), ("--video", True)])
+def test_preflight_only_requires_ffmpeg_for_recording(tmp_path, monkeypatch, flag, requires_ffmpeg):
+    import json
+
+    preflight = load("scripts/newton_preflight.py")
+    path = tmp_path / "preflight.json"
+    monkeypatch.setattr(preflight.sys, "argv", ["preflight", "--isaaclab", str(tmp_path), "--report", str(path), flag])
+    monkeypatch.setattr(preflight.sys, "version_info", (3, 12))
+    monkeypatch.setattr(preflight.importlib.metadata, "version", lambda name: preflight.EXPECTED.get(name, "3.0.0"))
+    monkeypatch.setattr(preflight, "command", lambda args: {"returncode": 0, "stdout": preflight.LAB_REVISION})
+    monkeypatch.setattr(preflight.shutil, "which", lambda name: None)
+    monkeypatch.setitem(preflight.sys.modules, "imageio_ffmpeg", None)
+    assert preflight.main() == requires_ffmpeg
+    assert json.loads(path.read_text())["failures"] == (["FFmpeg is required for recording"] if requires_ffmpeg else [])
 
 
 @pytest.mark.parametrize("fixed_base", [False, "false", 1, None])
 def test_fixed_base_is_strict_boolean(fixed_base):
     with pytest.raises(ValueError, match="wrist is not fixed"):
-        load("newton/verification.py").check_press({"fixed_base": fixed_base}, [], np.zeros((0, 5)))
+        load("scripts/dex01_newton_verification.py").check_press({"fixed_base": fixed_base}, [], np.zeros((0, 5)))
 
 
 @pytest.mark.parametrize(
@@ -106,7 +166,7 @@ def test_fixed_base_is_strict_boolean(fixed_base):
 def test_current_measurements_survive_failure_but_success_is_invalidated(tmp_path, exception):
     import json
 
-    lifecycle = load("newton/lifecycle.py")
+    lifecycle = load("scripts/dex01_newton_lifecycle.py")
     report = tmp_path / "nested/report.json"
 
     def run():
@@ -158,7 +218,7 @@ def test_newton_help_preserves_report_and_never_launches(tmp_path, flag):
 def test_newton_ctrl_c_restores_handler_and_allows_persisting(tmp_path):
     import signal
 
-    lifecycle = load("newton/lifecycle.py")
+    lifecycle = load("scripts/dex01_newton_lifecycle.py")
     previous = signal.getsignal(signal.SIGINT)
     with lifecycle.graceful_stop() as stop:
         signal.raise_signal(signal.SIGINT)
@@ -217,7 +277,7 @@ def valid_press_report():
 
 
 def test_newton_checker_accepts_complete_three_cycles(valid_press_report):
-    assert load("newton/verification.py").check_report(valid_press_report)
+    assert load("scripts/dex01_newton_verification.py").check_report(valid_press_report)
 
 
 @pytest.mark.parametrize(
@@ -267,4 +327,4 @@ def test_newton_report_cannot_hide_bad_cycles_or_tail(valid_press_report, corrup
         tail = dict(entries[0], step=1800, elapsed_wall_s=8.0, tip_position_m=[float("nan"), 0, 0])
         entries.append(tail)
     with pytest.raises(ValueError, match=error):
-        load("newton/verification.py").check_report(r)
+        load("scripts/dex01_newton_verification.py").check_report(r)

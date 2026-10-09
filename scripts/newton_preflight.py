@@ -33,6 +33,8 @@ EXPECTED = {
     "torch": "2.11.0",
     "torchvision": "0.26.0",
     "usd-exchange": "2.3.0",
+    "mujoco": "3.11.0",
+    "mujoco-warp": "3.11.0",
 }
 LAB_REVISION = "ae37b028ea415c91ea2bc32609efcd759ed2b974"
 
@@ -50,10 +52,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--isaaclab", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
-    parser.add_argument("--kit", action="store_true", help="Require the full rendering/recording prerequisites.")
+    parser.add_argument("--kit", action="store_true", help="Require Isaac Sim for viewing or streaming.")
+    parser.add_argument("--video", action="store_true", help="Require Isaac Sim and FFmpeg for recording.")
     args = parser.parse_args()
     packages = {}
-    for package in (*EXPECTED, "isaaclab", "mujoco", "mujoco-warp"):
+    for package in (*EXPECTED, "isaaclab"):
         try:
             packages[package] = importlib.metadata.version(package)
         except importlib.metadata.PackageNotFoundError:
@@ -65,14 +68,11 @@ def main():
     if revision.get("stdout", "").strip() != LAB_REVISION:
         failures.append("Isaac Lab checkout does not match the approved EA revision")
     for package, expected in EXPECTED.items():
-        if package == "isaacsim" and not args.kit:
+        if package == "isaacsim" and not (args.kit or args.video):
             continue
         actual = packages[package]
         if actual is None or actual.split("+")[0] != expected:
             failures.append(f"{package}: expected {expected}, found {actual}")
-    for package in ("mujoco", "mujoco-warp"):
-        if not (packages[package] or "").startswith("3.11."):
-            failures.append(f"{package}: requires the locked 3.11.x series")
     gpu = command(["nvidia-smi", "--query-gpu=name,driver_version,memory.total", "--format=csv,noheader"])
     if gpu.get("returncode") != 0:
         failures.append("NVIDIA GPU/driver is unavailable")
@@ -84,7 +84,7 @@ def main():
             ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
         except (ImportError, RuntimeError):
             pass
-    if args.kit and not ffmpeg:
+    if args.video and not ffmpeg:
         failures.append("FFmpeg is required for recording")
     report = {
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),

@@ -159,7 +159,7 @@ def run_articulated_press(
                     "tip_position_m": sensor.data.taxel_points_w[0].mean(0).cpu().tolist(),
                     "forces_n": forces,
                     "min_depth_m": depths.min().item(),
-                    "contact_force_w_n": sensor.get_filtered_normal_force_w()[0].cpu().tolist(),
+                    "contact_force_w_n": sensor._contact_view.get_contact_force_matrix(dt=dt)[0, 0].cpu().tolist(),
                     "penetration_normal_w": weighted.cpu().tolist(),
                     "frame_n": sensor.get_tactile_image()[0].cpu().tolist(),
                     "taxel_forces_n": sensor.data.normal_forces[0].cpu().tolist(),

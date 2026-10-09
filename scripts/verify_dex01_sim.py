@@ -236,7 +236,7 @@ def main():
                 sensor.update(dt, force_recompute=True)
             viewer.update(f"Probe cell ({row}, {col}) | indentation {penetration * 1000:.2f} mm")
             force = sensor.data.normal_forces[0].clone()
-            net = sensor.get_filtered_normal_force_w()[0].clone()
+            net = sensor._contact_view.get_contact_force_matrix(dt=dt)[0, 0].clone()
             depths = sensor.data.depths[0].clone()
             case = {
                 "pixel": [row, col],

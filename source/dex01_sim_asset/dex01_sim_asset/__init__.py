@@ -27,6 +27,7 @@ __all__ = [
 
 
 def __getattr__(name):
+    # Newton must be importable without loading the Isaac Sim 5.1/PhysX sensor.
     modules = {
         "TactileSensor": ".tactile_sensor",
         "TactileSensorCfg": ".tactile_sensor_cfg",

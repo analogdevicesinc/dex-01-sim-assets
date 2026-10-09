@@ -211,7 +211,8 @@ Newton runs in a separate Python 3.12 environment; the Isaac Sim 5.1 commands ab
 continue to use the original environment. The Newton setup pins Isaac Lab
 `v3.0.0-EA` (`ae37b028ea415c91ea2bc32609efcd759ed2b974`) and its upstream lockfile:
 Newton 1.5.2, Warp 1.16.0, MuJoCo/MuJoCo-Warp 3.11.0 and Torch 2.11.0.
-Kit viewing/streaming requires Isaac Sim 6.1.0. Linux x86-64 is the validated target.
+Kit viewing/streaming requires Isaac Sim 6.1.0. This migration targets Linux x86-64.
+Live GPU validation must be repeated for this checkout before release.
 
 ```bash
 ./setup_newton_env.sh --video
@@ -224,7 +225,7 @@ Replace the paths below with your checkout paths:
 
 ```bash
 cd /path/to/IsaacLab-Newton
-uv run --frozen --extra isaacsim --extra video python /path/to/dex-01-sim-assets/scripts/newton_preflight.py --isaaclab . --kit --report /tmp/newton-preflight.json
+uv run --frozen --extra isaacsim --extra video python /path/to/dex-01-sim-assets/scripts/newton_preflight.py --isaaclab . --video --report /tmp/newton-preflight.json
 PYTHONPATH="$PWD/source/isaaclab" uv run --frozen --extra isaacsim --extra video python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --mode press --viz kit --livestream 2 --record /tmp/newton-press.mp4 --report /tmp/newton-press.json
 ```
 
@@ -258,7 +259,7 @@ missing dependencies or GPU access fail when the required flag is set. Install
 DEX01_REQUIRE_NEWTON_TESTS=1 /path/to/IsaacLab-Newton/.venv/bin/python -m pytest /path/to/dex-01-sim-assets/tests/test_newton_backend.py -q
 ```
 
-CPU-only CI runs the shared mathematics, report and CLI lifecycle tests and skips
+CPU-only CI runs the Newton mathematics, report and CLI lifecycle tests and skips
 the optional GPU module. GPU validation must be run separately; a skipped module
 is not evidence of Newton correctness. The contact verifier checks five locations
 at separation, touching and two indentation depths by default; `--sweep-all`

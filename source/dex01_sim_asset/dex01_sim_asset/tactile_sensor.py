@@ -43,7 +43,6 @@ from isaaclab.utils.math import (
 from isaacsim.core.simulation_manager import SimulationManager
 from pxr import Gf, UsdGeom, UsdPhysics
 
-from .measurement import distribute_normal_load, tactile_image
 from .tactile_sensor_data import TactileSensorData
 
 if TYPE_CHECKING:
@@ -237,9 +236,18 @@ class TactileSensor(SensorBase):
 
         # Force from contact view — use summed net force for distribution
         net_force_w = contact_force_matrix[env_ids, 0]
+        depth_sum = depths.sum(-1, keepdims=True)
         # Resolve the net force along the penetration-weighted mean of the taxel normals in
         # contact. A single taxel's normal is only representative on a flat pad.
-        normal_forces, _ = distribute_normal_load(depths, taxel_normals_w, net_force_w)
+        contact_normal_w = (taxel_normals_w * depths.unsqueeze(-1)).sum(1) / depth_sum.clamp(max=-1e-8)
+        contact_normal_w = contact_normal_w / contact_normal_w.norm(dim=-1, keepdim=True).clamp(min=1e-8)
+        net_normal_force = -(net_force_w * contact_normal_w).sum(-1, keepdims=True)
+        net_normal_force = net_normal_force.clamp(min=0.0)
+        normal_forces = torch.where(
+            depths < 0.0,
+            net_normal_force * depths / depth_sum.clamp(max=-1e-8),
+            torch.zeros_like(depths),
+        )
 
         self._data.normal_forces[env_ids] = normal_forces
         self._data.depths[env_ids] = depths
@@ -327,11 +335,16 @@ class TactileSensor(SensorBase):
         )
 
     def get_tactile_image(self):
-        return tactile_image(self.data.normal_forces, self.taxel2pixel)
+        B = self.data.normal_forces.shape[0]
+        H = self.taxel2pixel[:, 0].max().item() + 1
+        W = self.taxel2pixel[:, 1].max().item() + 1
+        image_flat = torch.zeros((B, H * W), dtype=torch.float32, device=self._device)
 
-    def get_filtered_normal_force_w(self):
-        """Return the counter-object filtered normal contact force [N], shape [E,3]."""
-        return self._contact_view.get_contact_force_matrix(dt=self._sim_physics_dt)[:, 0]
+        flat_idx = self.taxel2pixel[:, 0] * W + self.taxel2pixel[:, 1]
+        flat_idx = flat_idx.unsqueeze(0).expand(B, -1)
+
+        image_flat.scatter_(1, flat_idx, self.data.normal_forces)
+        return image_flat.view(B, H, W)
 
     def __str__(self) -> str:
         """Returns: A string containing information about the instance."""

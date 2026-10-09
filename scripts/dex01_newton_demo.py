@@ -25,6 +25,15 @@ import time
 import isaaclab.sim as sim
 import numpy as np
 import torch
+from dex01_sim_asset.newton.assets import (
+    indenter_mesh,
+    prepare_hand_asset,
+    prepare_sensor_asset,
+    write_indenter,
+)
+from dex01_sim_asset.newton.tactile_sensor import TactileSensor, TactileSensorCfg
+from dex01_sim_asset.taxel_patterns import Dex01PatternCfg
+from dex01_sim_asset.vis_utils import ViewportTactileViewer
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.app import launch_simulation
 from isaaclab.assets import ArticulationCfg, AssetBaseCfg, RigidObjectCfg
@@ -42,16 +51,6 @@ from isaaclab_newton.sim.schemas import (
     NewtonArticulationCfg,
     NewtonSDFCollisionCfg,
 )
-
-from ..taxel_patterns import Dex01PatternCfg
-from ..vis_utils import ViewportTactileViewer
-from .assets import (
-    indenter_mesh,
-    prepare_hand_asset,
-    prepare_sensor_asset,
-    write_indenter,
-)
-from .tactile_sensor import TactileSensor, TactileSensorCfg
 
 
 def rigid_state(asset):
@@ -364,8 +363,7 @@ def place_probe(probe, sensor, taxel, distance, orient=False):
 
 def save_recording(path, rgb, frames, sensors):
     import imageio_ffmpeg
-
-    from ..vis_utils.viewport import force_frame_rgba
+    from dex01_sim_asset.vis_utils.viewport import force_frame_rgba
 
     if not rgb or np.std(rgb[-1]) < 1:
         raise RuntimeError("Recording camera has no meaningful image output")
