@@ -42,7 +42,7 @@ def main():
     parser.add_argument("--no-sensing", action="store_true", help="Physics-only benchmark; requires --benchmark.")
     args = parser.parse_args()
     if args.check_report:
-        from dex01_sim_asset.newton.verification import check_report
+        from dex01_newton_verification import check_report
 
         check_report(json.loads(args.check_report.read_text()))
         print("Newton report validation passed")
@@ -59,7 +59,7 @@ def main():
         parser.error("Debug markers require --viz kit")
     if args.no_sensing and (not args.benchmark or args.report or args.record or args.mode == "press"):
         parser.error("--no-sensing requires a physics-only benchmark without reports, recording or pressing")
-    from dex01_sim_asset.newton.lifecycle import run_with_report
+    from dex01_newton_lifecycle import run_with_report
 
     run_with_report(lambda: launch(args), args.report, args.mode)
 
@@ -81,8 +81,8 @@ def launch(args):
             enable_cameras=bool(args.record),
         )
     try:
-        from dex01_sim_asset.newton.demo import run
-        from dex01_sim_asset.newton.lifecycle import graceful_stop
+        from dex01_newton_demo import run
+        from dex01_newton_lifecycle import graceful_stop
 
         with graceful_stop() as stop:
             run(args, ROOT, launcher, stop=stop)

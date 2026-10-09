@@ -33,7 +33,7 @@ def main():
     parser.add_argument("--num-envs", type=int, choices=(1, 2), default=2)
     parser.add_argument("--device", default="cuda:0")
     args = parser.parse_args()
-    from dex01_sim_asset.newton.lifecycle import run_with_report
+    from dex01_newton_lifecycle import run_with_report
 
     run_with_report(lambda: verify(args), args.report, "contact-verification")
 

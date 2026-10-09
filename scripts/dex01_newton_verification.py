@@ -22,6 +22,8 @@ def check_report(report):
     """Reject incomplete or physically inconsistent reports rather than only inspecting peaks."""
     if report.get("failure"):
         raise ValueError(f"Demo failed: {report['failure']}")
+    if report.get("interrupted"):
+        raise ValueError("Demo interrupted before completion")
     entries = report["observations"]
     if report.get("backend") != "newton" or not entries:
         raise ValueError("Missing Newton observations")
@@ -91,27 +93,36 @@ def check_frames(report, entries, pixels):
 
 def check_load(report, entries):
     for finger in range(2, 6):
-        selected = [e for e in entries if e["target_finger"] == finger and e["step"] % 360 >= 288]
-        if len(selected) < 30:
+        windows = {}
+        for e in entries:
+            if e["target_finger"] == finger and e["step"] % 360 >= 288:
+                windows.setdefault(e["step"] // 360, []).append(e)
+        if not windows or not any(len(window) >= 30 for window in windows.values()):
             raise ValueError("Missing settling samples")
-        if (np.diff([e["step"] for e in selected]) != 1).any():
-            raise ValueError("Settling observations must be contiguous")
-        load = np.array([e["forces_n"][finger - 1] for e in selected])
-        if np.max(np.abs(load - 0.981)) >= 0.05 * 0.981:
-            raise ValueError("Known load did not settle")
-        other = np.delete(np.array([e["forces_n"] for e in selected]), finger - 1, axis=1)
-        if other.max() >= 1e-5:
-            raise ValueError("Unloaded finger reports force")
-        contact = np.array([e["normal_force_w_n"][2] for e in selected])
-        velocity = np.array([e["probe_velocity_w"] for e in selected])
-        if abs(-contact.mean() - 0.981) >= 0.01 * 0.981:
-            raise ValueError("Contact mean load mismatch")
-        if np.linalg.norm(velocity[:, :3], axis=1).max() >= 0.01:
-            raise ValueError("Load still moving")
-        dt = report["physics_dt_s"]
-        residual = (-contact[1:] - 0.981) * dt - 0.1 * np.diff(velocity[:, 2])
-        if np.abs(residual).max() >= 0.01 * 0.981 * dt:
-            raise ValueError("Momentum balance mismatch")
+        for selected in windows.values():
+            check_settled_load(report, selected, finger)
+
+
+def check_settled_load(report, selected, finger):
+    """Validate each settling window independently, including repeated finger visits."""
+    if (np.diff([e["step"] for e in selected]) != 1).any():
+        raise ValueError("Settling observations must be contiguous")
+    load = np.array([e["forces_n"][finger - 1] for e in selected])
+    if np.max(np.abs(load - 0.981)) >= 0.05 * 0.981:
+        raise ValueError("Known load did not settle")
+    other = np.delete(np.array([e["forces_n"] for e in selected]), finger - 1, axis=1)
+    if other.max() >= 1e-5:
+        raise ValueError("Unloaded finger reports force")
+    contact = np.array([e["normal_force_w_n"][2] for e in selected])
+    velocity = np.array([e["probe_velocity_w"] for e in selected])
+    if abs(-contact.mean() - 0.981) >= 0.01 * 0.981:
+        raise ValueError("Contact mean load mismatch")
+    if np.linalg.norm(velocity[:, :3], axis=1).max() >= 0.01:
+        raise ValueError("Load still moving")
+    dt = report["physics_dt_s"]
+    residual = (-contact[1:] - 0.981) * dt - 0.1 * np.diff(velocity[:, 2])
+    if residual.size and np.abs(residual).max() >= 0.01 * 0.981 * dt:
+        raise ValueError("Momentum balance mismatch")
 
 
 def check_press(report, entries, forces):
