@@ -8,6 +8,7 @@
 # Virtual environments, in case setup_env.sh is pointed inside the repo
 env_isaaclab/
 .venv/
+.newton/
 
 # Omniverse
 **/*.dmp

@@ -15,10 +15,7 @@
 
 """Penetration-based tactile sensor for Isaac Lab."""
 
-from . import taxel_patterns, vis_utils
-from .tactile_sensor import TactileSensor
-from .tactile_sensor_cfg import TactileSensorCfg
-from .tactile_sensor_data import TactileSensorData
+from importlib import import_module
 
 __all__ = [
     "TactileSensor",
@@ -27,3 +24,19 @@ __all__ = [
     "taxel_patterns",
     "vis_utils",
 ]
+
+
+def __getattr__(name):
+    modules = {
+        "TactileSensor": ".tactile_sensor",
+        "TactileSensorCfg": ".tactile_sensor_cfg",
+        "TactileSensorData": ".tactile_sensor_data",
+        "taxel_patterns": ".taxel_patterns",
+        "vis_utils": ".vis_utils",
+    }
+    if name not in modules:
+        raise AttributeError(name)
+    module = import_module(modules[name], __name__)
+    value = module if name in ("taxel_patterns", "vis_utils") else getattr(module, name)
+    globals()[name] = value
+    return value
