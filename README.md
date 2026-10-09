@@ -219,3 +219,19 @@ assets use [Apache-2.0](LICENSE). Isaac Lab adaptations and the Tesollo hand
 retain BSD-3-Clause terms in [NOTICE](NOTICE); the exact Tesollo license is
 retained in [LICENSE_Tesollo](LICENSE_Tesollo). The demos fetch the gear from
 NVIDIA's asset server under NVIDIA's terms; it is not redistributed here.
+
+## Citation
+
+If you use this repository in your work, please cite it as:
+
+```bibtex
+@misc{analogdevices2026dex01,
+  author       = {{Analog Devices, Inc.}},
+  title        = {{DEX-01 Tactile Sensor Simulation Asset}},
+  year         = {2026},
+  howpublished = {GitHub repository},
+  url          = {https://github.com/analogdevicesinc/dex-01-sim-assets}
+}
+```
+
+Include the commit hash or release tag you used for reproducibility.
