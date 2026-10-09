@@ -52,6 +52,11 @@ def quat_inv(q):
 
 
 def sensor_class():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("_measurement", SOURCE.with_name("measurement.py"))
+    measurement = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(measurement)
     tree = ast.parse(SOURCE.read_text())
     cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "TactileSensor")
     namespace = {
@@ -60,6 +65,8 @@ def sensor_class():
         "Sequence": list,
         "torch": torch,
         "np": np,
+        "distribute_normal_load": measurement.distribute_normal_load,
+        "tactile_image": measurement.tactile_image,
         "quat_mul": quat_mul,
         "quat_apply": quat_apply,
         "quat_inv": quat_inv,

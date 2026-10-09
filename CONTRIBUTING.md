@@ -41,6 +41,12 @@ The tests cover taxel mapping, rigid transforms, force calculation, visualizatio
 exterior geometry and mounting without launching Isaac Sim. Changes to sensing
 or geometry must also pass the live checks in [README.md](README.md).
 
+Newton uses the separate pinned Python 3.12 environment described in the README.
+CPU CI runs on Python 3.11 and 3.12; the Newton integration module requires CUDA.
+Run it with `DEX01_REQUIRE_NEWTON_TESTS=1` so missing dependencies or GPU access
+fail instead of skipping. Run the live contact sweep and load/press verification
+when changing Newton sensing, solver versions or collider geometry.
+
 ## Licensing documents
 
 [LICENSE](LICENSE) and [NOTICE](NOTICE) at the repository root are the canonical

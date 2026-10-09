@@ -13,30 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Penetration-based tactile sensor for Isaac Lab."""
+"""Newton integration; importing this namespace does not launch Kit."""
 
 from importlib import import_module
 
-__all__ = [
-    "TactileSensor",
-    "TactileSensorCfg",
-    "TactileSensorData",
-    "taxel_patterns",
-    "vis_utils",
-]
+__all__ = ["TactileSensor", "TactileSensorCfg"]
 
 
 def __getattr__(name):
-    modules = {
-        "TactileSensor": ".tactile_sensor",
-        "TactileSensorCfg": ".tactile_sensor_cfg",
-        "TactileSensorData": ".tactile_sensor_data",
-        "taxel_patterns": ".taxel_patterns",
-        "vis_utils": ".vis_utils",
-    }
-    if name not in modules:
+    if name not in __all__:
         raise AttributeError(name)
-    module = import_module(modules[name], __name__)
-    value = module if name in ("taxel_patterns", "vis_utils") else getattr(module, name)
+    value = getattr(import_module(".tactile_sensor", __name__), name)
     globals()[name] = value
     return value

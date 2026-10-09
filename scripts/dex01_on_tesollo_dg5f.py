@@ -336,9 +336,7 @@ def run_simulator(sim, scene):
                 "gear_position_m": asset.data.root_pos_w[0].cpu().tolist(),
                 "sensor_positions_m": [s._view.get_transforms()[0, :3].cpu().tolist() for s in sensors],
                 "depth_min_m": [s.data.depths[0].min().item() for s in sensors],
-                "contact_forces_w_n": [
-                    s._contact_view.get_contact_force_matrix(dt=sim_dt)[0, 0].cpu().tolist() for s in sensors
-                ],
+                "contact_forces_w_n": [s.get_filtered_normal_force_w()[0].cpu().tolist() for s in sensors],
                 "weighted_normals_w": [
                     (s.data.taxel_normals_w[0] * s.data.normal_forces[0, :, None]).sum(0).cpu().tolist()
                     for s in sensors
@@ -384,7 +382,7 @@ def run_simulator(sim, scene):
                 .item()
             ),
             "gear_filtered_force_n": sensors[0].data.normal_forces[0].sum().item(),
-            "net_contact_force_n": thumb_sensor._contact_view.get_contact_force_matrix(dt=sim_dt).cpu().tolist(),
+            "net_contact_force_n": thumb_sensor.get_filtered_normal_force_w()[:, None, :].cpu().tolist(),
             "target_position_m": target.cpu().tolist(),
             "target_normal": normal.cpu().tolist(),
             "probe_position_m": probe.data.root_pos_w[0].cpu().tolist(),

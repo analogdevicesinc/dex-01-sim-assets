@@ -56,7 +56,7 @@ class ViewportTactileViewer:
     Camera sensor recordings do not include this UI layer.
     """
 
-    def __init__(self, sensors, labels, enabled=True, vmax_floor=0.01):
+    def __init__(self, sensors, labels, enabled=True, vmax_floor=0.01, compact=False):
         self.sensors = list(sensors)
         self.labels = list(labels)
         if len(self.sensors) != len(self.labels) or not self.sensors:
@@ -76,24 +76,25 @@ class ViewportTactileViewer:
             return
         self.frame = viewport.get_frame("dex01.tactile.force_overlay")
         self.pixels = [sensor.taxel2pixel.cpu().numpy() for sensor in self.sensors]
+        panel_height, column_width, image_size = (180, 104, 96) if compact else (265, 178, 160)
         with self.frame:
             with ui.VStack():
                 ui.Spacer()
-                with ui.HStack(height=265):
+                with ui.HStack(height=panel_height):
                     ui.Spacer(width=12)
-                    with ui.ZStack(width=185 * len(self.sensors), height=265):
+                    with ui.ZStack(width=(column_width + 7) * len(self.sensors), height=panel_height):
                         ui.Rectangle(style={"background_color": 0xEE181818})
                         with ui.VStack(spacing=4):
                             self.status_label = ui.Label(
                                 "Normal force (N); firmware rows/columns", height=28, style={"font_size": 18}
                             )
-                            with ui.HStack(height=186, spacing=6):
+                            with ui.HStack(height=image_size + 26, spacing=6):
                                 for label in self.labels:
-                                    with ui.VStack(width=178):
+                                    with ui.VStack(width=column_width):
                                         self.force_labels.append(ui.Label(label, height=26, style={"font_size": 18}))
                                         provider = ui.ByteImageProvider()
                                         self.providers.append(provider)
-                                        ui.ImageWithProvider(provider, width=160, height=160)
+                                        ui.ImageWithProvider(provider, width=image_size, height=image_size)
                             self.scale_label = ui.Label("", height=28, style={"font_size": 16})
                     ui.Spacer()
                 ui.Spacer(height=12)
