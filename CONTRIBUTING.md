@@ -7,7 +7,7 @@ Keep changes focused and describe how they were verified.
 
 ADI-authored material and new contributions are licensed under Apache-2.0.
 Existing Isaac Lab and Tesollo material retains its BSD-3-Clause terms as
-described in [NOTICE](NOTICE).
+described in [NOTICE](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/NOTICE).
 
 Every contribution must include a Developer Certificate of Origin sign-off.
 By signing off, you agree to the [Developer Certificate of Origin 1.1](https://developercertificate.org/)
@@ -39,13 +39,13 @@ python -m pytest tests -q
 
 The tests cover taxel mapping, rigid transforms, force calculation, visualization,
 exterior geometry and mounting without launching Isaac Sim. Changes to sensing
-or geometry must also pass the live checks in [README.md](README.md).
+or geometry must also pass the live checks in [the validation guide](docs/validation.md).
 
 ## Licensing documents
 
-[LICENSE](LICENSE) and [NOTICE](NOTICE) at the repository root are the canonical
+[LICENSE](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/LICENSE) and [NOTICE](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/NOTICE) at the repository root are the canonical
 license and attribution files. Preserve existing third-party copyright notices
-and license terms when modifying adapted material. Keep [LICENSE_Tesollo](LICENSE_Tesollo)
+and license terms when modifying adapted material. Keep [LICENSE_Tesollo](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/LICENSE_Tesollo)
 exactly as supplied by Tesollo.
 
 The three license files are also copied into `source/dex01_sim_asset/` so that
@@ -55,3 +55,8 @@ root files, update those copies in the same change. CI checks that they match.
 Publish the final approved SBOM and licensing collateral as release attachments.
 Keep generated documents unchanged; do not substitute dependency listings for
 the release SBOM.
+
+## Documentation changes
+
+Follow the [documentation maintainer guide](docs/maintaining-docs.md).
+Build with `make -C docs html` in the documentation environment before review.

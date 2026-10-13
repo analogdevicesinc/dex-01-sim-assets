@@ -1,0 +1,16 @@
+{
+  "hand_report_sha256": "80b2a797e407161230d66678b93a995f2b6e39cd95a64f6787af0d5b603a552e",
+  "force_checker_sha256": "32d2054aa72ee87235a9fa6e1ed5f689a2514a9eb2232852b1a2231c65714fc4",
+  "pattern_sha256": "e2a74fcf70bbc56ca1417e835354fe354ecbc6d7a76b68078ac6155e8efd6702",
+  "full_transient_peak_n": 3.0508673191070557,
+  "known_load_reference_n": 0.9810000000000001,
+  "plotting_environment": {
+    "python": "3.11.17",
+    "numpy": "1.26.0",
+    "matplotlib": "3.10.3"
+  },
+  "figures": {
+    "known-load.svg": "edf32bf720f752b4779d96ba725f7c05e219f57a283cd77db1858899a3538053",
+    "taxel-mapping.svg": "ac0603a64b88783c00e99595cd0a5f9e4bc9ee047da578eb2ff4f8c55c111a9e"
+  }
+}
