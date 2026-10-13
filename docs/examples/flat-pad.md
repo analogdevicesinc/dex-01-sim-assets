@@ -1,5 +1,28 @@
 # Flat-pad example
 
+Watch the gear drop onto a flat sensing grid. The contact footprint appears
+as the load rises, then the total force settles near the gear's weight.
+
+<figure class="example-video">
+<video controls playsinline loop preload="none" width="960" height="800"
+       poster="../../_static/videos/flat-pad.webp"
+       aria-label="Actual flat-pad drop and settling, shown 3× slower. The camera and tactile grid come from the same captured simulation steps.">
+  <source src="../../_static/videos/flat-pad.webm" type="video/webm">
+  <source src="../../_static/videos/flat-pad.mp4" type="video/mp4">
+  <track kind="captions" src="../../_static/videos/flat-pad.vtt" srclang="en" label="Phases">
+  <a href="../../_static/videos/flat-pad.mp4">Download the example video</a>
+</video>
+<figcaption>Actual flat-pad drop and settling, shown 3× slower. The camera and tactile grid come from the same captured simulation steps.</figcaption>
+</figure>
+
+<div class="phase-gallery">
+<figure><img src="../../_static/videos/flat-pad-before.webp" alt="Gear above the unloaded pad"><figcaption><strong>Before contact</strong><span>The grid starts unloaded.</span></figcaption></figure>
+<figure><img src="../../_static/videos/flat-pad-contact.webp" alt="Gear touching the pad with an active tactile footprint"><figcaption><strong>Impact and contact</strong><span>A localized footprint develops.</span></figcaption></figure>
+<figure><img src="../../_static/videos/flat-pad-after.webp" alt="Gear settled on the pad"><figcaption><strong>Settled load</strong><span>The load approaches 4.905 N.</span></figcaption></figure>
+</div>
+
+## Run the example
+
 Prerequisites: the [installed environment](../getting-started/installation.md).
 Run from the repository root. This scene downloads a gear from NVIDIA’s
 asset server on first use. Run the simpler scene for a broader view of object contact footprints:
@@ -8,8 +31,8 @@ asset server on first use. Run the simpler scene for a broader view of object co
 python scripts/simple_example.py
 ```
 
-The viewport shows a flat sampling grid and live tactile images. Use
-`--debug-vis` to show sample positions and `--no-tactile-ui` to hide the overlay.
+The viewport shows a flat sampling grid and live tactile images. Sample
+markers are enabled by default. Use `--no-tactile-ui` to hide the overlay.
 The pixel arrangement belongs to the grid pattern; it is distinct from the
 curved DEX-01 firmware layout. See [patterns](../guides/patterns.md).
 

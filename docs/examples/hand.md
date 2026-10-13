@@ -1,5 +1,39 @@
 # Tesollo hand demo
 
+Watch the object contact fingers 2–5 in turn. The active tactile frame follows
+the loaded finger while the remaining fingers stay unloaded.
+
+<figure class="example-video">
+<video controls playsinline loop preload="none" width="960" height="800"
+       poster="../../_static/videos/hand.webp"
+       aria-label="A captured 5-second hand sequence at simulation-time playback, with synchronized per-finger load and firmware frames.">
+  <source src="../../_static/videos/hand.webm" type="video/webm">
+  <source src="../../_static/videos/hand.mp4" type="video/mp4">
+  <track kind="captions" src="../../_static/videos/hand.vtt" srclang="en" label="Phases">
+  <a href="../../_static/videos/hand.mp4">Download the example video</a>
+</video>
+<figcaption>A captured 5-second hand sequence at simulation-time playback, with synchronized per-finger load and firmware frames.</figcaption>
+</figure>
+
+<div class="phase-gallery">
+<figure><img src="../../_static/videos/hand-before.webp" alt="The gear starts above finger 2 with unloaded tactile frames"><figcaption><strong>Start on finger 2</strong><span>The gear begins above the fingertip.</span></figcaption></figure>
+<figure><img src="../../_static/videos/hand-contact.webp" alt="Finger 2 supports the gear and its force frame is active"><figcaption><strong>Read the loaded frame</strong><span>The close-up shows the small contact object.</span></figcaption></figure>
+<figure><img src="../../_static/videos/hand-after.webp" alt="The gear is now supported by finger 5 and its frame is active"><figcaption><strong>Advance to finger 5</strong><span>The active frame follows the loaded finger.</span></figcaption></figure>
+</div>
+
+## Read the sequence
+
+1. The gear is placed above finger 2 and drops into contact.
+2. The contact frame shows the sampled footprint, with its total force in newtons.
+3. The demo resets the gear over each following finger; the active frame moves
+   across fingers 3, 4, and 5. Finger 1 is checked separately by the thumb probe.
+
+The native camera inset follows the gear at its physical size (about 6.29 mm
+wide). Match that contact to the active patch in the corresponding finger's
+unwrapped frame; the heatmap shows force per taxel, not an optical image.
+
+## Run the example
+
 Prerequisites: [installed environment](../getting-started/installation.md),
 a supported NVIDIA GPU, and fetched Git LFS assets.
 

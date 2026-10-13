@@ -16,7 +16,7 @@ force in newtons. [Figure provenance](docs/media/README.md).*
 
 [**Documentation**](https://analogdevicesinc.github.io/dex-01-sim-assets/) ·
 [Installation](docs/getting-started/installation.md) ·
-[Examples](docs/examples/hand.md) ·
+[**Watch the examples**](docs/examples/index.md) ·
 [API reference](docs/reference/api.md) ·
 [Model behavior](docs/concepts/limitations.md)
 

@@ -45,3 +45,47 @@ the released exterior NPZ. The generator also rejects reports whose geometry
 and taxel hashes differ from the current checkout. With the same inputs and
 plotting environment, repeat runs produce identical SVGs. Regenerate the figures
 and provenance together when the physics, fixture, or layout changes.
+
+## Example walkthroughs
+
+The bundled hand and stationary-press media still need regeneration with the
+corrected scale-preserving exporter. Their existing renders enlarged the gear
+while retaining force frames from the smaller simulated object. The capture
+and render checks described below apply to the corrected pipeline; replace the
+affected media and their provenance together before removing this notice.
+
+The flat-pad, hand, and stationary-press clips were captured on October 13,
+2026 from the unchanged Isaac Sim 5.1.0.0 examples and rendered with native
+Isaac Sim 6.0.1.0 RTX cameras. `examples.json` contains input/output hashes,
+source hashes, timestamps, dimensions, and playback settings for each clip.
+
+Every rendered pose comes from its corresponding captured simulation step.
+The force frame is read at that same step and preserves the source pixel
+mapping. The exporter preserves body scale, including scale inherited from
+spawn wrappers. The renderer verifies position, orientation, scale, and every
+mesh vertex against geometry recorded before export (1 µm tolerance), and keeps
+its physical timeline stopped. No poses or force arrays are interpolated.
+The press report independently checks wrist/object invariance, joint motion,
+contact, filtering, and release before the capture is accepted.
+
+The flat-pad clip covers one drop/settle sequence at 3× slower playback.
+The hand clip covers fingers 2–5 in sequence at simulation-time speed.
+The press clip covers a complete 2.5-second physical cycle at 2× slower
+playback. The clock in each video reports physical simulation time, not
+video time. These clips have no audio; captions name the phases, and the
+pages provide written descriptions and static before/contact/after states.
+
+Native images use the source asset materials with adjusted camera/light
+presentation. Hand clips include a synchronized native camera close-up of the
+gear at its actual physical dimensions. The flat-pad capture's debug sample
+markers are hidden in the
+render so they do not obscure the gear and pad. The hand's five fingertip
+meshes remain visible. Each clip uses a shared force scale; blue is zero,
+cyan/yellow/red is increasing force, and grey denotes unoccupied pixels.
+The hand gear is approximately 6.29 mm wide and the stationary-press gear is
+8.25 mm wide. Their footprints occupy only part of the fingertip's unwrapped
+taxel map. Regenerated images must preserve these physical dimensions.
+
+`streaming-workflow.svg` is an explanatory diagram, not a simulation result.
+It distinguishes live viewport streaming from camera/sensor composition for
+recorded video. The recorded preview on that page is the hand walkthrough.

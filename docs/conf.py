@@ -34,6 +34,7 @@ myst_heading_anchors = 3
 exclude_patterns = ["_build", "README.md", "media/README.md"]
 templates_path = ["_templates"]
 html_static_path = ["_static"]
+html_css_files = ["example-media.css"]
 html_js_files = [("repository-metadata.js", {"priority": 200})]
 html_context = {"docs_source_ref": os.environ.get("DOCS_SOURCE_REF", "main")}
 html_theme = "harmonic"

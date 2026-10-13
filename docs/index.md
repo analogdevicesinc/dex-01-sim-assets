@@ -11,6 +11,9 @@ A 0.1 kg cube contacts finger 2 on the Tesollo DG-5F hand. Each panel reports
 physical normal force in newtons using the original firmware pixel mapping.
 ```
 
+Browse [the visual examples](examples/index.md) to see contact, articulation,
+and recording before setting up a scene.
+
 Start with [installation](getting-started/installation.md), then
 [run your first simulation](getting-started/quickstart.md).
 For integration, see [attaching the sensor](guides/attachment.md) and the
@@ -36,6 +39,7 @@ getting-started/quickstart
 :maxdepth: 1
 :caption: Examples
 
+examples/index
 examples/flat-pad
 examples/hand
 examples/stationary-press

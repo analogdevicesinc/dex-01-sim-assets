@@ -180,6 +180,54 @@ capture is checked, copy its optimized WebP into `docs/media/`, record physics
 and renderer versions in the provenance, and inspect every fingertip, the
 loaded object, and all five frame labels before accepting it.
 
+## Reproduce example videos
+
+Capture the actual source examples in the installed simulation environment:
+
+```bash
+python scripts/docs/capture_examples.py \
+  --example flat-pad --output /tmp/dex01-examples/flat-pad
+python scripts/docs/capture_examples.py \
+  --example hand --output /tmp/dex01-examples/hand
+python scripts/docs/capture_examples.py \
+  --example stationary-press --output /tmp/dex01-examples/stationary-press
+```
+
+These utilities record the live rigid-body poses and tactile arrays after each
+selected physics step. They also save the original body scales and mesh
+vertices in `geometry.npz` before replacing any USD transforms. PhysX poses
+contain only translation and rotation; preserve the accumulated scale when
+applying them to meshes under scaled spawn wrappers. The source examples run
+unchanged. The press capture
+checks its original report and paces the hold interval for its observed-duration
+acceptance; physics timesteps, targets, and forces are unchanged.
+
+In the isolated renderer environment, install the video encoder and render:
+
+```bash
+.venv-render/bin/python -m pip install imageio-ffmpeg==0.6.0
+.venv-render/bin/python scripts/docs/render_examples.py \
+  --capture /tmp/dex01-examples/stationary-press \
+  --output /tmp/dex01-example-media/stationary-press
+```
+
+Repeat the render command for `flat-pad` and `hand`. It outputs native-camera
+videos in WebM and MP4, posters, before/contact/after images, phase captions,
+and a hash manifest. The renderer checks each body pose and scale, and compares
+every mesh vertex with the original physical geometry at every frame (1 µm
+tolerance). A capture without geometry evidence must be recaptured. Hand clips
+include a second native camera close-up of the gear. The renderer never advances
+physics. Pose and force interpolation are disabled.
+Slow playback is labeled: flat-pad 3× slower, press 2× slower, hand at simulation
+speed. Each clip uses one force scale and unchanged taxel-to-pixel mapping.
+
+Copy videos, captions, posters, and phase images into `docs/_static/videos/`,
+and update `docs/media/examples.json` with both capture
+and render evidence. Keep assets below 2 MB each so repository checks and
+page loading remain fast. Use controls and `preload="none"` to let the reader
+choose when to load/play a clip; phase captions are available through CC, and
+the burned-in header states the phase even when captions are disabled.
+
 ## Checks and recovery
 
 Run `make -C docs html` before review: Sphinx warnings fail the build. Check

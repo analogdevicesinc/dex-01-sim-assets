@@ -1,5 +1,32 @@
 # Press a stationary gear
 
+See how joint motion creates and releases tactile contact. Finger 2 bends
+against the fixed gear while the wrist and object stay in place.
+
+<figure class="example-video">
+<video controls playsinline loop preload="none" width="960" height="800"
+       poster="../../_static/videos/stationary-press.webp"
+       aria-label="One captured press cycle at 2× slower playback: unloaded, approach, hold, retract, and release. Only finger 2 becomes loaded.">
+  <source src="../../_static/videos/stationary-press.webm" type="video/webm">
+  <source src="../../_static/videos/stationary-press.mp4" type="video/mp4">
+  <track kind="captions" src="../../_static/videos/stationary-press.vtt" srclang="en" label="Phases">
+  <a href="../../_static/videos/stationary-press.mp4">Download the example video</a>
+</video>
+<figcaption>One captured press cycle at 2× slower playback: unloaded, approach, hold, retract, and release. Only finger 2 becomes loaded.</figcaption>
+</figure>
+
+<div class="phase-gallery">
+<figure><img src="../../_static/videos/stationary-press-before.webp" alt="Straight finger with zero load"><figcaption><strong>Unloaded</strong><span>Wrist and gear remain fixed.</span></figcaption></figure>
+<figure><img src="../../_static/videos/stationary-press-contact.webp" alt="Finger 2 pressing the stationary gear"><figcaption><strong>Hold contact</strong><span>The fingertip moves and its frame becomes active.</span></figcaption></figure>
+<figure><img src="../../_static/videos/stationary-press-after.webp" alt="Finger extended with zero load"><figcaption><strong>Release</strong><span>The finger extends and force returns to zero.</span></figcaption></figure>
+</div>
+
+The camera inset makes the 8.25 mm gear contact visible without enlarging the
+object in the simulation. During hold, only finger 2's frame is active; after
+release all five frames return to zero.
+
+## Run the example
+
 Prerequisites: activate the [installed environment](../getting-started/installation.md).
 The command below uses remote streaming; omit `--livestream=2` on a local desktop.
 

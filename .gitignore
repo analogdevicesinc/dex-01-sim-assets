@@ -15,7 +15,7 @@ env_isaaclab/
 **/*.log*
 
 # Demo output
-videos/
+/videos/
 
 # IDE
 **/.idea/
