@@ -1,6 +1,6 @@
 # DEX-01 Tactile Sensor
 
-Simulate normal contact forces on a DEX-01 V10 fingertip in NVIDIA Isaac Lab,
+Simulate normal contact forces on a DEX-01 fingertip in NVIDIA Isaac Lab,
 with 738 contact samples mapped into the sensor's 32 × 32 firmware frame.
 
 ```{figure} media/dex01-demo.webp

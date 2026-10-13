@@ -1,7 +1,7 @@
 # DEX-01 Tactile Sensor
 
 **Tactile contact simulation for NVIDIA Isaac Lab.** A physically scaled DEX-01
-V10 fingertip on the Tesollo DG-5F hand, with normal-force sensing mapped into
+fingertip on the Tesollo DG-5F hand, with normal-force sensing mapped into
 the sensor's firmware frame.
 
 ![PhysX hand simulation with all five mounted DEX-01 fingertips and tactile frames](docs/media/dex01-demo.webp)

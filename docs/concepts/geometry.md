@@ -40,7 +40,7 @@ transforms; the sensor's live body pose changes as the hand articulates.
 The [capture utility](../maintaining-docs.md#reproduce-the-figures) verifies
 world-space sample alignment against every mounted visual mesh.
 
-Use `dex01_contact_v10.npz` for contact sampling. The reference
-`dex01_pattern.npz` retains the original layout for traceability; it is not the
+Use the exterior pattern supplied by `Dex01PatternCfg` for contact sampling.
+The reference `dex01_pattern.npz` retains the original layout for traceability; it is not the
 projected exterior sampling surface. Both files keep the same taxel order and
 firmware pixel mapping.

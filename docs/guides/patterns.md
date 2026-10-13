@@ -1,10 +1,11 @@
 # Configure taxel patterns
 
 Use `GridPatternCfg` for a flat pad, `CustomPatternCfg` for arbitrary NPZ poses,
-or `Dex01PatternCfg` for the V10 exterior. Custom NPZ files contain `poses` of
+or `Dex01PatternCfg` for the DEX-01 exterior. Custom NPZ files contain `poses` of
 shape `(N,3,4)`, with the third axis as the surface normal, and integer
 `taxel2pixel` pairs `(row,column)`. `dex01_pattern.npz` preserves the corrected
-original layout; `dex01_contact_v10.npz` contains the exterior sampling poses.
+original layout; the exterior pattern supplied by `Dex01PatternCfg` contains
+the contact sampling poses.
 Their taxel order and pixel mapping are identical.
 
 Read [geometry and coordinate frames](../concepts/geometry.md) before changing

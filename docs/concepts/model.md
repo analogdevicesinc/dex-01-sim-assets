@@ -1,6 +1,6 @@
 # Contact-force model
 
-An Isaac Lab tactile sensor model with a physically scaled DEX-01 V10 fingertip
+An Isaac Lab tactile sensor model with a physically scaled DEX-01 fingertip
 on the Tesollo DG-5F hand. The fingertip is one exterior-only mesh, approximately
 32.70 x 22.41 x 19.00 mm, with a 22.40 x 19.00 mm rear profile. It has 738 contact
 samples mapped into a 32x32 firmware frame.
