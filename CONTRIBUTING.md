@@ -58,5 +58,5 @@ the release SBOM.
 
 ## Documentation changes
 
-Follow the [documentation maintainer guide](docs/maintaining-docs.md).
+Follow the [documentation maintainer guide](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/DOCUMENTATION.md).
 Build with `make -C docs html` in the documentation environment before review.

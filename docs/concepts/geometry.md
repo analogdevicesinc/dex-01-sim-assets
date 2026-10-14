@@ -37,7 +37,7 @@ p_world = R_body  p_body    + t_body
 
 Normals receive the rotations without translation. These are fixed mount
 transforms; the sensor's live body pose changes as the hand articulates.
-The [capture utility](../maintaining-docs.md#reproduce-the-figures) verifies
+The [capture utility](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/DOCUMENTATION.md#reproduce-the-figures) verifies
 world-space sample alignment against every mounted visual mesh.
 
 Use the exterior pattern supplied by `Dex01PatternCfg` for contact sampling.

@@ -42,7 +42,7 @@ def main():
         parser.error("Expected the checked five-finger flat-load report")
     inputs = {
         "pattern_sha256": repo / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz",
-        "contact_pattern_sha256": repo / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact_v10.npz",
+        "contact_pattern_sha256": repo / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz",
         "asset_sha256": repo / "assets/robots/tesollo/dex01.usda",
         "hand_asset_sha256": repo / "assets/robots/tesollo/dg5f_right.usda",
     }
@@ -100,7 +100,7 @@ def main():
     fig.tight_layout()
     fig.savefig(args.output / "known-load.svg", bbox_inches="tight", facecolor="white", metadata={"Date": None})
     plt.close(fig)
-    pattern = repo / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact_v10.npz"
+    pattern = repo / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz"
     with np.load(pattern, allow_pickle=False) as data:
         poses, pixels = data["poses"], data["taxel2pixel"]
     if poses.shape != (738, 3, 4) or pixels.shape != (738, 2) or len(np.unique(pixels, axis=0)) != 738:

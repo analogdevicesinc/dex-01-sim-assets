@@ -76,5 +76,4 @@ troubleshooting
 contributing
 licensing
 citation
-maintaining-docs
 ```

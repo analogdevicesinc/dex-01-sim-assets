@@ -27,7 +27,7 @@ No sensor geometry or contact data is invented or edited for the figures.
 
 `render.json` records physics and renderer versions, source revision, input
 hashes, camera settings, and output hashes. Reproduce the figures using the
-[maintainer instructions](../maintaining-docs.md#reproduce-the-figures). Keep
+[maintainer instructions](../../DOCUMENTATION.md#reproduce-the-figures). Keep
 large captured USD states outside Git; only optimized documentation media is
 committed. Regenerate media and provenance together when the scene changes.
 

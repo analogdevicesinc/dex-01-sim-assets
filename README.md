@@ -66,7 +66,7 @@ See [installation options](docs/getting-started/installation.md),
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for development checks and required DCO
 sign-offs. See [citation](docs/citation.md) for BibTeX and include your release
 tag or commit for reproducibility. Documentation authoring and publishing are
-covered in the [maintainer guide](docs/maintaining-docs.md).
+covered in the [maintainer guide](DOCUMENTATION.md).
 
 ADI-authored material uses [Apache-2.0](LICENSE). Isaac Lab adaptations and
 Tesollo geometry retain BSD-3-Clause terms in [NOTICE](NOTICE) and
