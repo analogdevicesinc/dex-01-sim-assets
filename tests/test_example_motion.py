@@ -172,3 +172,18 @@ def test_replay_preserves_scaled_offset_mesh_after_export(tmp_path, geometry_too
     mesh.GetPointsAttr().Set((points + [0, 0, 0.002]).tolist())
     with pytest.raises(RuntimeError, match="surface"):
         geometry_tools.verify_geometry(stage, paths, second, meshes, arrays)
+
+
+def test_geometry_audit_includes_primitive_pad_size(geometry_tools):
+    from pxr import Usd, UsdGeom
+
+    stage = Usd.Stage.CreateInMemory()
+    UsdGeom.Xform.Define(stage, "/Pad")
+    cube = UsdGeom.Cube.Define(stage, "/Pad/shape")
+    cube.CreateSizeAttr(0.02)
+    meshes, arrays = geometry_tools.capture_geometry(stage, ["/Pad"])
+    pose = np.array([[0, 0, 0, 0, 0, 0, 1]])
+    geometry_tools.verify_geometry(stage, ["/Pad"], pose, meshes, arrays)
+    cube.GetSizeAttr().Set(0.03)
+    with pytest.raises(RuntimeError, match="surface"):
+        geometry_tools.verify_geometry(stage, ["/Pad"], pose, meshes, arrays)

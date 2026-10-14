@@ -15,6 +15,8 @@
 
 """Preserve physical dimensions when replaying scale-free PhysX body poses."""
 
+from itertools import product
+
 import numpy as np
 from pxr import Gf, Usd, UsdGeom
 
@@ -28,6 +30,19 @@ def pose_matrix(pose):
 def transform_points(points, matrix):
     matrix = np.asarray(matrix)
     return points @ matrix[:3, :3] + matrix[3, :3]
+
+
+def geometry_points(prim):
+    """Include primitive dimensions, not just meshes, in the geometry audit."""
+    if prim.IsA(UsdGeom.Mesh):
+        points = np.asarray(UsdGeom.Mesh(prim).GetPointsAttr().Get())
+    elif prim.IsA(UsdGeom.Cube):
+        points = np.array(list(product((-1, 1), repeat=3))) * UsdGeom.Cube(prim).GetSizeAttr().Get() / 2
+    else:
+        raise ValueError(f"Unsupported captured geometry: {prim.GetPath()} ({prim.GetTypeName()})")
+    if points.ndim != 2 or points.shape[1] != 3 or not len(points) or not np.isfinite(points).all():
+        raise ValueError(f"Invalid captured geometry points: {prim.GetPath()}")
+    return points
 
 
 def capture_geometry(stage, body_paths):
@@ -50,21 +65,22 @@ def capture_geometry(stage, body_paths):
         arrays["body_scales"].append(scale)
         physical_scale = Gf.Matrix4d(1).SetScale(Gf.Vec3d(*map(float, scale)))
         for prim in Usd.PrimRange(body, Usd.TraverseInstanceProxies()):
-            if not prim.IsA(UsdGeom.Mesh):
+            if not prim.IsA(UsdGeom.Gprim):
                 continue
             mesh_path = str(prim.GetPath())
             owner = max((p for p in body_paths if mesh_path == p or mesh_path.startswith(p + "/")), key=len)
             if owner != path:
                 continue
-            mesh = UsdGeom.Mesh(prim)
             index = len(meshes)
             # Relative child transforms retain mesh offsets; body scale includes
             # every ancestor, including an Isaac Lab spawn wrapper.
             relative = cache.GetLocalToWorldTransform(prim) * world.GetInverse() * physical_scale
-            arrays[f"points_{index}"] = transform_points(np.asarray(mesh.GetPointsAttr().Get()), relative)
-            arrays[f"counts_{index}"] = np.asarray(mesh.GetFaceVertexCountsAttr().Get())
-            arrays[f"indices_{index}"] = np.asarray(mesh.GetFaceVertexIndicesAttr().Get())
-            meshes.append({"path": mesh_path, "body_index": body_index})
+            arrays[f"points_{index}"] = transform_points(geometry_points(prim), relative)
+            if prim.IsA(UsdGeom.Mesh):
+                mesh = UsdGeom.Mesh(prim)
+                arrays[f"counts_{index}"] = np.asarray(mesh.GetFaceVertexCountsAttr().Get())
+                arrays[f"indices_{index}"] = np.asarray(mesh.GetFaceVertexIndicesAttr().Get())
+            meshes.append({"path": mesh_path, "body_index": body_index, "kind": prim.GetTypeName()})
     arrays["body_scales"] = np.asarray(arrays["body_scales"])
     if not meshes:
         raise ValueError("No mesh geometry captured")
@@ -102,16 +118,16 @@ def verify_geometry(stage, body_paths, poses, meshes, arrays):
         if error > 1e-6:
             raise RuntimeError(f"Body pose or scale differs from capture: {path}")
     for index, entry in enumerate(meshes):
-        mesh = UsdGeom.Mesh(stage.GetPrimAtPath(entry["path"]))
-        if not mesh:
-            raise RuntimeError(f"Captured mesh missing: {entry['path']}")
-        if not np.array_equal(mesh.GetFaceVertexCountsAttr().Get(), arrays[f"counts_{index}"]) or not np.array_equal(
-            mesh.GetFaceVertexIndicesAttr().Get(), arrays[f"indices_{index}"]
-        ):
-            raise RuntimeError(f"Mesh topology differs from capture: {entry['path']}")
-        actual = transform_points(
-            np.asarray(mesh.GetPointsAttr().Get()), cache.GetLocalToWorldTransform(mesh.GetPrim())
-        )
+        prim = stage.GetPrimAtPath(entry["path"])
+        if not prim.IsValid() or prim.GetTypeName() != entry.get("kind", "Mesh"):
+            raise RuntimeError(f"Captured geometry missing or changed type: {entry['path']}")
+        if prim.IsA(UsdGeom.Mesh):
+            mesh = UsdGeom.Mesh(prim)
+            if not np.array_equal(
+                mesh.GetFaceVertexCountsAttr().Get(), arrays[f"counts_{index}"]
+            ) or not np.array_equal(mesh.GetFaceVertexIndicesAttr().Get(), arrays[f"indices_{index}"]):
+                raise RuntimeError(f"Mesh topology differs from capture: {entry['path']}")
+        actual = transform_points(geometry_points(prim), cache.GetLocalToWorldTransform(prim))
         expected = transform_points(arrays[f"points_{index}"], pose_matrix(poses[entry["body_index"]]))
         if actual.shape != expected.shape or not np.isfinite(actual).all():
             raise RuntimeError(f"Invalid rendered vertices: {entry['path']}")
