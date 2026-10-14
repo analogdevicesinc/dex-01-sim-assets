@@ -144,6 +144,12 @@ def render(capture, output, manifest, app):
         times = arrays["simulation_time_s"]
     with np.load(capture / "geometry.npz", allow_pickle=False) as arrays:
         geometry = dict(arrays)
+    if manifest["example"] == "flat-pad":
+        pad_index = manifest["body_paths"].index("/World/envs/env_0/FingerPad")
+        pad_points = np.concatenate(
+            [geometry[f"points_{i}"] for i, mesh in enumerate(manifest["meshes"]) if mesh["body_index"] == pad_index]
+        )
+        manifest["pad_size_m"] = np.ptp(pad_points, axis=0)[:2].tolist()
     count = manifest["frame_count"]
     if poses.shape != (count, len(manifest["body_paths"]), 7) or frames.shape[0] != count:
         raise RuntimeError("Incomplete recorded frame sequence")
@@ -338,6 +344,14 @@ def render(capture, output, manifest, app):
             first = i
     (output / (manifest["example"] + ".vtt")).write_text("\n".join(captions).rstrip() + "\n")
     result["video_size"] = [960, 800]
+    if manifest["example"] == "flat-pad":
+        result["heatmap_display"] = {
+            "pad_size_m": manifest["pad_size_m"],
+            "width_to_height": manifest["pad_size_m"][0] / manifest["pad_size_m"][1],
+            "columns_axis": "pad x (length)",
+            "rows_axis": "pad y (width)",
+            "resampling": "nearest",
+        }
     result["files"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in output.iterdir() if p.is_file()}
     (output / (manifest["example"] + ".json")).write_text(json.dumps(result, indent=2) + "\n")
     print(f"Completed {manifest['example']} video: {count} verified physical frames", flush=True)
@@ -386,12 +400,19 @@ def composite(rgb, frames, pixels, manifest, index, time_s, slowdown, detail=Non
         if len(frames) == 1:
             x = 180
         image = Image.fromarray(module.force_frame_rgba(frame, pixels, maximum)).convert("RGB")
-        canvas.paste(image.resize((size, size), Image.Resampling.NEAREST), (x, 607))
+        display_size = (size, size)
+        if manifest["example"] == "flat-pad":
+            length, width = manifest["pad_size_m"]
+            display_size = (round(size * length / width), size)
+            x = 90
+        canvas.paste(image.resize(display_size, Image.Resampling.NEAREST), (x, 607))
         draw.text((x, 585), f"{manifest['labels'][i]} · {frame.sum():.3f} N", font=font, fill="#17324d")
     if len(frames) == 1:
-        draw.text((370, 623), "32 × 32 grid · 1,024 samples", font=font, fill="#17324d")
-        draw.text((370, 649), "0.5 kg gear · weight 4.905 N", font=font, fill="#17324d")
-        draw.text((370, 675), f"Force per taxel: 0–{maximum:.3f} N", font=font, fill="#17324d")
+        length, width = manifest["pad_size_m"]
+        draw.text((400, 607), f"Pad: {length * 1000:g} × {width * 1000:g} mm · top view", font=font, fill="#17324d")
+        draw.text((400, 633), "32 × 32 grid · 1,024 samples", font=font, fill="#17324d")
+        draw.text((400, 659), "0.5 kg gear · weight 4.905 N", font=font, fill="#17324d")
+        draw.text((400, 685), f"Force per taxel: 0–{maximum:.3f} N", font=font, fill="#17324d")
     else:
         draw.text(
             (35, 770),

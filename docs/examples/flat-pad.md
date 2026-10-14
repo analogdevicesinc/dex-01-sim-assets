@@ -2,6 +2,9 @@
 
 Watch the gear drop onto a flat sensing grid. The contact footprint appears
 as the load rises, then the total force settles near the gear's weight.
+The heatmap is a top view of the 200 × 100 mm pad, displayed at its physical
+2:1 aspect ratio. Its 32 columns follow the long axis and its 32 rows the short
+axis; the taxel values and pixel mapping are unchanged.
 
 <figure class="example-video">
 <video controls playsinline loop preload="none" width="960" height="800"

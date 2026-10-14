@@ -1,7 +1,7 @@
 {
   "flat-pad": {
     "example": "flat-pad",
-    "capture_sha256": "db95723d18b68a4d0772a1f913dc699a1f76a70c0fef6eafa9d75f682230e43f",
+    "capture_sha256": "c0c3a32d32279b7643ef32013a21b9caf764cb44c485f4a8e81652372feba386",
     "physics_version": "5.1.0.0",
     "renderer_version": "6.0.1.0",
     "frame_count": 50,
@@ -16,24 +16,35 @@
     "force_frames_interpolated": false,
     "maximum_rendered_pose_error": 0.0,
     "maximum_rendered_vertex_error_m": 0.0,
-    "checked_mesh_count": 2,
-    "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
+    "checked_mesh_count": 3,
+    "contact_closeup_camera": false,
+    "geometry_script_sha256": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
     "shared_force_scale_n": 0.20000000298023224,
-    "renderer_script_sha256": "62866027334f25e27f4b0b3b985b5893988ad9519407d88fa65b9ce2e10909a8",
+    "renderer_script_sha256": "ee9eb59c7e18b47ca60ded05f2d39219659236972509cbeff20b839ab72fce89",
     "poster_frame": 40,
     "files": {
-      "flat-pad-contact.webp": "d2e2fec213620ca68f9155690331be0728115a168989c72bc915cd6cd3df91c1",
-      "flat-pad-after.webp": "415a35ef3c756dfbfa07eb0d67c8523c3278c07054b3d8da27dd6a383df58929",
+      "flat-pad-contact.webp": "4efaf0c6e1811a7e833e6fb1f7570d1dc904d669b2046aeb1a72637ec965226e",
+      "flat-pad-after.webp": "00e5564a2ed582cbfee07cadd6fb07aca7334fa88f003fbb3fba331f1796862a",
       "flat-pad.vtt": "441d83863b6bca1e56f7a95018c36a2ff314fce4a562f29b275aa2b72a6ce622",
-      "flat-pad-before.webp": "0ab6de9ade4c24d45398a794eb5aae93bf1461e308ae9d88f2bff08b7994f227",
-      "flat-pad.mp4": "9040745ebf451dff81ee63c03cfda800fb9e74427e29cf4fd74081655bb5df51",
-      "flat-pad.webm": "4262e30119f62f9f1b8a6c49a2b453a8f334c805f9bd50168f5b8ead9268c7d2",
-      "flat-pad.webp": "5c41b4a901aaf65cad852b8d0c00ab1967af0aa7f6e3056ae693f21dac12047a"
+      "flat-pad-before.webp": "6ba4688ec1e40cf0080b67e78e87cfdd66c2733f2273f47c35ad5ff2f54b8da0",
+      "flat-pad.mp4": "aa0ccfa410caa99da3c60e60ce8d6ea3104ee51bd82d287f9757bfb28c55746f",
+      "flat-pad.webm": "b64615c80b464d77c9a600b7e77adc3c10e8f3a1415c20cea7f6432eeb373a14",
+      "flat-pad.webp": "567858ef24f919656075c70061000556ebe294238d83a3519a2d1708473d9dfe"
     },
     "video_size": [
       960,
       800
     ],
+    "heatmap_display": {
+      "pad_size_m": [
+        0.2,
+        0.1
+      ],
+      "width_to_height": 2.0,
+      "columns_axis": "pad x (length)",
+      "rows_axis": "pad y (width)",
+      "resampling": "nearest"
+    },
     "capture": {
       "example": "flat-pad",
       "physics_version": "5.1.0.0",
@@ -148,12 +159,19 @@
       ],
       "meshes": [
         {
+          "path": "/World/envs/env_0/FingerPad/geometry/mesh",
+          "body_index": 0,
+          "kind": "Cube"
+        },
+        {
           "path": "/World/envs/env_0/Asset/factory_gear_medium/visuals",
-          "body_index": 1
+          "body_index": 1,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Asset/factory_gear_medium/collisions",
-          "body_index": 1
+          "body_index": 1,
+          "kind": "Mesh"
         }
       ],
       "body_scales": [
@@ -169,23 +187,49 @@
         ]
       ],
       "maximum_exported_vertex_error_m": 0.0,
-      "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
+      "geometry_script_sha256": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
       "labels": [
         "Pad"
       ],
       "frame_count": 50,
       "capture_stride": 2,
       "playback_fps": 60.0,
-      "source_commit": "b81cff9248252cc988bdec6c3f451c7133ae335b",
-      "demo_sha256": "409544e63e115a54000c40cc9359d0eae77b35f097f5e8c7daf8379f5e2c5b64",
-      "capture_script_sha256": "b96705e9fbdd02b7e58bac3f4c4067545aaeb43d750a70f37a9a22e68e168622",
+      "source_commit": "c6228aeaf0f09e539a8038a8efb4b12c64f4cebc",
+      "source_files_sha256": {
+        "assets/robots/tesollo/dex01.usda": "d334a69ba39fa62c5772cf424ba58c094978a3f75e1a1298f71b4032243d4002",
+        "assets/robots/tesollo/dg5f_right.usda": "2457ca1923b209e6cd32785b31d873026584157a055d7c2e7cb8c1e17c4e4d78",
+        "assets/sensors/dex01/reference.json": "9f28f8450455bc9c100bafdd6cfadc776d54262c852b3372060ea8fafa2321b1",
+        "scripts/dex01_articulated_press.py": "82d9557b35105d89f365c706b15514a443adc30074e88f11686c6b9f4728f9d8",
+        "scripts/dex01_on_tesollo_dg5f.py": "5a79751eff03b42b5fd00d9e8cabbee6fcf474188dae5517e73c1669b95b2fbd",
+        "scripts/docs/capture_examples.py": "6d85d8013173cd92c6b388f93642f5b2e2272616cf467c5d6d182df02cee8259",
+        "scripts/docs/motion_geometry.py": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
+        "scripts/object_geometry.py": "98d6dd5d76bc72295bd1c25ef1a150a3f692c0f853ec85cc899c21ab3c40998f",
+        "scripts/simple_example.py": "94cf9f862c67f099fa3793e9e23241e6067d0594092f7bdfbc500642495c358f",
+        "source/dex01_sim_asset/dex01_sim_asset/__init__.py": "b93c14d87ae132aa26ba55cacb7b8e6b767862afaf70f912209a1364cec66e4b",
+        "source/dex01_sim_asset/dex01_sim_asset/marker_cfg.py": "33b3333da942c29d42621b386bad6773f84504ffd79ab4808dd80b9a839f82d7",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py": "32393c47b5f852ff0bf167a40eea0e4858c392e97cb56c93ad02f352b83a5261",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_cfg.py": "79327923bdc29b3155bbf153c54a44b25673d757ba6a128e8236e10f02890693",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_data.py": "e67de69a56085750105831f909fc10eb4675c31a0941ecf82078cf251148965f",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/__init__.py": "a5d80bf6032247331ece4fcbf8454ac931f52af153fc6f0c0e9f5d1afc32ac6f",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz": "e2a74fcf70bbc56ca1417e835354fe354ecbc6d7a76b68078ac6155e8efd6702",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz": "971b747bd46997b9bbfcd52be6cb530d9577c31bae3748d5304b19fe0f292f38",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns.py": "a9216dfdcb224ea1015ac9250f4a70cb0c23076a6fcc019f91318ebcc73adb3c",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns_cfg.py": "b8a569e43b76b2bd9d2925f8ecd46caaf012cdb233a273de0a06f3056f1a13b4",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/__init__.py": "be58b48c21483c08b383e7fd718adf1bce0162f727e68a8ce6860aeced4be798",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/scene_recorder.py": "44eb9248087a10a861ef86e4b4a017bff14f47aef43fcf16f84e194171d89175",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/viewport.py": "59084237b2395b475f7d3b6b9452875429de944af1cd33b69dc08aff80317329",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/visualizers.py": "5f0df091b706f19a99669f11b12f01b118ebe783913d436583fd61edd181fe47"
+      },
+      "demo_sha256": "94cf9f862c67f099fa3793e9e23241e6067d0594092f7bdfbc500642495c358f",
+      "capture_script_sha256": "6d85d8013173cd92c6b388f93642f5b2e2272616cf467c5d6d182df02cee8259",
       "hold_pacing_s": 0.0,
       "files": {
         "scene.usda": "9de8a06c0941f798cab1fcaaf93ed222e507a986518f324f84c65308c781240a",
-        "geometry.npz": "85c37dd68e8669e260576b1a965ce0490e8b48514c8e0f0114d2f43ba7fdf4af",
+        "geometry.npz": "3d68881940efcc6dbbb3174ba8200a99e1287d4c4dcd4ffa5682250dd17d166a",
         "motion.npz": "1a4a33fc7ab5b7e4fa616bd022556ee8b73ff267b3c211c6f52b22209807c2f7"
       }
-    }
+    },
+    "capture_path_names_normalized": true
   },
   "hand": {
     "example": "hand",
