@@ -20,7 +20,7 @@ on:
     branches: [main]
     tags: ["v[0-9]*"]
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 permissions:
   contents: read
@@ -71,7 +71,9 @@ jobs:
     if: >-
       github.repository == 'analogdevicesinc/dex-01-sim-assets' &&
       (github.event_name == 'push' ||
-       github.event.pull_request.head.repo.full_name == github.repository)
+       (github.event.pull_request.head.repo.full_name == github.repository &&
+        vars.DOCS_PR_PREVIEWS_ENABLED == 'true' &&
+        contains(github.event.pull_request.labels.*.name, 'documentation-preview')))
     concurrency:
       group: documentation-gh-pages
       cancel-in-progress: false
@@ -94,8 +96,8 @@ jobs:
         run: |
           publish=true
           if [[ "$GITHUB_EVENT_NAME" == pull_request ]]; then
-            state=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq .state)
-            [[ "$state" == open ]] || publish=false
+            eligible=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '(.state == "open") and any(.labels[]; .name == "documentation-preview")')
+            [[ "$eligible" == true ]] || publish=false
           fi
           echo "publish=$publish" >> "$GITHUB_OUTPUT"
       - name: Publish main, release, or same-repository PR preview
@@ -135,8 +137,8 @@ jobs:
         run: |
           publish=true
           if [[ "$GITHUB_EVENT_NAME" == pull_request ]]; then
-            state=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq .state)
-            [[ "$state" == open ]] || publish=false
+            eligible=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '(.state == "open") and any(.labels[]; .name == "documentation-preview")')
+            [[ "$eligible" == true ]] || publish=false
           fi
           echo "publish=$publish" >> "$GITHUB_OUTPUT"
       - name: Upload the complete versioned site

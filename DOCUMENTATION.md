@@ -56,11 +56,13 @@ identify the force units and the fixture used.
 2. Ensure organization policy permits the pinned ADI actions and their nested
    GitHub/ADI actions. Publishing uses `GITHUB_TOKEN` with `contents: write`,
    `pull-requests: read`, `pages: write`, and `id-token: write`; builds use read
-   permissions. In **Settings → Environments → github-pages**, use **No
-   restriction** for deployment branches and tags so merged main builds,
-   version tags, and same-repository PR previews can deploy. The workflow
-   itself limits deploy events and rejects forks; a main-only environment
-   blocks previews. Apply any organization-required reviewer policy here.
+   permissions. Keep the `github-pages` environment restricted to `main` by
+   default. Add tag rules if publishing releases. Hosted PR previews are
+   disabled unless the repository Actions variable `DOCS_PR_PREVIEWS_ENABLED`
+   is set to `true`. Before enabling it, explicitly authorize the intended
+   PR merge refs in the environment's deployment rules and review the workflow
+   changes in those PRs. Do not remove environment restrictions just to make
+   an ordinary PR pass. Apply any organization-required reviewer policy here.
 3. Merge the documentation change into `main`. The Documentation workflow
    builds the current site and historical prerelease, creates `gh-pages`, and
    deploys the complete artifact. If setup happens after the first merge,
@@ -70,7 +72,8 @@ identify the force units and the fixture used.
    `https://analogdevicesinc.github.io/dex-01-sim-assets/`.
 6. Open the root and release version, search for “taxel,” switch light/dark
    themes, and check a narrow mobile window. Open a same-repository PR and
-   verify its hosted preview; close it and verify preview removal. A fork PR
+   verify its build artifact. If hosted previews are enabled, add the
+   `documentation-preview` label and verify publication and removal. A fork PR
    must produce only the downloadable build artifact.
 
 No registration in ADI's central documentation lookup table is required to
@@ -86,9 +89,10 @@ Registration can be requested separately for discoverability.
 |---|---|
 | Push to `main` | Current root site; also backfills the historical prerelease |
 | Push of `v` followed by a digit | Root site and snapshot under the tag path |
-| Same-repository PR | Build artifact and hosted `pull/<number>/` preview |
+| Any PR | Read-only build and downloadable artifact |
+| Same-repository PR with `documentation-preview`, when enabled | Artifact and hosted `pull/<number>/` preview |
 | Fork PR | Read-only build and downloadable artifact; no publishing |
-| Same-repository PR closes | Its hosted preview is removed |
+| Labeled same-repository PR closes or loses the label, when enabled | Its hosted preview is removed |
 
 Hosted PR previews carry `noindex` metadata. Retrieve downloadable previews
 from the workflow run's `html` artifact; extract it and serve it with
@@ -103,11 +107,12 @@ complete prepared site. Main/tag deployments replace the root while preserving
 version directories. A main push after a release therefore makes the root
 main again; always consult the displayed version when reproducing a result.
 
-A same-repository documentation PR can be the first publication: its preview
+An explicitly enabled and labeled same-repository PR can be the first publication: its preview
 is available at `pull/<number>/` even before main has been built. The version
 metadata does not invent a main entry until the root site exists.
-The workflow checks the current PR state before publishing and before Pages
-deployment, so a build queued behind preview cleanup cannot restore a closed PR.
+The workflow rechecks that the PR is open and still labeled before publishing
+and before Pages deployment. A build queued behind cleanup cannot restore a
+closed or unlabeled preview.
 
 The existing `v0.1.0-a.1` tag predates the site. The historical builder reads
 its original README and licenses with `git show`, labels it as a historical
