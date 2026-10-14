@@ -90,3 +90,27 @@ Finger 2 should settle near 0.981 N while the other fingers remain unloaded.
 This local cube fixture does not download the gear asset. Continue with
 [your first visual simulation](quickstart.md) and then
 [complete physical-force validation](../validation.md).
+
+## View a remote simulation
+
+After installing and activating the environment on the simulation host, run
+from the repository root:
+
+```bash
+MPLBACKEND=Agg python scripts/dex01_on_tesollo_dg5f.py --livestream=2
+```
+
+Use the RTX-capable GPU and validated R580 driver described above.
+On your viewing computer, install the
+[Isaac Sim WebRTC Streaming Client](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/manual_livestream_clients.html).
+Wait for `Setup complete...`, enter the simulation host's reachable IP address,
+and connect. TCP 49100 and UDP 47998 must be reachable from that computer.
+Run one streaming simulator at a time on these ports. `--livestream=2` is for
+a private network; NVIDIA's guide covers public endpoints.
+
+The streamed viewport includes the hand, tactile frames, and normal loads in
+newtons. Only environment 0 is displayed in multi-environment runs. The same
+overlay is available in `simple_example.py` and `verify_dex01_sim.py`.
+Use `--no-tactile-ui` to hide it or `--debug-vis` for 3D sampling markers.
+Stop with Ctrl+C. Pure headless runs without streaming skip the viewport.
+Continue with [your first simulation](quickstart.md) to interpret the result.

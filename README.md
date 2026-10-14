@@ -58,7 +58,7 @@ viewport shows their loads and tactile frames. Stop with Ctrl+C. Initial setup
 may request NVIDIA's EULA, download extensions, and compile shaders.
 
 See [installation options](docs/getting-started/installation.md),
-[remote streaming and recording](docs/examples/streaming-recording.md), and
+[remote viewing](docs/getting-started/installation.md#view-a-remote-simulation), and
 [known-load validation](docs/validation.md). The gear is not a calibration load.
 
 ## Contribute and cite

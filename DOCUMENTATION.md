@@ -228,6 +228,34 @@ page loading remain fast. Use controls and `preload="none"` to let the reader
 choose when to load/play a clip; phase captions are available through CC, and
 the burned-in header states the phase even when captions are disabled.
 
+## Record a simulation
+
+For a live view from another computer, use the
+[remote viewing setup](docs/getting-started/installation.md#view-a-remote-simulation).
+To save a run for review or sharing, activate the installed simulation
+environment, install `ffmpeg`, and run from the repository root:
+
+```bash
+MPLBACKEND=Agg python scripts/dex01_on_tesollo_dg5f.py \
+  --headless \
+  --enable_cameras \
+  --record \
+  --video-dir ./videos
+```
+
+The default gear scene needs NVIDIA asset-server access and an RTX-capable
+GPU with the validated R580 driver for Isaac Sim 5.1.0. Expected output is a
+video under `videos/` containing the rendered hand and corresponding tactile
+heatmaps. Offscreen cameras exclude Kit UI; the recorder composes its own
+heatmaps from sensor arrays. Use `--local-plot` on a local desktop for the
+optional separate live plot.
+
+![Live viewport streaming and recorded camera/sensor composition](documentation/media/streaming-workflow.svg)
+
+The diagram distinguishes a streamed viewport from camera pixels composed
+with tactile frames for a saved recording. To generate compact, verified
+walkthroughs for the site, follow [example video reproduction](#reproduce-example-videos).
+
 ## Checks and recovery
 
 Run `make -C docs html` before review: Sphinx warnings fail the build. Check

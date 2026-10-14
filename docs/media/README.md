@@ -86,6 +86,5 @@ The hand gear is approximately 6.29 mm wide and the stationary-press gear is
 8.25 mm wide. Their footprints occupy only part of the fingertip's unwrapped
 taxel map. Regenerated images must preserve these physical dimensions.
 
-`streaming-workflow.svg` is an explanatory diagram, not a simulation result.
-It distinguishes live viewport streaming from camera/sensor composition for
-recorded video. The recorded preview on that page is the hand walkthrough.
+The repository-only recording instructions and workflow diagram live in
+[DOCUMENTATION.md](../../DOCUMENTATION.md#record-a-simulation).

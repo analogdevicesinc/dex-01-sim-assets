@@ -6,7 +6,7 @@ check startup logs and network ports. Activate the installation environment
 before launching and import simulator modules after `AppLauncher`. Include
 the command, versions, GPU model and final error lines when opening an issue.
 
-For remote access, see [streaming](examples/streaming-recording.md).
+For remote access, see [remote viewing setup](getting-started/installation.md#view-a-remote-simulation).
 For force mismatches, run [validation](validation.md) with the flat fixture
 and check [numerical settings](reference/numerical-settings.md).
 
