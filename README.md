@@ -61,14 +61,29 @@ See [installation options](docs/getting-started/installation.md),
 [remote viewing](docs/getting-started/installation.md#view-a-remote-simulation), and
 [known-load validation](docs/validation.md). The gear is not a calibration load.
 
-## Contribute and cite
+## Contribute and license
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for development checks and required DCO
-sign-offs. See [citation](docs/citation.md) for BibTeX and include your release
-tag or commit for reproducibility. Documentation authoring and publishing are
+sign-offs. Documentation authoring and publishing are
 covered in the [maintainer guide](DOCUMENTATION.md).
 
 ADI-authored material uses [Apache-2.0](LICENSE). Isaac Lab adaptations and
 Tesollo geometry retain BSD-3-Clause terms in [NOTICE](NOTICE) and
 [LICENSE_Tesollo](LICENSE_Tesollo). Demos fetch the gear from NVIDIA's asset
 server under NVIDIA's terms; it is not redistributed here.
+
+## Citation
+
+If you use this repository in your work, please cite it as:
+
+```bibtex
+@misc{analogdevices2026dex01,
+  author       = {{Analog Devices, Inc.}},
+  title        = {{DEX-01 Tactile Sensor Simulation Asset}},
+  year         = {2026},
+  howpublished = {GitHub repository},
+  url          = {https://github.com/analogdevicesinc/dex-01-sim-assets}
+}
+```
+
+Include the commit hash or release tag you used for reproducibility.
