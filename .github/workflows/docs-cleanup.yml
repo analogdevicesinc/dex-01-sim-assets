@@ -17,7 +17,7 @@ name: Remove documentation preview
 
 on:
   pull_request:
-    types: [closed, unlabeled]
+    types: [closed]
 
 permissions:
   contents: read
@@ -27,11 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     if: >-
       github.repository == 'analogdevicesinc/dex-01-sim-assets' &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      vars.DOCS_PR_PREVIEWS_ENABLED == 'true' &&
-      ((github.event.action == 'closed' &&
-        contains(github.event.pull_request.labels.*.name, 'documentation-preview')) ||
-       (github.event.action == 'unlabeled' && github.event.label.name == 'documentation-preview'))
+      github.event.pull_request.head.repo.full_name == github.repository
     concurrency:
       group: documentation-gh-pages
       cancel-in-progress: false

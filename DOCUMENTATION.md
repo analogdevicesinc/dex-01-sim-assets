@@ -1,8 +1,7 @@
-# Maintain and publish documentation
+# Author and reproduce documentation
 
 This site follows [ADI Doctools](https://analogdevicesinc.github.io/doctools/),
-its [authoring guidelines](https://analogdevicesinc.github.io/doctools/docs_guidelines/),
-and its [shared publishing guide](https://analogdevicesinc.github.io/doctools/deploy/).
+and its [authoring guidelines](https://analogdevicesinc.github.io/doctools/docs_guidelines/).
 Harmonic is ADI's current theme name; Cosmic is its former compatible name.
 
 ## Local authoring
@@ -46,79 +45,6 @@ current PhysX demo and retain its provenance in
 existing simulation asset LFS rules do not cover documentation media.
 Link larger recordings instead of shipping them with the site. Captions must
 identify the force units and the fixture used.
-
-## One-time repository setup
-
-1. In **Settings → Pages**, choose **GitHub Actions** before the first deployment.
-   ADI's shared action maintains versioned output in `gh-pages`; the official
-   Pages actions explicitly upload and deploy it. A `GITHUB_TOKEN` branch push
-   alone does not trigger a Pages rebuild.
-2. Ensure organization policy permits the pinned ADI actions and their nested
-   GitHub/ADI actions. Publishing uses `GITHUB_TOKEN` with `contents: write`,
-   `pull-requests: read`, `pages: write`, and `id-token: write`; builds use read
-   permissions. Keep the `github-pages` environment restricted to `main` by
-   default. Add tag rules if publishing releases. Hosted PR previews are
-   disabled unless the repository Actions variable `DOCS_PR_PREVIEWS_ENABLED`
-   is set to `true`. Before enabling it, explicitly authorize the intended
-   PR merge refs in the environment's deployment rules and review the workflow
-   changes in those PRs. Do not remove environment restrictions just to make
-   an ordinary PR pass. Apply any organization-required reviewer policy here.
-3. Merge the documentation change into `main`. The Documentation workflow
-   builds the current site and historical prerelease, creates `gh-pages`, and
-   deploys the complete artifact. If setup happens after the first merge,
-   rerun the workflow's failed deployment job after changing Pages settings.
-4. Require **Build documentation** in the main branch protection/ruleset.
-5. After the site is available, set the repository About website to
-   `https://analogdevicesinc.github.io/dex-01-sim-assets/`.
-6. Open the root and release version, search for “taxel,” switch light/dark
-   themes, and check a narrow mobile window. Open a same-repository PR and
-   verify its build artifact. If hosted previews are enabled, add the
-   `documentation-preview` label and verify publication and removal. A fork PR
-   must produce only the downloadable build artifact.
-
-No registration in ADI's central documentation lookup table is required to
-build or publish. A small metadata adapter supplies this repo’s search and
-source-edit entry while retaining the standard ADI theme and organization
-navigation. GitHub Pages is this repo’s canonical site; the adapter omits the
-generic ADI mirror redirect prompt because no developer.analog.com mirror exists.
-Registration can be requested separately for discoverability.
-
-## Publishing behavior
-
-| Event | Output |
-|---|---|
-| Push to `main` | Current root site; also backfills the historical prerelease |
-| Push of `v` followed by a digit | Root site and snapshot under the tag path |
-| Any PR | Read-only build and downloadable artifact |
-| Same-repository PR with `documentation-preview`, when enabled | Artifact and hosted `pull/<number>/` preview |
-| Fork PR | Read-only build and downloadable artifact; no publishing |
-| Labeled same-repository PR closes or loses the label, when enabled | Its hosted preview is removed |
-
-Hosted PR previews carry `noindex` metadata. Retrieve downloadable previews
-from the workflow run's `html` artifact; extract it and serve it with
-`python -m http.server --bind 127.0.0.1`. The site URL is under
-`https://analogdevicesinc.github.io/dex-01-sim-assets/pull/<number>/`.
-
-ADI’s publisher maintains `.nojekyll`, `objects.inv`, and `tags.json`. Before
-the Pages artifact upload, the workflow uses ADI’s supported fine-grained
-metadata format to label prereleases explicitly and PR entries as previews.
-Publishing and cleanup share a concurrency group and explicitly deploy the
-complete prepared site. Main/tag deployments replace the root while preserving
-version directories. A main push after a release therefore makes the root
-main again; always consult the displayed version when reproducing a result.
-
-An explicitly enabled and labeled same-repository PR can be the first publication: its preview
-is available at `pull/<number>/` even before main has been built. The version
-metadata does not invent a main entry until the root site exists.
-The workflow rechecks that the PR is open and still labeled before publishing
-and before Pages deployment. A build queued behind cleanup cannot restore a
-closed or unlabeled preview.
-
-The existing `v0.1.0-a.1` tag predates the site. The historical builder reads
-its original README and licenses with `git show`, labels it as a historical
-prerelease, and builds it with the pinned ADI theme. It does not change the tag
-or its runtime code. Main builds include that snapshot inside the current
-artifact and publish both in one deployment. New release tags include the full site.
 
 ## Reproduce the figures
 
@@ -261,20 +187,8 @@ The diagram distinguishes a streamed viewport from camera pixels composed
 with tactile frames for a saved recording. To generate compact, verified
 walkthroughs for the site, follow [example video reproduction](#reproduce-example-videos).
 
-## Checks and recovery
+## Authoring checks
 
 Run `make -C docs html` before review: Sphinx warnings fail the build. Check
 internal navigation and GitHub README links as well as rendered pages. Run
-`make -C docs linkcheck` separately; the scheduled/manual external-link workflow
-reports failures without blocking every PR. Do not broadly ignore domains;
-document a narrow exception only when a URL is confirmed valid but blocked.
-
-After the first deployment, verify preview creation with a same-repository PR
-and verify removal after it closes. A fork PR must never run the deployment job.
-Confirm that a later main deployment retains release paths and `tags.json`.
-
-If a build fails, the deployment job is skipped. If publishing fails, inspect
-the Actions log and token/organization settings, then rerun the failed jobs.
-To recover bad content, revert its source change and merge the revert into main.
-To restore older published output, use a reviewed recovery change based on the known-good
-source revision. Keep existing release directories when recovering the site.
+`make -C docs linkcheck` separately to check external links.

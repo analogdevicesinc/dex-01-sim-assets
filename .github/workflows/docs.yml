@@ -20,7 +20,7 @@ on:
     branches: [main]
     tags: ["v[0-9]*"]
   pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -71,9 +71,7 @@ jobs:
     if: >-
       github.repository == 'analogdevicesinc/dex-01-sim-assets' &&
       (github.event_name == 'push' ||
-       (github.event.pull_request.head.repo.full_name == github.repository &&
-        vars.DOCS_PR_PREVIEWS_ENABLED == 'true' &&
-        contains(github.event.pull_request.labels.*.name, 'documentation-preview')))
+       github.event.pull_request.head.repo.full_name == github.repository)
     concurrency:
       group: documentation-gh-pages
       cancel-in-progress: false
@@ -96,8 +94,8 @@ jobs:
         run: |
           publish=true
           if [[ "$GITHUB_EVENT_NAME" == pull_request ]]; then
-            eligible=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '(.state == "open") and any(.labels[]; .name == "documentation-preview")')
-            [[ "$eligible" == true ]] || publish=false
+            state=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq .state)
+            [[ "$state" == open ]] || publish=false
           fi
           echo "publish=$publish" >> "$GITHUB_OUTPUT"
       - name: Publish main, release, or same-repository PR preview
@@ -137,8 +135,8 @@ jobs:
         run: |
           publish=true
           if [[ "$GITHUB_EVENT_NAME" == pull_request ]]; then
-            eligible=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq '(.state == "open") and any(.labels[]; .name == "documentation-preview")')
-            [[ "$eligible" == true ]] || publish=false
+            state=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" --jq .state)
+            [[ "$state" == open ]] || publish=false
           fi
           echo "publish=$publish" >> "$GITHUB_OUTPUT"
       - name: Upload the complete versioned site
@@ -150,3 +148,14 @@ jobs:
         if: steps.ready.outputs.publish == 'true'
         id: pages
         uses: actions/deploy-pages@v4
+      - name: Link the published documentation
+        if: steps.ready.outputs.publish == 'true'
+        env:
+          SITE_URL: ${{ steps.pages.outputs.page_url }}
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          url="$SITE_URL"
+          if [[ "$GITHUB_EVENT_NAME" == pull_request ]]; then
+            url="${SITE_URL%/}/pull/$PR_NUMBER/"
+          fi
+          printf '### Documentation\n\n[Open the documentation](%s)\n' "$url" >> "$GITHUB_STEP_SUMMARY"

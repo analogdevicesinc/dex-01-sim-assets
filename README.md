@@ -64,8 +64,8 @@ See [installation options](docs/getting-started/installation.md),
 ## Contribute and license
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for development checks and required DCO
-sign-offs. Documentation authoring and publishing are
-covered in the [maintainer guide](DOCUMENTATION.md).
+sign-offs. Documentation authoring is covered in the
+[authoring guide](DOCUMENTATION.md).
 
 ADI-authored material uses [Apache-2.0](LICENSE). Isaac Lab adaptations and
 Tesollo geometry retain BSD-3-Clause terms in [NOTICE](NOTICE) and
