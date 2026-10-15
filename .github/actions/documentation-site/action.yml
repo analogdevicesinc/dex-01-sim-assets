@@ -1,0 +1,99 @@
+# Copyright (c) 2026 Analog Devices, Inc. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Prepare versioned documentation
+description: Preserve releases, update development or PR docs, and prune closed previews.
+inputs:
+  version:
+    description: Version path to publish, or empty for cleanup only.
+    default: ""
+  historical:
+    description: Backfill the historical prerelease artifact.
+    default: "false"
+runs:
+  using: composite
+  steps:
+    - name: Check for the existing site
+      id: existing
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        exists=$(gh api "repos/$GITHUB_REPOSITORY/branches?per_page=100" --paginate --jq '.[].name' | { grep -Fx gh-pages || true; })
+        echo "exists=$([[ -n "$exists" ]] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ steps.existing.outputs.exists == 'true' && 'gh-pages' || github.sha }}
+        path: published
+        lfs: false
+        persist-credentials: true
+    - name: Initialize the site branch
+      if: steps.existing.outputs.exists != 'true'
+      shell: bash
+      working-directory: published
+      run: |
+        git checkout --orphan gh-pages
+        git rm -rf .
+        git clean -fdx
+    - uses: actions/download-artifact@v4
+      if: inputs.version != ''
+      with:
+        name: html
+        path: docs-artifact
+    - uses: actions/download-artifact@v4
+      if: inputs.historical == 'true'
+      with:
+        name: historical
+        path: historical-artifact
+    - name: Assemble and retain documentation versions
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        DOC_VERSION: ${{ inputs.version }}
+        HISTORICAL: ${{ inputs.historical }}
+      run: |
+        gh api "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" --paginate --jq '.[].number' |
+          jq -s . > "$RUNNER_TEMP/docs-open-prs.json"
+        args=(--site published --open-prs "$RUNNER_TEMP/docs-open-prs.json")
+        [[ -z "$DOC_VERSION" ]] || args+=(--artifact docs-artifact --version "$DOC_VERSION")
+        [[ "$HISTORICAL" != true ]] || args+=(--historical historical-artifact)
+        python workflow/scripts/docs/publish_site.py "${args[@]}"
+    - name: Refresh preview eligibility before saving
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        gh api "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" --paginate --jq '.[].number' |
+          jq -s . > "$RUNNER_TEMP/docs-open-prs.json"
+        python workflow/scripts/docs/publish_site.py --site published --open-prs "$RUNNER_TEMP/docs-open-prs.json"
+    - name: Save the complete published site
+      shell: bash
+      working-directory: published
+      env:
+        DOC_VERSION: ${{ inputs.version }}
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git add --all
+        if ! git diff --cached --quiet || ! git rev-parse --verify HEAD >/dev/null 2>&1; then
+          git commit -m "docs: publish ${DOC_VERSION:-preview cleanup}"
+          git push origin HEAD:gh-pages
+        fi
+    - name: Export the site without Git metadata
+      shell: bash
+      working-directory: published
+      run: |
+        mkdir -p "$GITHUB_WORKSPACE/site-artifact"
+        git archive HEAD | tar -x -C "$GITHUB_WORKSPACE/site-artifact"

@@ -1,0 +1,1479 @@
+{
+  "flat-pad": {
+    "example": "flat-pad",
+    "capture_sha256": "c0c3a32d32279b7643ef32013a21b9caf764cb44c485f4a8e81652372feba386",
+    "physics_version": "5.1.0.0",
+    "renderer_version": "6.0.1.0",
+    "frame_count": 50,
+    "fps": 20.0,
+    "playback_slowdown": 3,
+    "duration_s": 2.5,
+    "simulation_time_range_s": [
+      0.008333333333333333,
+      0.825
+    ],
+    "physical_timeline_advanced_by_renderer": false,
+    "force_frames_interpolated": false,
+    "maximum_rendered_pose_error": 0.0,
+    "maximum_rendered_vertex_error_m": 0.0,
+    "checked_mesh_count": 3,
+    "contact_closeup_camera": false,
+    "geometry_script_sha256": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
+    "shared_force_scale_n": 0.20000000298023224,
+    "renderer_script_sha256": "ee9eb59c7e18b47ca60ded05f2d39219659236972509cbeff20b839ab72fce89",
+    "poster_frame": 40,
+    "files": {
+      "flat-pad-contact.webp": "4efaf0c6e1811a7e833e6fb1f7570d1dc904d669b2046aeb1a72637ec965226e",
+      "flat-pad-after.webp": "00e5564a2ed582cbfee07cadd6fb07aca7334fa88f003fbb3fba331f1796862a",
+      "flat-pad.vtt": "441d83863b6bca1e56f7a95018c36a2ff314fce4a562f29b275aa2b72a6ce622",
+      "flat-pad-before.webp": "6ba4688ec1e40cf0080b67e78e87cfdd66c2733f2273f47c35ad5ff2f54b8da0",
+      "flat-pad.mp4": "aa0ccfa410caa99da3c60e60ce8d6ea3104ee51bd82d287f9757bfb28c55746f",
+      "flat-pad.webm": "b64615c80b464d77c9a600b7e77adc3c10e8f3a1415c20cea7f6432eeb373a14",
+      "flat-pad.webp": "567858ef24f919656075c70061000556ebe294238d83a3519a2d1708473d9dfe"
+    },
+    "video_size": [
+      960,
+      800
+    ],
+    "heatmap_display": {
+      "pad_size_m": [
+        0.2,
+        0.1
+      ],
+      "width_to_height": 2.0,
+      "columns_axis": "pad x (length)",
+      "rows_axis": "pad y (width)",
+      "resampling": "nearest"
+    },
+    "capture": {
+      "example": "flat-pad",
+      "physics_version": "5.1.0.0",
+      "physics_dt_s": 0.008333333333333333,
+      "steps": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48,
+        50,
+        52,
+        54,
+        56,
+        58,
+        60,
+        62,
+        64,
+        66,
+        68,
+        70,
+        72,
+        74,
+        76,
+        78,
+        80,
+        82,
+        84,
+        86,
+        88,
+        90,
+        92,
+        94,
+        96,
+        98
+      ],
+      "phases": [
+        "falling",
+        "falling",
+        "falling",
+        "falling",
+        "falling",
+        "falling",
+        "impact",
+        "impact",
+        "impact",
+        "impact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact",
+        "settling / contact"
+      ],
+      "body_paths": [
+        "/World/envs/env_0/FingerPad",
+        "/World/envs/env_0/Asset/factory_gear_medium"
+      ],
+      "meshes": [
+        {
+          "path": "/World/envs/env_0/FingerPad/geometry/mesh",
+          "body_index": 0,
+          "kind": "Cube"
+        },
+        {
+          "path": "/World/envs/env_0/Asset/factory_gear_medium/visuals",
+          "body_index": 1,
+          "kind": "Mesh"
+        },
+        {
+          "path": "/World/envs/env_0/Asset/factory_gear_medium/collisions",
+          "body_index": 1,
+          "kind": "Mesh"
+        }
+      ],
+      "body_scales": [
+        [
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.0,
+          1.0
+        ]
+      ],
+      "maximum_exported_vertex_error_m": 0.0,
+      "geometry_script_sha256": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
+      "labels": [
+        "Pad"
+      ],
+      "frame_count": 50,
+      "capture_stride": 2,
+      "playback_fps": 60.0,
+      "source_commit": "c6228aeaf0f09e539a8038a8efb4b12c64f4cebc",
+      "source_files_sha256": {
+        "assets/robots/tesollo/dex01.usda": "d334a69ba39fa62c5772cf424ba58c094978a3f75e1a1298f71b4032243d4002",
+        "assets/robots/tesollo/dg5f_right.usda": "2457ca1923b209e6cd32785b31d873026584157a055d7c2e7cb8c1e17c4e4d78",
+        "assets/sensors/dex01/reference.json": "9f28f8450455bc9c100bafdd6cfadc776d54262c852b3372060ea8fafa2321b1",
+        "scripts/dex01_articulated_press.py": "82d9557b35105d89f365c706b15514a443adc30074e88f11686c6b9f4728f9d8",
+        "scripts/dex01_on_tesollo_dg5f.py": "5a79751eff03b42b5fd00d9e8cabbee6fcf474188dae5517e73c1669b95b2fbd",
+        "scripts/docs/capture_examples.py": "6d85d8013173cd92c6b388f93642f5b2e2272616cf467c5d6d182df02cee8259",
+        "scripts/docs/motion_geometry.py": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
+        "scripts/object_geometry.py": "98d6dd5d76bc72295bd1c25ef1a150a3f692c0f853ec85cc899c21ab3c40998f",
+        "scripts/simple_example.py": "94cf9f862c67f099fa3793e9e23241e6067d0594092f7bdfbc500642495c358f",
+        "source/dex01_sim_asset/dex01_sim_asset/__init__.py": "b93c14d87ae132aa26ba55cacb7b8e6b767862afaf70f912209a1364cec66e4b",
+        "source/dex01_sim_asset/dex01_sim_asset/marker_cfg.py": "33b3333da942c29d42621b386bad6773f84504ffd79ab4808dd80b9a839f82d7",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py": "32393c47b5f852ff0bf167a40eea0e4858c392e97cb56c93ad02f352b83a5261",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_cfg.py": "79327923bdc29b3155bbf153c54a44b25673d757ba6a128e8236e10f02890693",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_data.py": "e67de69a56085750105831f909fc10eb4675c31a0941ecf82078cf251148965f",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/__init__.py": "a5d80bf6032247331ece4fcbf8454ac931f52af153fc6f0c0e9f5d1afc32ac6f",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz": "e2a74fcf70bbc56ca1417e835354fe354ecbc6d7a76b68078ac6155e8efd6702",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz": "971b747bd46997b9bbfcd52be6cb530d9577c31bae3748d5304b19fe0f292f38",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns.py": "a9216dfdcb224ea1015ac9250f4a70cb0c23076a6fcc019f91318ebcc73adb3c",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns_cfg.py": "b8a569e43b76b2bd9d2925f8ecd46caaf012cdb233a273de0a06f3056f1a13b4",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/__init__.py": "be58b48c21483c08b383e7fd718adf1bce0162f727e68a8ce6860aeced4be798",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/scene_recorder.py": "44eb9248087a10a861ef86e4b4a017bff14f47aef43fcf16f84e194171d89175",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/viewport.py": "59084237b2395b475f7d3b6b9452875429de944af1cd33b69dc08aff80317329",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/visualizers.py": "5f0df091b706f19a99669f11b12f01b118ebe783913d436583fd61edd181fe47"
+      },
+      "demo_sha256": "94cf9f862c67f099fa3793e9e23241e6067d0594092f7bdfbc500642495c358f",
+      "capture_script_sha256": "6d85d8013173cd92c6b388f93642f5b2e2272616cf467c5d6d182df02cee8259",
+      "hold_pacing_s": 0.0,
+      "files": {
+        "scene.usda": "9de8a06c0941f798cab1fcaaf93ed222e507a986518f324f84c65308c781240a",
+        "geometry.npz": "3d68881940efcc6dbbb3174ba8200a99e1287d4c4dcd4ffa5682250dd17d166a",
+        "motion.npz": "1a4a33fc7ab5b7e4fa616bd022556ee8b73ff267b3c211c6f52b22209807c2f7"
+      }
+    },
+    "capture_path_names_normalized": true
+  },
+  "hand": {
+    "example": "hand",
+    "capture_sha256": "4973ac42e2523102c784791c0afc363663bd96cc330034c5487ca7ccc39ce57c",
+    "physics_version": "5.1.0.0",
+    "renderer_version": "6.0.1.0",
+    "frame_count": 100,
+    "fps": 20.0,
+    "playback_slowdown": 1,
+    "duration_s": 5.0,
+    "simulation_time_range_s": [
+      0.004166666666666667,
+      4.954166666666667
+    ],
+    "physical_timeline_advanced_by_renderer": false,
+    "force_frames_interpolated": false,
+    "maximum_rendered_pose_error": 2.220446049250313e-16,
+    "maximum_rendered_vertex_error_m": 1.2566871346510768e-16,
+    "checked_mesh_count": 53,
+    "contact_closeup_camera": true,
+    "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
+    "shared_force_scale_n": 0.05999999865889549,
+    "renderer_script_sha256": "7a4f20cfb567a2a2c256df1dcce7c5e9677e2df39e3f40464f9315aa696ef0fd",
+    "poster_frame": 20,
+    "files": {
+      "hand.webm": "f8e7739fa0d0065353b729619a7f3c59b45da1c7f63f5d442c78eaa1fc6a4747",
+      "hand-before.webp": "e9461dc17ecba4f3ea779ebebffe83bb418907ba3405647b10bb629b634f932e",
+      "hand.mp4": "8feba50b8915791ea62d4dcbb9946bc2c33f00456e10f251ee7428274bfe0e98",
+      "hand-contact.webp": "e033b69b05d6579f1bfafd3af6a2a93a4fe5cca4d5c087517b68d062313ba5a5",
+      "hand.webp": "e033b69b05d6579f1bfafd3af6a2a93a4fe5cca4d5c087517b68d062313ba5a5",
+      "hand.vtt": "7c2c354c6fec17e36b4c07516ce038b039cf44d00b4398a154cfdeb571cc6b5f",
+      "hand-after.webp": "a025e521014536bb39358939de9daf9003c341d3bd953d6186181ca204a3c934"
+    },
+    "video_size": [
+      960,
+      800
+    ],
+    "capture": {
+      "example": "hand",
+      "physics_version": "5.1.0.0",
+      "physics_dt_s": 0.004166666666666667,
+      "steps": [
+        0,
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144,
+        156,
+        168,
+        180,
+        192,
+        204,
+        216,
+        228,
+        240,
+        252,
+        264,
+        276,
+        288,
+        300,
+        312,
+        324,
+        336,
+        348,
+        360,
+        372,
+        384,
+        396,
+        408,
+        420,
+        432,
+        444,
+        456,
+        468,
+        480,
+        492,
+        504,
+        516,
+        528,
+        540,
+        552,
+        564,
+        576,
+        588,
+        600,
+        612,
+        624,
+        636,
+        648,
+        660,
+        672,
+        684,
+        696,
+        708,
+        720,
+        732,
+        744,
+        756,
+        768,
+        780,
+        792,
+        804,
+        816,
+        828,
+        840,
+        852,
+        864,
+        876,
+        888,
+        900,
+        912,
+        924,
+        936,
+        948,
+        960,
+        972,
+        984,
+        996,
+        1008,
+        1020,
+        1032,
+        1044,
+        1056,
+        1068,
+        1080,
+        1092,
+        1104,
+        1116,
+        1128,
+        1140,
+        1152,
+        1164,
+        1176,
+        1188
+      ],
+      "phases": [
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 2 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 3 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 4 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact",
+        "Finger 5 contact"
+      ],
+      "body_paths": [
+        "/World/envs/env_0/Robot/rl_dg_mount",
+        "/World/envs/env_0/Robot/rl_dg_1_1",
+        "/World/envs/env_0/Robot/rl_dg_2_1",
+        "/World/envs/env_0/Robot/rl_dg_3_1",
+        "/World/envs/env_0/Robot/rl_dg_4_1",
+        "/World/envs/env_0/Robot/rl_dg_5_1",
+        "/World/envs/env_0/Robot/rl_dg_1_2",
+        "/World/envs/env_0/Robot/rl_dg_2_2",
+        "/World/envs/env_0/Robot/rl_dg_3_2",
+        "/World/envs/env_0/Robot/rl_dg_4_2",
+        "/World/envs/env_0/Robot/rl_dg_5_2",
+        "/World/envs/env_0/Robot/rl_dg_1_3",
+        "/World/envs/env_0/Robot/rl_dg_2_3",
+        "/World/envs/env_0/Robot/rl_dg_3_3",
+        "/World/envs/env_0/Robot/rl_dg_4_3",
+        "/World/envs/env_0/Robot/rl_dg_5_3",
+        "/World/envs/env_0/Robot/rl_dg_1_4",
+        "/World/envs/env_0/Robot/rl_dg_2_4",
+        "/World/envs/env_0/Robot/rl_dg_3_4",
+        "/World/envs/env_0/Robot/rl_dg_4_4",
+        "/World/envs/env_0/Robot/rl_dg_5_4",
+        "/World/envs/env_0/Robot/rl_dg_1_sensor",
+        "/World/envs/env_0/Robot/rl_dg_2_sensor",
+        "/World/envs/env_0/Robot/rl_dg_3_sensor",
+        "/World/envs/env_0/Robot/rl_dg_4_sensor",
+        "/World/envs/env_0/Robot/rl_dg_5_sensor",
+        "/World/envs/env_0/Asset/factory_gear_medium"
+      ],
+      "meshes": [
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_mount/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_base/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_palm/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_mount_c/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_base_c/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_palm_c/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_1/visuals/rl_dg_1_1/mesh",
+          "body_index": 1
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_1/collisions/rl_dg_1_1_c/mesh",
+          "body_index": 1
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_1/visuals/rl_dg_2_1/mesh",
+          "body_index": 2
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_1/collisions/rl_dg_2_1_c/mesh",
+          "body_index": 2
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_1/visuals/rl_dg_3_1/mesh",
+          "body_index": 3
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_1/collisions/rl_dg_3_1_c/mesh",
+          "body_index": 3
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_1/visuals/rl_dg_4_1/mesh",
+          "body_index": 4
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_1/collisions/rl_dg_4_1_c/mesh",
+          "body_index": 4
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_1/visuals/rl_dg_5_1/mesh",
+          "body_index": 5
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_1/collisions/rl_dg_5_1_c/mesh",
+          "body_index": 5
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_2/visuals/rl_dg_1_2/mesh",
+          "body_index": 6
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_2/collisions/rl_dg_1_2_c/mesh",
+          "body_index": 6
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_2/visuals/rl_dg_2_2/mesh",
+          "body_index": 7
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_2/collisions/rl_dg_2_2_c/mesh",
+          "body_index": 7
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_2/visuals/rl_dg_3_2/mesh",
+          "body_index": 8
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_2/collisions/rl_dg_3_2_c/mesh",
+          "body_index": 8
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_2/visuals/rl_dg_4_2/mesh",
+          "body_index": 9
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_2/collisions/rl_dg_4_2_c/mesh",
+          "body_index": 9
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_2/visuals/rl_dg_5_2/mesh",
+          "body_index": 10
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_2/collisions/rl_dg_5_2_c/mesh",
+          "body_index": 10
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_3/visuals/rl_dg_1_3/mesh",
+          "body_index": 11
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_3/collisions/rl_dg_1_3_c/mesh",
+          "body_index": 11
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_3/visuals/rl_dg_2_3/mesh",
+          "body_index": 12
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_3/collisions/rl_dg_2_3_c/mesh",
+          "body_index": 12
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_3/visuals/rl_dg_3_3/mesh",
+          "body_index": 13
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_3/collisions/rl_dg_3_3_c/mesh",
+          "body_index": 13
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_3/visuals/rl_dg_4_3/mesh",
+          "body_index": 14
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_3/collisions/rl_dg_4_3_c/mesh",
+          "body_index": 14
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_3/visuals/rl_dg_5_3/mesh",
+          "body_index": 15
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_3/collisions/rl_dg_5_3_c/mesh",
+          "body_index": 15
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_4/fingertip/fingertip_base",
+          "body_index": 16
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_4/fingertip_base",
+          "body_index": 17
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_4/fingertip_base",
+          "body_index": 18
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_4/fingertip_base",
+          "body_index": 19
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_4/fingertip/fingertip_base",
+          "body_index": 20
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_sensor/visual",
+          "body_index": 21
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_sensor/collision",
+          "body_index": 21
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_sensor/visual",
+          "body_index": 22
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_sensor/collision",
+          "body_index": 22
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_sensor/visual",
+          "body_index": 23
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_sensor/collision",
+          "body_index": 23
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_sensor/visual",
+          "body_index": 24
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_sensor/collision",
+          "body_index": 24
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_sensor/visual",
+          "body_index": 25
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_sensor/collision",
+          "body_index": 25
+        },
+        {
+          "path": "/World/envs/env_0/Asset/factory_gear_medium/visuals",
+          "body_index": 26
+        },
+        {
+          "path": "/World/envs/env_0/Asset/factory_gear_medium/collisions",
+          "body_index": 26
+        }
+      ],
+      "body_scales": [
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448
+        ]
+      ],
+      "maximum_exported_vertex_error_m": 7.076311083754595e-17,
+      "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
+      "labels": [
+        "Finger 1",
+        "Finger 2",
+        "Finger 3",
+        "Finger 4",
+        "Finger 5"
+      ],
+      "frame_count": 100,
+      "capture_stride": 12,
+      "playback_fps": 20.0,
+      "source_commit": "b81cff9248252cc988bdec6c3f451c7133ae335b",
+      "demo_sha256": "b1ee259165dfb490b47ed4321c63d7f6481ec8ed1f365d58ce36dcec661c50f8",
+      "capture_script_sha256": "b96705e9fbdd02b7e58bac3f4c4067545aaeb43d750a70f37a9a22e68e168622",
+      "hold_pacing_s": 0.0,
+      "files": {
+        "scene.usda": "6c09dcd3b8a9625028a5d3ebf5b54fd43b5bf527d84ae5cac72a9fbb74afcd56",
+        "geometry.npz": "f4af3f1d6904962cb23bf955d96ae78f2a9bd06144f346d5dc9c12b012d7eb7a",
+        "motion.npz": "e9b9e23cd6ff84a4e53468587650168b548f5d392225cad59f26e3c901b5e4c2"
+      }
+    }
+  },
+  "stationary-press": {
+    "example": "stationary-press",
+    "capture_sha256": "d5b7c86a6d4720ed865d42006293aecb91aa08bf1f07f90ad16bb7777c0ecd3c",
+    "physics_version": "5.1.0.0",
+    "renderer_version": "6.0.1.0",
+    "frame_count": 75,
+    "fps": 15.0,
+    "playback_slowdown": 2,
+    "duration_s": 5.0,
+    "simulation_time_range_s": [
+      5.008333333333333,
+      7.475
+    ],
+    "physical_timeline_advanced_by_renderer": false,
+    "force_frames_interpolated": false,
+    "maximum_rendered_pose_error": 2.220446049250313e-16,
+    "maximum_rendered_vertex_error_m": 8.355534721610419e-17,
+    "checked_mesh_count": 53,
+    "contact_closeup_camera": true,
+    "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
+    "shared_force_scale_n": 0.9300000071525574,
+    "renderer_script_sha256": "7a4f20cfb567a2a2c256df1dcce7c5e9677e2df39e3f40464f9315aa696ef0fd",
+    "poster_frame": 37,
+    "files": {
+      "stationary-press-contact.webp": "57d88a1abea464b1580d471886c79afd57c0266f61fbf3b12a0107920f11ab4d",
+      "stationary-press.webp": "57d88a1abea464b1580d471886c79afd57c0266f61fbf3b12a0107920f11ab4d",
+      "stationary-press.vtt": "51349579e1a53d345440bfa18ac82d9a4a50f2c3e9eaa13cf14fce34ef61217e",
+      "stationary-press.webm": "201a6baba668a48bdc5117e5b2c2295686e4e3c6ca37d4a2d0e0ca79d29b8861",
+      "stationary-press-before.webp": "4faa112d2cde04b9e6d65dd8714a783bd86f83a2fd2fe3c26afe42fca7a2b0f1",
+      "stationary-press-after.webp": "75f26db1b9a8cf7b7afe94056fc9a0e7b2e43e0ca653dd624496f2309858e5fb",
+      "stationary-press.mp4": "0a64f01a14eaca266b001a5381242caf1007f7306dd3b5dea5d469554a78cd33"
+    },
+    "video_size": [
+      960,
+      800
+    ],
+    "capture": {
+      "example": "stationary-press",
+      "physics_version": "5.1.0.0",
+      "physics_dt_s": 0.008333333333333333,
+      "steps": [
+        600,
+        604,
+        608,
+        612,
+        616,
+        620,
+        624,
+        628,
+        632,
+        636,
+        640,
+        644,
+        648,
+        652,
+        656,
+        660,
+        664,
+        668,
+        672,
+        676,
+        680,
+        684,
+        688,
+        692,
+        696,
+        700,
+        704,
+        708,
+        712,
+        716,
+        720,
+        724,
+        728,
+        732,
+        736,
+        740,
+        744,
+        748,
+        752,
+        756,
+        760,
+        764,
+        768,
+        772,
+        776,
+        780,
+        784,
+        788,
+        792,
+        796,
+        800,
+        804,
+        808,
+        812,
+        816,
+        820,
+        824,
+        828,
+        832,
+        836,
+        840,
+        844,
+        848,
+        852,
+        856,
+        860,
+        864,
+        868,
+        872,
+        876,
+        880,
+        884,
+        888,
+        892,
+        896
+      ],
+      "phases": [
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "approach",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "hold",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "retract",
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "unloaded",
+        "unloaded"
+      ],
+      "body_paths": [
+        "/World/envs/env_0/Robot/rl_dg_mount",
+        "/World/envs/env_0/Robot/rl_dg_1_1",
+        "/World/envs/env_0/Robot/rl_dg_2_1",
+        "/World/envs/env_0/Robot/rl_dg_3_1",
+        "/World/envs/env_0/Robot/rl_dg_4_1",
+        "/World/envs/env_0/Robot/rl_dg_5_1",
+        "/World/envs/env_0/Robot/rl_dg_1_2",
+        "/World/envs/env_0/Robot/rl_dg_2_2",
+        "/World/envs/env_0/Robot/rl_dg_3_2",
+        "/World/envs/env_0/Robot/rl_dg_4_2",
+        "/World/envs/env_0/Robot/rl_dg_5_2",
+        "/World/envs/env_0/Robot/rl_dg_1_3",
+        "/World/envs/env_0/Robot/rl_dg_2_3",
+        "/World/envs/env_0/Robot/rl_dg_3_3",
+        "/World/envs/env_0/Robot/rl_dg_4_3",
+        "/World/envs/env_0/Robot/rl_dg_5_3",
+        "/World/envs/env_0/Robot/rl_dg_1_4",
+        "/World/envs/env_0/Robot/rl_dg_2_4",
+        "/World/envs/env_0/Robot/rl_dg_3_4",
+        "/World/envs/env_0/Robot/rl_dg_4_4",
+        "/World/envs/env_0/Robot/rl_dg_5_4",
+        "/World/envs/env_0/Robot/rl_dg_1_sensor",
+        "/World/envs/env_0/Robot/rl_dg_2_sensor",
+        "/World/envs/env_0/Robot/rl_dg_3_sensor",
+        "/World/envs/env_0/Robot/rl_dg_4_sensor",
+        "/World/envs/env_0/Robot/rl_dg_5_sensor",
+        "/World/envs/env_0/Asset/factory_gear_medium"
+      ],
+      "meshes": [
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_mount/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_base/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_palm/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_mount_c/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_base_c/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_palm_c/mesh",
+          "body_index": 0
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_1/visuals/rl_dg_1_1/mesh",
+          "body_index": 1
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_1/collisions/rl_dg_1_1_c/mesh",
+          "body_index": 1
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_1/visuals/rl_dg_2_1/mesh",
+          "body_index": 2
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_1/collisions/rl_dg_2_1_c/mesh",
+          "body_index": 2
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_1/visuals/rl_dg_3_1/mesh",
+          "body_index": 3
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_1/collisions/rl_dg_3_1_c/mesh",
+          "body_index": 3
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_1/visuals/rl_dg_4_1/mesh",
+          "body_index": 4
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_1/collisions/rl_dg_4_1_c/mesh",
+          "body_index": 4
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_1/visuals/rl_dg_5_1/mesh",
+          "body_index": 5
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_1/collisions/rl_dg_5_1_c/mesh",
+          "body_index": 5
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_2/visuals/rl_dg_1_2/mesh",
+          "body_index": 6
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_2/collisions/rl_dg_1_2_c/mesh",
+          "body_index": 6
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_2/visuals/rl_dg_2_2/mesh",
+          "body_index": 7
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_2/collisions/rl_dg_2_2_c/mesh",
+          "body_index": 7
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_2/visuals/rl_dg_3_2/mesh",
+          "body_index": 8
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_2/collisions/rl_dg_3_2_c/mesh",
+          "body_index": 8
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_2/visuals/rl_dg_4_2/mesh",
+          "body_index": 9
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_2/collisions/rl_dg_4_2_c/mesh",
+          "body_index": 9
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_2/visuals/rl_dg_5_2/mesh",
+          "body_index": 10
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_2/collisions/rl_dg_5_2_c/mesh",
+          "body_index": 10
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_3/visuals/rl_dg_1_3/mesh",
+          "body_index": 11
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_3/collisions/rl_dg_1_3_c/mesh",
+          "body_index": 11
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_3/visuals/rl_dg_2_3/mesh",
+          "body_index": 12
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_3/collisions/rl_dg_2_3_c/mesh",
+          "body_index": 12
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_3/visuals/rl_dg_3_3/mesh",
+          "body_index": 13
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_3/collisions/rl_dg_3_3_c/mesh",
+          "body_index": 13
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_3/visuals/rl_dg_4_3/mesh",
+          "body_index": 14
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_3/collisions/rl_dg_4_3_c/mesh",
+          "body_index": 14
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_3/visuals/rl_dg_5_3/mesh",
+          "body_index": 15
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_3/collisions/rl_dg_5_3_c/mesh",
+          "body_index": 15
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_4/fingertip/fingertip_base",
+          "body_index": 16
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_4/fingertip_base",
+          "body_index": 17
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_4/fingertip_base",
+          "body_index": 18
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_4/fingertip_base",
+          "body_index": 19
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_4/fingertip/fingertip_base",
+          "body_index": 20
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_sensor/visual",
+          "body_index": 21
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_1_sensor/collision",
+          "body_index": 21
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_sensor/visual",
+          "body_index": 22
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_2_sensor/collision",
+          "body_index": 22
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_sensor/visual",
+          "body_index": 23
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_3_sensor/collision",
+          "body_index": 23
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_sensor/visual",
+          "body_index": 24
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_4_sensor/collision",
+          "body_index": 24
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_sensor/visual",
+          "body_index": 25
+        },
+        {
+          "path": "/World/envs/env_0/Robot/rl_dg_5_sensor/collision",
+          "body_index": 25
+        },
+        {
+          "path": "/World/envs/env_0/Asset/factory_gear_medium/visuals",
+          "body_index": 26
+        },
+        {
+          "path": "/World/envs/env_0/Asset/factory_gear_medium/collisions",
+          "body_index": 26
+        }
+      ],
+      "body_scales": [
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.9999999999999999
+        ],
+        [
+          0.19671368598937988,
+          0.19671368598937988,
+          0.19671368598937988
+        ]
+      ],
+      "maximum_exported_vertex_error_m": 7.076311083754595e-17,
+      "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
+      "labels": [
+        "Finger 1",
+        "Finger 2",
+        "Finger 3",
+        "Finger 4",
+        "Finger 5"
+      ],
+      "frame_count": 75,
+      "capture_stride": 4,
+      "playback_fps": 30.0,
+      "source_commit": "b81cff9248252cc988bdec6c3f451c7133ae335b",
+      "demo_sha256": "b1ee259165dfb490b47ed4321c63d7f6481ec8ed1f365d58ce36dcec661c50f8",
+      "capture_script_sha256": "b96705e9fbdd02b7e58bac3f4c4067545aaeb43d750a70f37a9a22e68e168622",
+      "hold_pacing_s": 0.025,
+      "files": {
+        "scene.usda": "628094039123929e14adcc088fa9155c8d3adbf592eaff3beacc49fdca8d02cb",
+        "geometry.npz": "16e51425bd3917d429495eb65cb80e71b61405c755fe469bbde0e920fc91289a",
+        "press-report.json": "4bce625936336fb1a9e621ce69b30471a9628bde891fc1e14481205965e6f5cc",
+        "motion.npz": "e54dc38bfa79ade8af36e54f3cfe8c65c2fde709345ec6bc3cec4c71099c634d"
+      }
+    }
+  }
+}

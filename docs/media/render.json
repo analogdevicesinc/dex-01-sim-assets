@@ -1,0 +1,68 @@
+{
+  "physics_version": "5.1.0.0",
+  "steps": 240,
+  "indenter": "0.1 kg flat cube",
+  "forces_n": [
+    0.0,
+    0.9877238273620605,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "sensor_visual_count": 5,
+  "taxel_surface_max_error_m": [
+    1.6554260455674176e-08,
+    1.2673932292902348e-08,
+    1.3065457629971892e-08,
+    1.1641802778430208e-08,
+    1.2582106984235687e-08
+  ],
+  "source_commit": "3818a8388c970ced7ad03539668d26c1a68e0add",
+  "demo_sha256": "b1ee259165dfb490b47ed4321c63d7f6481ec8ed1f365d58ce36dcec661c50f8",
+  "scene_sha256": "27780ceac7f3c7870032c0b8fb87b65d726507ed2ccda2558fc0baa1cdc883cb",
+  "tactile_sha256": "d62f1a0584b46805ac9a111121e3fa87e2e2b241a0c0a184c454c1eb0fecec4d",
+  "renderer_version": "6.0.1.0",
+  "camera_resolution": [
+    1280,
+    720
+  ],
+  "timeline_advanced": false,
+  "rendered_sensor_visuals": 5,
+  "fingertip_transforms_unchanged": true,
+  "rigid_body_transforms_unchanged": true,
+  "checked_rigid_bodies": 27,
+  "overview_camera": {
+    "eye_m": [
+      -0.25,
+      -0.28,
+      0.4
+    ],
+    "target_m": [
+      0.02,
+      0.035,
+      0.055
+    ],
+    "focal_length_mm": 35
+  },
+  "closeup_camera": {
+    "eye_m": [
+      -0.125204461812973,
+      0.07192358940839767,
+      0.14796139478683473
+    ],
+    "target_m": [
+      -0.07520446181297302,
+      0.026923589408397675,
+      0.06796139478683472
+    ]
+  },
+  "ground_presentation": "Neutral diffuse material; captured geometry unchanged",
+  "rendered_files": {
+    "hand-camera.png": "848608cda7d059bf03160c75673e5ed7a0b1e05daf12b4abdc640af7837dd997",
+    "loaded-contact.png": "7e37f6ea156fd9e43efe1a36136bf7db0bc203d22c346b3316d137934a0150cf",
+    "loaded-contact.webp": "16852a8c00e7f61773ac183795ef01e31e8a3cdc4e976509661f1d6dae0b5127",
+    "dex01-demo.png": "364eef3dc606ae9cd3f4de5f3e7269c771500d846e10b0892ca47b180ca6aece",
+    "dex01-demo.webp": "9ffa8b53fb6d6fab82a997acd129d5555f0e52a09c31bd30d60cad96c256d186"
+  },
+  "renderer_script_sha256": "fed84eac97a6cb0155f43087672ff0d73c132b2d4151a8f6124037207de2902a"
+}

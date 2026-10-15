@@ -1,0 +1,4 @@
+# Pinned released ADI toolchain; update through a reviewed documentation change.
+sphinx==8.2.3
+myst-parser==4.0.1
+adi-doctools @ https://github.com/analogdevicesinc/doctools/releases/download/v0.5.1/adi-doctools.tar.gz

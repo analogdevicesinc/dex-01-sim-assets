@@ -15,7 +15,7 @@ env_isaaclab/
 **/*.log*
 
 # Demo output
-videos/
+/videos/
 
 # IDE
 **/.idea/
@@ -30,3 +30,10 @@ dex-01-simulation-kit-*-public-files/
 # Local package build artifacts
 **/build/
 **/dist/
+
+# Documentation build output
+docs/_build/
+.venv-docs/
+
+# Optional isolated documentation renderer
+.venv-render/

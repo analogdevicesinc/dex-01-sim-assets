@@ -1,0 +1,5 @@
+{% extends "!layout.html" %}
+{% block extrahead %}
+{{ super() }}
+<meta name="docs-source-ref" content="{{ docs_source_ref|e }}">
+{% endblock %}

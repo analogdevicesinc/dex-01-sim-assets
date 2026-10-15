@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Build the physically scaled V10 DEX-01 USD from the released exterior OBJ.
+"""Build the physically scaled DEX-01 USD from the released exterior OBJ.
 
 Rebuilding this USD needs only the exterior OBJ and reference metadata, with
 no CAD kernel, detailed component geometry or other checkout. Rendering and
@@ -170,7 +170,7 @@ def main():
             output_path.replace(destination)
         finally:
             output_path.unlink(missing_ok=True)
-    print(f"Wrote {destination}: one exterior-only V10 OBJ at 1:1 scale, {len(envelope.faces)} collision faces")
+    print(f"Wrote {destination}: one exterior-only DEX-01 OBJ at 1:1 scale, {len(envelope.faces)} collision faces")
 
 
 if __name__ == "__main__":

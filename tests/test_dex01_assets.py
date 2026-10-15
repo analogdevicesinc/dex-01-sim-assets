@@ -54,7 +54,7 @@ def test_corrected_source_pattern_identity_and_frames():
     assert np.allclose(np.linalg.det(rotations), 1.0, atol=1e-6)
 
 
-def test_v10_exterior_identity_and_physical_scale():
+def test_dex01_exterior_identity_and_physical_scale():
     from pxr import Usd, UsdGeom
 
     stage = Usd.Stage.Open(str(ROOT / "assets/robots/tesollo/dex01.usda"))
@@ -65,7 +65,7 @@ def test_v10_exterior_identity_and_physical_scale():
     visual = UsdGeom.Mesh(stage.GetPrimAtPath("/Sensor/visual"))
     assert np.max(np.abs(np.array(visual.GetPointsAttr().Get()) - points)) < 2e-9
     assert np.array_equal(np.array(visual.GetFaceVertexIndicesAttr().Get()).reshape(-1, 3), faces)
-    # Independent V10 engineering dimensions; guard against inherited display scaling.
+    # Independent DEX-01 engineering dimensions; guard against inherited display scaling.
     assert np.allclose(np.ptp(points, axis=0) * 1000, [32.7, 22.40631, 19.0], atol=0.015)
     rear = points[np.isclose(points[:, 0], 0.0065, atol=1e-7)]
     assert np.allclose(np.ptp(rear[:, 1:], axis=0) * 1000, [22.4, 19.0], atol=0.015)

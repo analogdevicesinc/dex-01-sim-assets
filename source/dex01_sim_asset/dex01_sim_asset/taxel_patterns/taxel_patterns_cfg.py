@@ -99,11 +99,11 @@ class CustomPatternCfg(PatternBaseCfg):
 class Dex01PatternCfg(CustomPatternCfg):
     """DEX-01 fingertip layout: 738 taxels mapped into a 32x32 frame.
 
-    Contact poses are registered to the V10 overmold exterior. Firmware pixel
+    Contact poses are registered to the DEX-01 overmold exterior. Firmware pixel
     indices are unchanged; the original reference remains in dex01_pattern.npz.
     Use the matching mounting offset with the DG-5F sensor asset.
     """
 
-    filename: str = os.path.join(os.path.dirname(__file__), "dex01_contact_v10.npz")
+    filename: str = os.path.join(os.path.dirname(__file__), "dex01_contact.npz")
 
     resolution: tuple[float, float] = (0.00072, 0.00088)
