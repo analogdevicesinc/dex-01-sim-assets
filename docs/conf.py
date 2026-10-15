@@ -40,7 +40,7 @@ html_context = {"docs_source_ref": os.environ.get("DOCS_SOURCE_REF", "main")}
 html_theme = "harmonic"
 html_title = "DEX-01 Tactile Sensor documentation"
 html_theme_options = {"no_index": os.environ.get("DOCS_PREVIEW") == "true"}
-html_baseurl = "https://analogdevicesinc.github.io/dex-01-sim-assets/"
+html_baseurl = f"https://analogdevicesinc.github.io/dex-01-sim-assets/{version}/"
 html_extra_path = ["../LICENSE", "../NOTICE", "../LICENSE_Tesollo"]
 linkcheck_timeout = 15
 linkcheck_retries = 2

@@ -24,8 +24,8 @@ adoc serve -d docs
 
 This requires no Isaac Sim, GPU, CUDA, or simulation LFS files. Generated files
 are ignored by Git. Keep documentation dependency upgrades in reviewed PRs.
-The pinned ADI release and shared-action commit are intentional; do not replace
-them with moving `latest` or `action` references.
+The pinned ADI toolchain release is intentional; keep dependency upgrades in
+reviewed changes.
 
 Author Markdown with MyST. Use meaningful section labels and toctrees, explicit
 units, figures with captions and alt text, and small readable code examples.

@@ -58,6 +58,7 @@ readme = re.sub(r"\]\((?!https?://|#)([^)]+)\)", lambda m: f"]({base}{m[1]})", r
     "extensions = ['adi_doctools', 'myst_parser', 'sphinx.ext.githubpages']\n"
     "source_suffix = {'.md': 'markdown'}\n"
     "html_theme = 'harmonic'\n"
+    f"html_baseurl = 'https://analogdevicesinc.github.io/dex-01-sim-assets/{args.tag}/'\n"
     "templates_path = ['_templates']\n"
     "html_static_path = ['_static']\n"
     "html_js_files = [('repository-metadata.js', {'priority': 200})]\n"

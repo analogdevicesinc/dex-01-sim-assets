@@ -40,34 +40,17 @@ jobs:
       name: github-pages
       url: ${{ steps.pages.outputs.page_url }}
     steps:
-      - uses: analogdevicesinc/doctools/gh-pages-rm-path@16221a9772561a2ad885314a339a1fb3208a4fa7
+      - uses: actions/checkout@v4
         with:
-          path: pull/${{ github.event.number }}
-      - name: Label documentation versions
-        if: env.gh_pages_exist == 'true'
-        run: |
-          python - <<'PYVERSIONS'
-          import json, re
-          from pathlib import Path
-          path = Path("tags.json")
-          keys = json.loads(path.read_text())
-          labels = {}
-          if "" in keys and Path("index.html").exists():
-              current = re.search(r'<meta name="version" content="([^"]*)"', Path("index.html").read_text())[1]
-              labels[""] = [current, "development" if current == "main" else "current"]
-          for key in keys:
-              if not key:
-                  continue
-              if key.startswith("pull/"):
-                  labels[key] = [f"PR #{key.split('/')[1]}", "preview"]
-              else:
-                  labels[key] = [key, "prerelease" if re.search(r"(?:-|[ab]|rc)", key) else "release"]
-          path.write_text(json.dumps(labels, indent=2) + "\n")
-          PYVERSIONS
+          path: workflow
+          lfs: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: ./workflow/.github/actions/documentation-site
       - uses: actions/upload-pages-artifact@v4
-        if: env.gh_pages_exist == 'true'
         with:
-          path: .
+          path: site-artifact
       - uses: actions/deploy-pages@v4
-        if: env.gh_pages_exist == 'true'
         id: pages

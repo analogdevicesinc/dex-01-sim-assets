@@ -2,16 +2,18 @@
 
 Maintainer configuration for the Documentation workflows. Local authoring and
 media reproduction are covered in `DOCUMENTATION.md` at the repository root.
-ADI's publisher follows its [shared publishing guide](https://analogdevicesinc.github.io/doctools/deploy/).
+The site uses ADI's Harmonic theme and its `tags.json` version-menu format.
+The repository's local publishing action assembles the complete site so that
+development pushes cannot replace stable releases.
 
 ## One-time repository setup
 
 1. In **Settings → Pages**, choose **GitHub Actions** before the first deployment.
-   ADI's shared action maintains versioned output in `gh-pages`; the official
+   The local publishing action maintains versioned output in `gh-pages`; the official
    Pages actions explicitly upload and deploy it. A `GITHUB_TOKEN` branch push
    alone does not trigger a Pages rebuild.
-2. Ensure organization policy permits the pinned ADI actions and their nested
-   GitHub/ADI actions. Publishing uses `GITHUB_TOKEN` with `contents: write`,
+2. Ensure organization policy permits the official GitHub actions used in the
+   workflows. Publishing uses `GITHUB_TOKEN` with `contents: write`,
    `pull-requests: read`, `pages: write`, and `id-token: write`; builds use read
    permissions. In **Settings → Environments → github-pages**, select
    **Selected branches and tags**. Keep the `main` branch rule, add a branch
@@ -46,8 +48,9 @@ Registration can be requested separately for discoverability.
 
 | Event | Output |
 |---|---|
-| Push to `main` | Current root site; also backfills the historical prerelease |
-| Push of `v` followed by a digit | Root site and snapshot under the tag path |
+| Push to `main` | Replace `/main/`; backfill the historical prerelease once |
+| New stable `vMAJOR.MINOR.PATCH` tag | Retain docs at the tag path; highest stable version becomes the default |
+| New prerelease tag | Retain docs at the tag path; keep the stable default |
 | Same-repository PR | Build artifact and hosted `pull/<number>/` preview |
 | Fork PR | Read-only build and downloadable artifact; no publishing |
 | Same-repository PR closes | Its hosted preview is removed |
@@ -57,25 +60,39 @@ from the workflow run's `html` artifact; extract it and serve it with
 `python -m http.server --bind 127.0.0.1`. The site URL is under
 `https://analogdevicesinc.github.io/dex-01-sim-assets/pull/<number>/`.
 
-ADI’s publisher maintains `.nojekyll`, `objects.inv`, and `tags.json`. Before
-the Pages artifact upload, the workflow uses ADI’s supported fine-grained
-metadata format to label prereleases explicitly and PR entries as previews.
-Publishing and cleanup share a concurrency group and explicitly deploy the
-complete prepared site. Main/tag deployments replace the root while preserving
-version directories. A main push after a release therefore makes the root
-main again; always consult the displayed version when reproducing a result.
+The root `/` redirects to the highest published stable semantic version,
+ordered numerically by major, minor, and patch. For example, `v0.10.0` is newer
+than `v0.3.0`. Before any stable release exists, it redirects to `/main/`.
+A site containing only previews or historical prereleases shows a landing page
+instead of making a PR preview the default. This selection is based on the
+version tag, not the order of deployments or the GitHub Release “latest” flag.
 
-A same-repository documentation PR can be the first publication: its preview
-is available at `pull/<number>/` even before main has been built. The version
-metadata does not invent a main entry until the root site exists.
-The workflow checks the current PR state before publishing and before Pages
-deployment, so a build queued behind preview cleanup cannot restore a closed PR.
+The publisher updates only the intended version directory. Main and PR builds
+replace their directory completely, removing stale pages and assets. Release
+directories are retained unchanged. A rerun with identical release output is
+allowed; different output for an existing tag fails instead of overwriting it.
+Publish a new tag for changed release documentation.
+
+`tags.json` is generated from all published versions and read by the ADI theme
+for the version dropdown. It labels the highest stable release “latest stable,”
+`main` as “development,” prereleases, and PR previews. It has no root-version
+entry, since the root is a redirect. Do not hand-edit the generated menu.
+The sitemap contains development and release pages, and excludes PR previews.
+
+Publishing and cleanup share a concurrency group. Every publication and cleanup
+reads the current open PR list, removes stale previews, and deploys the complete
+site. A preview build queued after closing cannot restore that PR's directory.
+Files removed from the live site remain in `gh-pages` Git history.
 
 The existing `v0.1.0-a.1` tag predates the site. The historical builder reads
-its original README and licenses with `git show`, labels it as a historical
-prerelease, and builds it with the pinned ADI theme. It does not change the tag
-or its runtime code. Main builds include that snapshot inside the current
-artifact and publish both in one deployment. New release tags include the full site.
+its original README and licenses with `git show` and labels it as a historical
+prerelease. Main builds upload it separately and the publisher installs it only
+if the historical directory is absent. Later main builds leave its files intact.
+This does not change the original tag or runtime code.
+
+The first deployment also migrates output from the previous root-based layout:
+root documentation is retained under its version name, existing release paths
+are preserved, and the root becomes the default-version redirect.
 
 ## Checks and recovery
 
