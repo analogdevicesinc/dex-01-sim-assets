@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="This prerelease predates the documentation site. The content below is its original tagged README, not the current main documentation." name="description" />
+
+    <title>v0.1.0-a.1 — historical prerelease &#8212; DEX-01 Tactile Sensor  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="_static/app.min.css?v=b1d7a81a" />
+    <script src="_static/repository-metadata.js?v=968c5fa1"></script>
+    <script async="async" src="_static/app.umd.js?v=048c1170"></script>
+    <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/v0.1.0-a.1/" />
+    <link rel="index" title="Index" href="genindex/" />
+    <link rel="search" title="Search" href="search/" />
+
+   
+  
+  
+  
+  <meta name="repository" content="dex-01-sim-assets">
+  <meta name="version" content="v0.1.0a1">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+<meta name="docs-source-ref" content="v0.1.0-a.1">
+
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="#">
+          <div>DEX-01 Tactile Sensor</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">v0.1.0-a.1 — historical prerelease</a><ul>
+<li><a class="reference internal" href="#dex-01-tactile-sensor">DEX-01 Tactile Sensor</a></li>
+<li><a class="reference internal" href="#install">Install</a></li>
+<li><a class="reference internal" href="#run-and-view">Run and view</a><ul>
+<li><a class="reference internal" href="#press-a-stationary-gear-with-a-fixed-wrist">Press a stationary gear with a fixed wrist</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#verify-a-known-load">Verify a known load</a></li>
+<li><a class="reference internal" href="#read-data-and-attach-the-sensor">Read data and attach the sensor</a></li>
+<li><a class="reference internal" href="#numerical-settings">Numerical settings</a></li>
+<li><a class="reference internal" href="#troubleshooting-contributions-and-license">Troubleshooting, contributions and license</a></li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="no-logo" href="#">
+      DEX-01 Tactile Sensor
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="v0-1-0-a-1-historical-prerelease">
+<h1>v0.1.0-a.1 — historical prerelease<a class="headerlink" href="#v0-1-0-a-1-historical-prerelease" title="Link to this heading"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This prerelease predates the documentation site. The content below is its
+original tagged README, not the current main documentation.</p>
+</div>
+<section id="dex-01-tactile-sensor">
+<h2>DEX-01 Tactile Sensor<a class="headerlink" href="#dex-01-tactile-sensor" title="Link to this heading"></a></h2>
+<p>An Isaac Lab tactile sensor model with a physically scaled DEX-01 V10 fingertip
+on the Tesollo DG-5F hand. The fingertip is one exterior-only mesh, approximately
+32.70 x 22.41 x 19.00 mm, with a 22.40 x 19.00 mm rear profile. It has 738 contact
+samples mapped into a 32x32 firmware frame.</p>
+<p>The model queries the counter object’s PhysX signed distance field (SDF) and
+distributes the measured normal contact load across penetrating samples by
+depth, following <a class="icon link reference external" href="https://arxiv.org/abs/2408.06506" target="_blank">TacSL</a>. These are simulation
+contact forces, not calibrated hardware readings.</p>
+</section>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading"></a></h2>
+<p>Verified on Linux x86_64 with Isaac Sim 5.1.0, Python 3.11, GLIBC 2.35+ and a
+supported NVIDIA GPU/driver. Install Git, Git LFS, GCC, G++, Make and
+<a class="icon link reference external" href="https://docs.astral.sh/uv/getting-started/installation/" target="_blank">uv</a> first. Allow tens
+of gigabytes of disk space for Isaac Sim.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>lfs<span class="w"> </span>pull
+./setup_env.sh
+<span class="nb">source</span><span class="w"> </span>../env_isaaclab/bin/activate
+</pre></div>
+</div>
+<p>Setup installs Python, Isaac Sim, PyTorch, the full Isaac Lab extensions and
+this package. It installs CMake 3.x for native dependencies such as <code class="docutils literal notranslate"><span class="pre">egl-probe</span></code>.
+Fresh Isaac Lab checkouts use the tested revision recorded in the script;
+existing checkouts are preserved. Use <code class="docutils literal notranslate"><span class="pre">--venv</span> <span class="pre">PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">--isaaclab</span> <span class="pre">PATH</span></code> for
+other locations. The first run may request NVIDIA’s EULA, download extensions
+and compile shaders. With an existing Isaac Lab installation, install into
+its Python environment using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/path/to/IsaacLab/isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>source/dex01_sim_asset
+</pre></div>
+</div>
+</section>
+<section id="run-and-view">
+<h2>Run and view<a class="headerlink" href="#run-and-view" title="Link to this heading"></a></h2>
+<p>For a local desktop:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py
+</pre></div>
+</div>
+<p>For a remote headless host:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py<span class="w"> </span>--livestream<span class="o">=</span><span class="m">2</span>
+</pre></div>
+</div>
+<p>Open the <a class="icon link reference external" href="https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/manual_livestream_clients.html" target="_blank">Isaac Sim WebRTC Streaming Client</a>
+on the viewing computer. Wait for <code class="docutils literal notranslate"><span class="pre">Setup</span> <span class="pre">complete...</span></code>, enter the host’s reachable
+IP address and connect. TCP 49100 and UDP 47998 must be reachable. <code class="docutils literal notranslate"><span class="pre">--livestream=2</span></code>
+is for a private network; NVIDIA’s guide covers public endpoints. Run one
+streaming simulator at a time on these ports.</p>
+<p>A gear contacts fingers 2–5 in turn. The Isaac Sim viewport includes live
+firmware heatmaps and each finger’s measured normal load in newtons, so they
+appear in the WebRTC GUI. Blue is zero load; cyan, yellow and red show increasing
+force per taxel, with a shared adaptive scale printed below the images. Grey
+cells have no sensor taxel. Firmware row/column positions are preserved, with
+no smoothing: the contact footprint (including gear teeth when resolved by the
+sampling) is visible rather than just an aggregate force. These frames unwrap
+the curved fingertip; they are not an optical picture of the object.</p>
+<p>The same overlay is enabled in <code class="docutils literal notranslate"><span class="pre">simple_example.py</span></code> and <code class="docutils literal notranslate"><span class="pre">verify_dex01_sim.py</span></code>.
+Only environment 0 is displayed when running multiple environments. Add
+<code class="docutils literal notranslate"><span class="pre">--no-tactile-ui</span></code> to hide it, <code class="docutils literal notranslate"><span class="pre">--local-plot</span></code> to the hand demo for the optional
+separate desktop plot, or <code class="docutils literal notranslate"><span class="pre">--debug-vis</span></code> for 3D sampling markers. Stop with Ctrl+C.
+Pure headless runs without streaming skip the UI. Offscreen camera recordings
+exclude Kit UI; the existing recorder adds its own heatmaps to the video.</p>
+<section id="press-a-stationary-gear-with-a-fixed-wrist">
+<h3>Press a stationary gear with a fixed wrist<a class="headerlink" href="#press-a-stationary-gear-with-a-fixed-wrist" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_stationary_press.py<span class="w"> </span>--livestream<span class="o">=</span><span class="m">2</span>
+</pre></div>
+</div>
+<p>The wrist remains fixed. Finger 2’s MCP, PIP and DIP flexion joints are driven
+with actuator position targets to bend the fingertip toward the stationary gear,
+hold contact, then extend back to rest. The original fixed-base hand is used;
+there is no sliding fixture. Setup samples an articulated endpoint to place the
+gear against the pad and orient its face to the endpoint surface normal.
+Runtime motion uses joint targets, not joint-state or root-pose teleportation.</p>
+<p>The GUI shows the fixed wrist, visible finger articulation, measured loads in
+newtons and firmware contact footprints. The force is read from PhysX and
+redistributed across penetrating taxels. Joint gains and endpoint fractions are
+simulation demo settings, not DG-5F hardware specifications.</p>
+<p>Record three cycles and independently verify wrist/object invariance, actual
+joint movement, fingertip travel, contact, mapping and release:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_stationary_press.py<span class="w"> </span>--livestream<span class="o">=</span><span class="m">2</span><span class="w"> </span>--max-steps<span class="w"> </span><span class="m">900</span><span class="w"> </span>--verification-report<span class="w"> </span>/tmp/dex01-articulated.json
+python<span class="w"> </span>scripts/dex01_stationary_press.py<span class="w"> </span>--check-report<span class="w"> </span>/tmp/dex01-articulated.json
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--press-time-scale</span></code> controls the physical joint trajectory timing. The default
+cycle is 2.5 simulation seconds; observed duration depends on host performance. The target
+force is a contact-seeking threshold, not guaranteed force tracking. A small
+gear’s individual teeth may not resolve in the sparse fingertip contact patch.
+The existing flat-pad example is suited to viewing broader object footprints.</p>
+<p>To record one cycle with both the rendered hand and taxel heatmaps, install
+<code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py<span class="w"> </span>--headless<span class="w"> </span>--enable_cameras<span class="w"> </span>--record<span class="w"> </span>--video-dir<span class="w"> </span>./videos
+</pre></div>
+</div>
+</section>
+</section>
+<section id="verify-a-known-load">
+<h2>Verify a known load<a class="headerlink" href="#verify-a-known-load" title="Link to this heading"></a></h2>
+<p>In the activated setup environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>scipy<span class="w"> </span>rtree
+<span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py<span class="w"> </span>--headless<span class="w"> </span>--flat-indenter<span class="w"> </span>--max-steps<span class="w"> </span><span class="m">1200</span><span class="w"> </span>--verify-thumb<span class="w"> </span>--verification-report<span class="w"> </span>/tmp/dex01-hand.json
+python<span class="w"> </span>scripts/verify_dex01_sim.py<span class="w"> </span>--check-hand-report<span class="w"> </span>/tmp/dex01-hand.json
+</pre></div>
+</div>
+<p>The 0.1 kg flat load should settle near <strong>0.981 N</strong> on each pressed finger,
+with zero on unloaded fingers. The checker verifies forces, counter-object
+filtering and momentum balance, then reports the separate thumb probe result.
+The gear can rock and is not a calibration load.</p>
+<p>For the complete 738-contact sweep, or for multiple-angle inspection images:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/verify_dex01_sim.py<span class="w"> </span>--headless<span class="w"> </span>--sweep-all<span class="w"> </span>--transformed-probe<span class="w"> </span>--num-envs<span class="w"> </span><span class="m">2</span><span class="w"> </span>--report<span class="w"> </span>/tmp/dex01-contact.json
+<span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py<span class="w"> </span>--headless<span class="w"> </span>--enable_cameras<span class="w"> </span>--max-steps<span class="w"> </span><span class="m">1</span><span class="w"> </span>--inspection-dir<span class="w"> </span>/tmp/dex01-views
+</pre></div>
+</div>
+</section>
+<section id="read-data-and-attach-the-sensor">
+<h2>Read data and attach the sensor<a class="headerlink" href="#read-data-and-attach-the-sensor" title="Link to this heading"></a></h2>
+<p>Simulator modules must be imported after <code class="docutils literal notranslate"><span class="pre">AppLauncher</span></code> starts Isaac Sim.
+Inside a running scene:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">sensor</span> <span class="o">=</span> <span class="n">scene</span><span class="p">[</span><span class="s2">"finger2_sensor"</span><span class="p">]</span>
+<span class="n">forces_n</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">normal_forces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 738 values</span>
+<span class="n">frame_n</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">get_tactile_image</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 32 x 32 firmware frame</span>
+<span class="n">rows</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">taxel2pixel</span><span class="o">.</span><span class="n">T</span>
+<span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">frame_n</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">],</span> <span class="n">forces_n</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Load (N):"</span><span class="p">,</span> <span class="n">forces_n</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Unoccupied pixels are zero. World positions and normals are available in
+<code class="docutils literal notranslate"><span class="pre">taxel_points_w</span></code> and <code class="docutils literal notranslate"><span class="pre">taxel_normals_w</span></code>. <code class="docutils literal notranslate"><span class="pre">depths</span></code> is negative in contact and zero
+otherwise; <code class="docutils literal notranslate"><span class="pre">depth_dots</span></code> is in metres per second.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">GridPatternCfg</span></code> for a flat pad, <code class="docutils literal notranslate"><span class="pre">CustomPatternCfg</span></code> for arbitrary NPZ poses,
+or <code class="docutils literal notranslate"><span class="pre">Dex01PatternCfg</span></code> for the V10 exterior. Custom NPZ files contain <code class="docutils literal notranslate"><span class="pre">poses</span></code> of
+shape <code class="docutils literal notranslate"><span class="pre">(N,3,4)</span></code>, with the third axis as the surface normal, and integer
+<code class="docutils literal notranslate"><span class="pre">taxel2pixel</span></code> pairs <code class="docutils literal notranslate"><span class="pre">(row,column)</span></code>. <code class="docutils literal notranslate"><span class="pre">dex01_pattern.npz</span></code> preserves the corrected
+original layout; <code class="docutils literal notranslate"><span class="pre">dex01_contact_v10.npz</span></code> contains the exterior sampling poses.
+Their taxel order and pixel mapping are identical.</p>
+<p>The original layout aligns to the overmold interior by one translation of
+approximately <code class="docutils literal notranslate"><span class="pre">(-2.775670,</span> <span class="pre">-0.0000166,</span> <span class="pre">-1.429237)</span></code> mm in the sensor frame, with
+no scaling, additional rotation or individual taxel movement. Reference-CAD
+comparison gave 1.37 µm RMS and 4.29 µm maximum residual. Contact poses were then
+projected along the original normals through approximately 1.43 mm of overmold.
+<code class="docutils literal notranslate"><span class="pre">assets/sensors/dex01/reference.json</span></code> records this shift and the mounting offset.
+Offset quaternions use <code class="docutils literal notranslate"><span class="pre">(w,x,y,z)</span></code>; translations and OBJ coordinates use metres.</p>
+<p>Both sensor body and counter object need contact sensors enabled. The sensor
+body must use compliant contact; the counter object requires an SDF collision
+mesh. Use the matching mounting offset and a small timestep. The
+<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/v0.1.0-a.1/scripts/verify_dex01_sim.py" target="_blank">verification example</a> contains a complete scene
+with a local sphere; the <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/v0.1.0-a.1/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a> shows robot
+attachment. The released OBJ is the editable exterior source; regenerate its
+USD with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/build_dex01_asset.py</span></code> after updating the source hash
+in <code class="docutils literal notranslate"><span class="pre">reference.json</span></code>.</p>
+<p>Supported counter objects are rigid bodies or articulation links, one per
+sensor, with positive uniform scale and a fixed mesh-to-body transform shared
+across environments. The hand demo uses 20 g sensor mass, 10,000 N/m contact
+stiffness and 50 N s/m damping at a 1/240 s timestep. These are simulation
+parameters. Only normal forces are modeled; material response, shear,
+hysteresis, manufacturing tolerances and physical calibration are not established.
+Fit was checked in the supplied hand pose, not every articulation angle.</p>
+</section>
+<section id="numerical-settings">
+<h2>Numerical settings<a class="headerlink" href="#numerical-settings" title="Link to this heading"></a></h2>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Values</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mount_translation_m</span></code>, <code class="docutils literal notranslate"><span class="pre">mount_rotation_wxyz</span></code></p></td>
+<td><p>Fixed transform from the original taxel coordinates into the mounted fingertip frame; metres and <code class="docutils literal notranslate"><span class="pre">(w,x,y,z)</span></code> quaternion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">registration_shift_in_sensor_m</span></code></p></td>
+<td><p>Translation fitted to the overmold interior, with no scaling or rotation of the distribution.</p></td>
+</tr>
+<tr class="row-even"><td><p>0.1 kg and 9.81 m/s²</p></td>
+<td><p>Known-load fixture; their product is the expected 0.981 N.</p></td>
+</tr>
+<tr class="row-odd"><td><p>20 g, 10,000 N/m, 50 N s/m</p></td>
+<td><p>Compliant rigid-body simulation parameters, not measured hardware properties.</p></td>
+</tr>
+<tr class="row-even"><td><p>1/240 s, 192 position and 4 velocity iterations</p></td>
+<td><p>Conservative validated demo solver settings; not a claimed optimal configuration.</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.1 mm contact offset; SDF resolutions 384/128</p></td>
+<td><p>Numerical contact margin and field resolutions for the sensor/test objects; unrelated to taxel count.</p></td>
+</tr>
+<tr class="row-even"><td><p>1 ms SDF probe time</p></td>
+<td><p>Finite-difference half-width used to estimate depth rate, independent of the physics timestep.</p></td>
+</tr>
+<tr class="row-odd"><td><p>5% load and 1 mm thumb-centroid tolerances</p></td>
+<td><p>Verification acceptance bounds, not physical sensor specifications.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Camera positions, colors, gear scale and plot cadence are presentation choices.
+Joint-holding gains are inherited demo settings; they are not identified DG-5F
+actuator parameters. Contact sampling and geometry have been checked in the
+supplied pose; full articulated clearance and hardware force calibration remain
+unverified. The normal-force distribution follows the net PhysX contact result
+and cannot resolve independently measured multiple simultaneous contact loads.</p>
+</section>
+<section id="troubleshooting-contributions-and-license">
+<h2>Troubleshooting, contributions and license<a class="headerlink" href="#troubleshooting-contributions-and-license" title="Link to this heading"></a></h2>
+<p>For mesh loading failures, run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span> <span class="pre">pull</span></code>. For <code class="docutils literal notranslate"><span class="pre">egl-probe</span></code> build failures,
+use the setup script’s CMake 3.x and check GCC/G++/Make. If streaming fails,
+check startup logs and network ports. Activate the installation environment
+before launching and import simulator modules after <code class="docutils literal notranslate"><span class="pre">AppLauncher</span></code>. Include
+the command, versions, GPU model and final error lines when opening an issue.</p>
+<p>See <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/v0.1.0-a.1/CONTRIBUTING.md" target="_blank">CONTRIBUTING.md</a> for test dependencies, formatting and
+required Developer Certificate of Origin sign-offs. ADI-authored code and
+assets use <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/v0.1.0-a.1/LICENSE" target="_blank">Apache-2.0</a>. Isaac Lab adaptations and the Tesollo hand
+retain BSD-3-Clause terms in <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/v0.1.0-a.1/NOTICE" target="_blank">NOTICE</a>; the exact Tesollo license is
+retained in <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/v0.1.0-a.1/LICENSE_Tesollo" target="_blank">LICENSE_Tesollo</a>. The demos fetch the gear from
+NVIDIA’s asset server under NVIDIA’s terms; it is not redistributed here.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <div></div>
+    <div></div>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2026, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>

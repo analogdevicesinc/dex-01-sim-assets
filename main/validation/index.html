@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="These commands launch Isaac Sim unless they only check an existing report. Complete installation first." name="description" />
+
+    <title>Validation &#8212; DEX-01 Tactile Sensor documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=b1d7a81a" />
+    <link rel="stylesheet" type="text/css" href="../_static/example-media.css?v=e4883b01" />
+    <script src="../_static/repository-metadata.js?v=968c5fa1"></script>
+    <script async="async" src="../_static/app.umd.js?v=048c1170"></script>
+    <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/main/validation/" />
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Troubleshooting" href="../troubleshooting/" />
+    <link rel="prev" title="Compatibility" href="../reference/compatibility/" />
+
+   
+  
+  
+  
+  <meta name="repository" content="dex-01-sim-assets">
+  <meta name="version" content="main">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+<meta name="docs-source-ref" content="845c0d49063cf8c185ab652a7d36b51d04504030">
+
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="../">
+          <div>DEX-01 Tactile Sensor</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">Validation</a><ul>
+<li><a class="reference internal" href="#verified-fixture-results">Verified fixture results</a></li>
+<li><a class="reference internal" href="#inspect-the-assembled-geometry">Inspect the assembled geometry</a></li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="no-logo" href="../">
+      DEX-01 Tactile Sensor
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <p class="caption" role="heading">
+  <span class="caption-text">Get started</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/quickstart/">Your first simulation</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Examples</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/">Explore the examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/flat-pad/">Flat-pad example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/hand/">Tesollo hand demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/stationary-press/">Press a stationary gear</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Guides</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/read-data/">Read tactile data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/patterns/">Configure taxel patterns</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Concepts and reference</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/model/">Contact-force model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/geometry/">Geometry and coordinate frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/limitations/">Supported model behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/api/">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/numerical-settings/">Numerical settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/compatibility/">Compatibility</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Validation and support</span>
+</p>
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licensing/">Licensing and attribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citation/">Citation</a></li>
+</ul>
+
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="validation">
+<h1>Validation<a class="headerlink" href="#validation" title="Link to this heading"></a></h1>
+<p>These commands launch Isaac Sim unless they only check an existing report.
+Complete <a class="reference internal" href="../getting-started/installation/"><span class="std std-doc">installation</span></a> first.</p>
+<p>In the activated setup environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>scipy<span class="w"> </span>rtree
+<span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--flat-indenter<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-steps<span class="w"> </span><span class="m">1200</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--verify-thumb<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--verification-report<span class="w"> </span>/tmp/dex01-hand.json
+python<span class="w"> </span>scripts/verify_dex01_sim.py<span class="w"> </span>--check-hand-report<span class="w"> </span>/tmp/dex01-hand.json
+</pre></div>
+</div>
+<p>The 0.1 kg flat load should settle near <strong>0.981 N</strong> on each pressed finger,
+with zero on unloaded fingers. The checker verifies forces, counter-object
+filtering and momentum balance, then reports the separate thumb probe result.
+The gear can rock and is not a calibration load.</p>
+<p>For the complete 738-contact sweep:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/verify_dex01_sim.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sweep-all<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--transformed-probe<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-envs<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--report<span class="w"> </span>/tmp/dex01-contact.json
+</pre></div>
+</div>
+<p>For articulated motion checks, see <a class="reference internal" href="../examples/stationary-press/"><span class="std std-doc">stationary pressing</span></a>.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/known-load.svg"><img alt="Four force traces for fingers 2 through 5 settling around the dashed 0.981 newton fixture-weight reference." src="../_images/known-load.svg" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The full load cycles include the initial impact transient. The lower panels
+show the final 20% used for settling checks. The dashed line is <code class="docutils literal notranslate"><span class="pre">m</span> <span class="pre">×</span> <span class="pre">g</span></code>.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="verified-fixture-results">
+<h2>Verified fixture results<a class="headerlink" href="#verified-fixture-results" title="Link to this heading"></a></h2>
+<p>On October 12, 2026, the unchanged runtime at commit
+<code class="docutils literal notranslate"><span class="pre">3818a8388c970ced7ad03539668d26c1a68e0add</span></code> was checked on Linux with
+Isaac Sim 5.1.0 and NVIDIA RTX 4500 Ada hardware:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Check</p></th>
+<th class="head"><p>Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Repository geometry, mapping, force, and visualization tests</p></td>
+<td><p>98 passed</p></td>
+</tr>
+<tr class="row-odd"><td><p>Flat-load report checker, fingers 2–5</p></td>
+<td><p>0.980522, 0.980521, 0.980793, 0.981630 N; unloaded fingers zero</p></td>
+</tr>
+<tr class="row-even"><td><p>Thumb localization and counter-object filtering</p></td>
+<td><p>Passed</p></td>
+</tr>
+<tr class="row-odd"><td><p>All 738 taxels, transformed probes, two environments</p></td>
+<td><p>Passed</p></td>
+</tr>
+<tr class="row-even"><td><p>Fixed-wrist articulated press and release checker</p></td>
+<td><p>Passed; reported sustained load 3.916 N</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The hand report checker also checks filtered PhysX force agreement and
+momentum balance. These results establish the tested physical-force fixtures and trajectories.
+Check new articulated poses for clearance as part of task validation.
+The articulated run emitted a warning that the gear’s inherited articulation
+root was ignored on its kinematic body; its invariant and contact checks passed.</p>
+</section>
+<section id="inspect-the-assembled-geometry">
+<h2>Inspect the assembled geometry<a class="headerlink" href="#inspect-the-assembled-geometry" title="Link to this heading"></a></h2>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/loaded-contact.webp"><img alt="Native simulator-camera close-up showing the cube contacting the mounted DEX-01 fingertip and the neighboring finger pads." src="../_images/loaded-contact.webp" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The captured flat-load fixture retains the verified live body poses. Native
+RTX rendering preserves those poses and the recorded tactile frames.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>On a host with the validated display/camera driver, generate several views:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--enable_cameras<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-steps<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--inspection-dir<span class="w"> </span>/tmp/dex01-views
+</pre></div>
+</div>
+<p>Inspect the output images for five fully mounted fingertips, clearance around
+the rigid finger backing, and alignment of the contact sample markers with the
+exterior. For any new trajectory, check contact and release as well as the
+visual fit. A screenshot complements the numerical checks; it does not replace
+a force or invariance report.</p>
+<p>Re-run the commands above when geometry or sensing changes. Keep the JSON
+reports and simulator logs with review evidence. Documentation build checks
+validate the site, while these commands validate the simulation.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="../reference/compatibility/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Compatibility</a>
+    <a href="../troubleshooting/" title="Next document (Alt+Shift+RightArrow)" class="next">Troubleshooting</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2026, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>
