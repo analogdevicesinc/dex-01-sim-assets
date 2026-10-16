@@ -21,7 +21,7 @@ with zero on unloaded fingers. The checker verifies forces, counter-object
 filtering and momentum balance, then reports the separate thumb probe result.
 The gear can rock and is not a calibration load.
 
-For the complete 738-contact sweep:
+For the complete 740-contact sweep:
 
 ```bash
 python scripts/verify_dex01_sim.py \
@@ -44,23 +44,17 @@ show the final 20% used for settling checks. The dashed line is `m × g`.
 
 ## Verified fixture results
 
-On October 12, 2026, the unchanged runtime at commit
-`3818a8388c970ced7ad03539668d26c1a68e0add` was checked on Linux with
-Isaac Sim 5.1.0 and NVIDIA RTX 4500 Ada hardware:
+The supplied 740-taxel layout passes the following simulation fixtures:
 
 | Check | Result |
 |---|---|
-| Repository geometry, mapping, force, and visualization tests | 98 passed |
-| Flat-load report checker, fingers 2–5 | 0.980522, 0.980521, 0.980793, 0.981630 N; unloaded fingers zero |
+| Flat-load fixture, fingers 2–5 | 0.9805–0.9816 N against the 0.981 N reference; unloaded fingers zero |
 | Thumb localization and counter-object filtering | Passed |
-| All 738 taxels, transformed probes, two environments | Passed |
-| Fixed-wrist articulated press and release checker | Passed; reported sustained load 3.916 N |
+| All 740 taxels, transformed probes, two environments | Passed |
 
 The hand report checker also checks filtered PhysX force agreement and
-momentum balance. These results establish the tested physical-force fixtures and trajectories.
-Check new articulated poses for clearance as part of task validation.
-The articulated run emitted a warning that the gear's inherited articulation
-root was ignored on its kinematic body; its invariant and contact checks passed.
+momentum balance. Check new articulated poses for clearance, contact, and
+release using the stationary-press example.
 
 ## Inspect the assembled geometry
 

@@ -97,7 +97,7 @@ class CustomPatternCfg(PatternBaseCfg):
 
 @configclass
 class Dex01PatternCfg(CustomPatternCfg):
-    """DEX-01 fingertip layout: 738 taxels mapped into a 32x32 frame.
+    """DEX-01 fingertip layout: 740 taxels mapped into a 32x32 frame.
 
     Contact poses are registered to the DEX-01 overmold exterior. Firmware pixel
     indices are unchanged; the original reference remains in dex01_pattern.npz.

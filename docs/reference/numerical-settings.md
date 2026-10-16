@@ -15,7 +15,7 @@ The hand demo uses 20 g sensor mass, 10,000 N/m contact stiffness, and
 | 1 ms SDF probe time | Finite-difference half-width used to estimate depth rate, independent of the physics timestep. |
 | 5% load and 1 mm thumb-centroid tolerances | Verification acceptance bounds, not physical sensor specifications. |
 
-The DEX-01 frame still contains 738 taxel values in a 32 × 32 layout. A sensor
+The DEX-01 frame contains 740 taxel values in a 32 × 32 layout. A sensor
 updated every step can provide 240 frames per simulated second; wall-clock
 throughput depends on the host. The stationary-press demo uses a 1/120 s timestep.
 

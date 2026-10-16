@@ -3,9 +3,8 @@
 Use `GridPatternCfg` for a flat pad, `CustomPatternCfg` for arbitrary NPZ poses,
 or `Dex01PatternCfg` for the DEX-01 exterior. Custom NPZ files contain `poses` of
 shape `(N,3,4)`, with the third axis as the surface normal, and integer
-`taxel2pixel` pairs `(row,column)`. `dex01_pattern.npz` preserves the corrected
-original layout; the exterior pattern supplied by `Dex01PatternCfg` contains
-the contact sampling poses.
+`taxel2pixel` pairs `(row,column)`. `dex01_pattern.npz` stores the source
+layout; `Dex01PatternCfg` supplies exterior contact sampling poses.
 Their taxel order and pixel mapping are identical.
 
 Read [geometry and coordinate frames](../concepts/geometry.md) before changing
@@ -13,7 +12,7 @@ a layout or mounting transform. Pattern configuration requires an initialized
 Isaac Sim application.
 
 ```{figure} ../media/taxel-mapping.svg
-:alt: The 738 contact samples on the curved fingertip and their matching occupied locations in the 32 by 32 firmware frame.
+:alt: The 740 contact samples on the curved fingertip and their matching occupied locations in the 32 by 32 firmware frame.
 :width: 100%
 
 The same firmware rows color the exterior samples and frame locations.
