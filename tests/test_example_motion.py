@@ -76,13 +76,12 @@ def test_invalid_grid_sequence_is_rejected(error):
         renderer.validate_motion(manifest, arrays)
 
 
-@pytest.mark.parametrize("num_taxels", [738, 740])
-def test_dex01_capture_layouts_pass(num_taxels):
+def test_dex01_capture_layout_passes():
     manifest, arrays = grid_capture()
     with np.load(
         ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz", allow_pickle=False
     ) as data:
-        pixels = data["taxel2pixel"][:num_taxels]
+        pixels = data["taxel2pixel"]
     manifest["labels"] = [f"Finger {i}" for i in range(1, 6)]
     arrays["frames"] = np.zeros((4, 5, 32, 32))
     arrays["taxel2pixel"] = pixels
@@ -90,11 +89,14 @@ def test_dex01_capture_layouts_pass(num_taxels):
     renderer.validate_motion(manifest, arrays)
 
 
-def test_unknown_dex01_capture_layout_is_rejected():
+def test_incomplete_dex01_capture_layout_is_rejected():
     manifest, arrays = grid_capture()
     manifest["labels"] = [f"Finger {i}" for i in range(1, 6)]
     arrays["frames"] = np.zeros((4, 5, 32, 32))
-    arrays["taxel2pixel"] = arrays["taxel2pixel"][:739]
+    with np.load(
+        ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz", allow_pickle=False
+    ) as data:
+        arrays["taxel2pixel"] = data["taxel2pixel"][:-1]
     with pytest.raises(ValueError, match="layout"):
         renderer.validate_motion(manifest, arrays)
 
