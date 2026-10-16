@@ -42,20 +42,6 @@ The full load cycles include the initial impact transient. The lower panels
 show the final 20% used for settling checks. The dashed line is `m × g`.
 ```
 
-## Restored 740-site layout validation
-
-On October 16, 2026, the restored layout passed 126 regression tests and a fresh
-Isaac Sim 5.1 GPU sweep on NVIDIA RTX 4500 Ada hardware. The sweep exercised all
-740 unique firmware cells using an offset, rotated, scaled probe, with a second
-inactive environment checked for isolation. Both restored cells `(8, 0)` and
-`(8, 31)` produced localized contact; their centroid errors were 33.72 and
-38.89 µm. The validation report records the source, contact-layout, sensor USD,
-and runtime hashes. Geometry checks independently verify the complete physical
-mask, preserved 738-site prefix, exterior placement, normals, and metadata.
-
-The appended interior positions are reconstructed estimates. These checks
-validate their mapping and simulation behavior, not original CAD placement.
-
 ## Verified fixture results
 
 On October 12, 2026, the unchanged runtime at commit

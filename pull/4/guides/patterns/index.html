@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="ed6a16fd578e435179810cbc83ed85ea0b6c149e">
+<meta name="docs-source-ref" content="5f9cf4ad950c9fa7b871d00afd9b2ca3b28e0fee">
 
   </head>
   
@@ -103,7 +103,6 @@
 <li><a class="reference internal" href="#">Configure taxel patterns</a><ul>
 <li><a class="reference internal" href="#configuration-fields">Configuration fields</a></li>
 <li><a class="reference internal" href="#validate-a-custom-layout">Validate a custom layout</a></li>
-<li><a class="reference internal" href="#restored-edge-sites">Restored edge sites</a></li>
 </ul>
 </li>
 </ul>
@@ -265,28 +264,7 @@ supplied exterior pattern.</p>
 axis is the outward surface normal. Pixel indices start at zero and are
 ordered <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">column)</span></code>. Empty cells are automatically zero-filled; choose
 indices appropriate to the frame dimensions your consumer expects.</p>
-</section>
-<section id="restored-edge-sites">
-<h2>Restored edge sites<a class="headerlink" href="#restored-edge-sites" title="Link to this heading"></a></h2>
-<p>The layout contains all 740 cells in <code class="docutils literal notranslate"><span class="pre">assets/sensors/dex01/physical-mask.json</span></code>.
-The previous export omitted firmware cells <code class="docutils literal notranslate"><span class="pre">(8,</span> <span class="pre">0)</span></code> and <code class="docutils literal notranslate"><span class="pre">(8,</span> <span class="pre">31)</span></code>. These two
-sites are appended, so the original 738 taxel indices and poses are preserved.
-Their interior positions are estimated by quadratic continuation of rows 9–11
-on the corresponding side panel. This is a reconstruction, not an original CAD
-export. The contact positions are projected onto the shipped exterior OBJ along
-its interpolated CAD normals. <code class="docutils literal notranslate"><span class="pre">reference.json</span></code> records this provenance, the
-estimation checks, and hashes of the preserved arrays. The neighboring-row
-holdout errors support this reconstruction method; they do not bound the
-unknown original placement error of the two restored sites.</p>
-<p>To reproduce the restored layouts and sensor metadata:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/restore_dex01_taxels.py
-python<span class="w"> </span>scripts/restore_dex01_taxels.py<span class="w"> </span>--check
-python<span class="w"> </span>scripts/build_dex01_asset.py
-</pre></div>
-</div>
-<p>The 32 × 32 firmware frame contains 740 occupied and 284 unoccupied cells.
-Recorded documentation captures made with the earlier 738-site layout retain
-their original counts and hashes; they do not validate the restored sites.</p>
+<p>The supplied DEX-01 layout has 740 occupied cells and 284 empty cells.</p>
 </section>
 </section>
 

@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="ed6a16fd578e435179810cbc83ed85ea0b6c149e">
+<meta name="docs-source-ref" content="5f9cf4ad950c9fa7b871d00afd9b2ca3b28e0fee">
 
   </head>
   
@@ -101,7 +101,6 @@
         <nav>
           <ul>
 <li><a class="reference internal" href="#">Validation</a><ul>
-<li><a class="reference internal" href="#restored-740-site-layout-validation">Restored 740-site layout validation</a></li>
 <li><a class="reference internal" href="#verified-fixture-results">Verified fixture results</a></li>
 <li><a class="reference internal" href="#inspect-the-assembled-geometry">Inspect the assembled geometry</a></li>
 </ul>
@@ -234,19 +233,6 @@ The gear can rock and is not a calibration load.</p>
 show the final 20% used for settling checks. The dashed line is <code class="docutils literal notranslate"><span class="pre">m</span> <span class="pre">×</span> <span class="pre">g</span></code>.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<section id="restored-740-site-layout-validation">
-<h2>Restored 740-site layout validation<a class="headerlink" href="#restored-740-site-layout-validation" title="Link to this heading"></a></h2>
-<p>On October 16, 2026, the restored layout passed 126 regression tests and a fresh
-Isaac Sim 5.1 GPU sweep on NVIDIA RTX 4500 Ada hardware. The sweep exercised all
-740 unique firmware cells using an offset, rotated, scaled probe, with a second
-inactive environment checked for isolation. Both restored cells <code class="docutils literal notranslate"><span class="pre">(8,</span> <span class="pre">0)</span></code> and
-<code class="docutils literal notranslate"><span class="pre">(8,</span> <span class="pre">31)</span></code> produced localized contact; their centroid errors were 33.72 and
-38.89 µm. The validation report records the source, contact-layout, sensor USD,
-and runtime hashes. Geometry checks independently verify the complete physical
-mask, preserved 738-site prefix, exterior placement, normals, and metadata.</p>
-<p>The appended interior positions are reconstructed estimates. These checks
-validate their mapping and simulation behavior, not original CAD placement.</p>
-</section>
 <section id="verified-fixture-results">
 <h2>Verified fixture results<a class="headerlink" href="#verified-fixture-results" title="Link to this heading"></a></h2>
 <p>On October 12, 2026, the unchanged runtime at commit

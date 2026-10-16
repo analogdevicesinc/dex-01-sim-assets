@@ -57,27 +57,4 @@ axis is the outward surface normal. Pixel indices start at zero and are
 ordered `(row, column)`. Empty cells are automatically zero-filled; choose
 indices appropriate to the frame dimensions your consumer expects.
 
-## Restored edge sites
-
-The layout contains all 740 cells in `assets/sensors/dex01/physical-mask.json`.
-The previous export omitted firmware cells `(8, 0)` and `(8, 31)`. These two
-sites are appended, so the original 738 taxel indices and poses are preserved.
-Their interior positions are estimated by quadratic continuation of rows 9–11
-on the corresponding side panel. This is a reconstruction, not an original CAD
-export. The contact positions are projected onto the shipped exterior OBJ along
-its interpolated CAD normals. `reference.json` records this provenance, the
-estimation checks, and hashes of the preserved arrays. The neighboring-row
-holdout errors support this reconstruction method; they do not bound the
-unknown original placement error of the two restored sites.
-
-To reproduce the restored layouts and sensor metadata:
-
-```bash
-python scripts/restore_dex01_taxels.py
-python scripts/restore_dex01_taxels.py --check
-python scripts/build_dex01_asset.py
-```
-
-The 32 × 32 firmware frame contains 740 occupied and 284 unoccupied cells.
-Recorded documentation captures made with the earlier 738-site layout retain
-their original counts and hashes; they do not validate the restored sites.
+The supplied DEX-01 layout has 740 occupied cells and 284 empty cells.
