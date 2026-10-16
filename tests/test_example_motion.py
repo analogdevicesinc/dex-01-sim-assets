@@ -103,7 +103,7 @@ def test_incomplete_dex01_capture_layout_is_rejected():
 
 def test_unused_dex01_pixels_cannot_hide_force():
     manifest, arrays = grid_capture()
-    with np.load(ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz") as p:
+    with np.load(ROOT / "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_pattern.npz") as p:
         pixels = p["taxel2pixel"]
     manifest.update(labels=[f"Finger {i}" for i in range(1, 6)])
     arrays["frames"] = np.zeros((4, 5, 32, 32))
@@ -118,7 +118,7 @@ def test_unused_dex01_pixels_cannot_hide_force():
 
 def test_stationary_press_rejects_moving_wrist():
     manifest, arrays = grid_capture()
-    with np.load(ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz") as p:
+    with np.load(ROOT / "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_pattern.npz") as p:
         pixels = p["taxel2pixel"]
     manifest.update(
         example="stationary-press",

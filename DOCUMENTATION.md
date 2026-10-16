@@ -52,10 +52,10 @@ Use the scene-capture utility in the simulation environment:
 
 ```bash
 python -m pip install scipy rtree matplotlib
-MPLBACKEND=Agg python scripts/docs/export_scene.py \
+MPLBACKEND=Agg python physx/scripts/docs/export_scene.py \
   --output /tmp/dex01-docs-state \
   --steps 240
-python scripts/docs/plot_validation.py \
+python physx/scripts/docs/plot_validation.py \
   --hand-report /tmp/dex01-hand.json \
   --output docs/media
 ```
@@ -118,11 +118,11 @@ loaded object, and all five frame labels before accepting it.
 Capture the actual source examples in the installed simulation environment:
 
 ```bash
-python scripts/docs/capture_examples.py \
+python physx/scripts/docs/capture_examples.py \
   --example flat-pad --output /tmp/dex01-examples/flat-pad
-python scripts/docs/capture_examples.py \
+python physx/scripts/docs/capture_examples.py \
   --example hand --output /tmp/dex01-examples/hand
-python scripts/docs/capture_examples.py \
+python physx/scripts/docs/capture_examples.py \
   --example stationary-press --output /tmp/dex01-examples/stationary-press
 ```
 
@@ -163,12 +163,12 @@ the burned-in header states the phase even when captions are disabled.
 ## Record a simulation
 
 For a live view from another computer, use the
-[remote viewing setup](docs/getting-started/installation.md#view-a-remote-simulation).
+[remote viewing setup](docs/physx/installation.md#view-a-remote-simulation).
 To save a run for review or sharing, activate the installed simulation
 environment, install `ffmpeg`, and run from the repository root:
 
 ```bash
-MPLBACKEND=Agg python scripts/dex01_on_tesollo_dg5f.py \
+MPLBACKEND=Agg python physx/scripts/dex01_on_tesollo_dg5f.py \
   --headless \
   --enable_cameras \
   --record \

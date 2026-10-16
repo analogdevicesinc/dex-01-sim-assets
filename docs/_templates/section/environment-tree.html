@@ -1,0 +1,18 @@
+{% macro render_environment_tree(active_environment, environment_toc_tree, toc_tree, pathto) -%}
+<div class="environment-navigation-content">
+{% if active_environment %}
+  <p class="caption"><a class="reference internal" href="{{ pathto(active_environment + '/index') }}">{{ "PhysX" if active_environment == "physx" else "Newton" }} workflow</a></p>
+  {{ environment_toc_tree }}
+  <p class="caption">Shared sensor reference</p>
+  <ul>
+    <li><a class="reference internal" href="{{ pathto('concepts/model') }}">Contact model</a></li>
+    <li><a class="reference internal" href="{{ pathto('concepts/geometry') }}">Geometry</a></li>
+    <li><a class="reference internal" href="{{ pathto('concepts/patterns') }}">Taxel patterns</a></li>
+    <li><a class="reference internal" href="{{ pathto('reference/data') }}">Tactile data</a></li>
+    <li><a class="reference internal" href="{{ pathto('reference/compatibility') }}">Compatibility</a></li>
+  </ul>
+{% else %}
+  {{ toc_tree }}
+{% endif %}
+</div>
+{%- endmacro %}

@@ -1,0 +1,15 @@
+{% if environment_navigation %}
+<nav class="environment-choice" aria-label="Simulation environment">
+  <a data-doc-target="" href="{{ pathto('index') }}">Choose environment</a>
+  <a data-doc-target="physx" href="{{ pathto('physx/index') }}"{% if active_environment == 'physx' %} aria-current="true"{% endif %}>PhysX</a>
+  <a data-doc-target="newton" href="{{ pathto('newton/index') }}"{% if active_environment == 'newton' %} aria-current="true"{% endif %}>Newton</a>
+</nav>
+{% endif %}
+<input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">All content</label>
+<label id="show-toc" for="input-switch-toc">Content on this topic</label>
+<div class="repotoc-tree">{{ repotoc_tree }}</div>
+<div class="toc-tree">
+{% from "section/environment-tree.html" import render_environment_tree %}
+{{ render_environment_tree(active_environment|default(''), environment_toc_tree|default(''), toc_tree, pathto) }}
+</div>

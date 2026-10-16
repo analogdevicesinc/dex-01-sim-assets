@@ -6,9 +6,10 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution and licensing rules,
 
 ## Structure and contracts
 
-- `source/dex01_sim_asset/` contains the sensor package and release metadata.
+- `physx/` and `newton/` contain independent backend packages, installers,
+  examples, and tests. `common/` owns shared patterns and data contracts.
   `assets/` contains sensor geometry and mounted Tesollo USDs. `scripts/`
-  contains builders, examples, verification, and documentation tools.
+  contains shared asset builders and documentation tools.
 - SDK, firmware, and CAD sources inform the simulation assets. Change this
   repository unless the task explicitly includes an upstream modification.
 - Follow the coordinate conventions in [geometry documentation](docs/concepts/geometry.md).
@@ -17,8 +18,8 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution and licensing rules,
   mounting transforms, and hashes. The referenced NPZs define the layout and
   pixel mapping; do not duplicate their counts or frame dimensions here.
 - Follow the schema and validation in
-  [taxel_patterns.py](source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns.py).
-  Check firmware addresses against [asset tests](tests/test_dex01_assets.py).
+  [taxel_patterns.py](common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/taxel_patterns.py).
+  Check firmware addresses against [asset tests](common/tests/test_dex01_assets.py).
   Preserve mapping order, zero-filled unused cells, and exterior alignment.
 - Preserve force conservation, counter-object filtering, and environment
   isolation. Materialize LFS assets before use and update generated assets
@@ -26,7 +27,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution and licensing rules,
 
 ## Validation
 
-Use [setup_env.sh](setup_env.sh) for toolchain pins and
+Use the selected backend installer ([PhysX](physx/setup_env.sh), [Newton](newton/setup_env.sh)) for toolchain pins and
 [CI](.github/workflows/ci.yml) for CPU test dependencies. Follow the code style
 and hooks in [.pre-commit-config.yaml](.pre-commit-config.yaml). Use the commands
 in [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/validation.md](docs/validation.md).
@@ -37,7 +38,7 @@ in [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/validation.md](docs/validation.m
 | Layout, CAD, USD, or mounting | Geometry/mapping tests and the live sweep documented in `docs/validation.md`. Check scale, surface alignment, normals, and hashes. |
 | Force/contact handling | Localized-contact and known-load checks, including force balance, filtering, thumb coverage, and unloaded environments as applicable. |
 | Motion, recording, or visualization | Relevant example/replay checks; inspect physical poses, dimensions, contact alignment, and displayed forces. |
-| Version or package contents | Build the wheel from `source/dex01_sim_asset`; inspect version, taxel assets, and license files. |
+| Version or package contents | Build the wheel from the affected packages; inspect version, taxel assets, and license files. |
 | Published docs/configuration | Build using `docs/Makefile` and `DOCUMENTATION.md`; inspect affected pages and figures. |
 | Instructions or prose only | Applicable pre-commit hooks; no simulation run is needed unless behavior or assets change. |
 
@@ -47,7 +48,7 @@ when subsequent edits affect their results. Report any unavailable checks.
 
 ## Versioning and documentation
 
-- [extension.toml](source/dex01_sim_asset/config/extension.toml) is the package/docs
+- [extension.toml](physx/source/dex01_sim_asset/config/extension.toml) is the package/docs
   version source. Increment the patch version for behavioral or asset bugfixes,
   retaining the prerelease stage. Instructions-only changes need no product bump.
 - Product documentation and docstrings explain current behavior, usage,

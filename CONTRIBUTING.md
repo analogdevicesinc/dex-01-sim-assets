@@ -23,29 +23,28 @@ Maintainers must check sign-offs before accepting contributions.
 
 ## Development checks
 
-Install Git LFS and fetch the assets before running the tests or demos.
-After running `setup_env.sh` and activating its environment, install the
-additional test tools and enable the hooks:
+Install Git LFS and fetch shared assets before running geometry tests. Choose
+`physx/setup_env.sh` or `newton/setup_env.sh` for live simulation work; their
+Python environments and backend packages are separate.
 
-```bash
-python -m pip install pytest pre-commit scipy rtree
-pre-commit install
-```
+For CPU checks, use Python 3.11 or 3.12 with NumPy, Torch, pytest, Matplotlib,
+Trimesh, SciPy, Rtree, Pillow, imageio-ffmpeg and usd-core 26.8. From the root:
 
 ```bash
 pre-commit run --all-files
-python -m pytest tests -q
+python -m pytest -q
 ```
 
-The tests cover taxel mapping, rigid transforms, force calculation, visualization,
-exterior geometry and mounting without launching Isaac Sim. Changes to sensing
-or geometry must also pass the live checks in [the validation guide](docs/validation.md).
+Pytest discovers shared checks under `tests/` and `common/tests/`, plus backend
+checks under `physx/tests/` and `newton/tests/`. Backend CPU suites can also be
+selected explicitly. CI runs the complete CPU suite on Python 3.11 and 3.12.
 
-Newton uses the separate pinned Python 3.12 environment described in the README.
-CPU CI runs on Python 3.11 and 3.12; the Newton integration module requires CUDA.
-Run it with `DEX01_REQUIRE_NEWTON_TESTS=1` so missing dependencies or GPU access
-fail instead of skipping. Run the live contact sweep and load/press verification
-when changing Newton sensing, solver versions or collider geometry.
+Geometry or sensing changes must pass the selected backend's live validation:
+[PhysX](docs/physx/validation.md) or [Newton](docs/newton/validation.md).
+Require the Newton GPU suite with `DEX01_REQUIRE_NEWTON_TESTS=1`; absent runtime
+dependencies or CUDA then fail instead of skipping. A passing CPU suite does
+not establish GPU contact or camera correctness. Keep reports and logs with
+the exact source and package versions.
 
 ## Licensing documents
 
@@ -54,8 +53,8 @@ license and attribution files. Preserve existing third-party copyright notices
 and license terms when modifying adapted material. Keep [LICENSE_Tesollo](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/LICENSE_Tesollo)
 exactly as supplied by Tesollo.
 
-The three license files are also copied into `source/dex01_sim_asset/` so that
-both Python wheels and source distributions include them. When updating the
+The three license files are copied into the common, PhysX and Newton package
+roots so that every wheel and source distribution includes them. When updating the
 root files, update those copies in the same change. CI checks that they match.
 
 Publish the final approved SBOM and licensing collateral as release attachments.

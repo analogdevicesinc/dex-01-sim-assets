@@ -1,7 +1,7 @@
 {
-  "pattern_path": "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz",
+  "pattern_path": "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_pattern.npz",
   "pattern_sha256": "8536143feec43e362896c2c9fa6665ffa3a5e074fc709ab2b25ad67d728f2856",
-  "contact_pattern_path": "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz",
+  "contact_pattern_path": "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_contact.npz",
   "contact_pattern_sha256": "463716137c0add66ca9a53c2d1e3bab8a1197cb9fbf8bfb7c9d67576930da966",
   "mount_rotation_wxyz": [
     0,

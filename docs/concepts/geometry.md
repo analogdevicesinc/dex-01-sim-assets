@@ -8,7 +8,8 @@ callbacks use XYZW; convert at that interface, not in the stored pattern.
 
 The fingertip exterior is 32.70 × 22.41 × 19.00 mm; its rear profile is
 22.40 × 19.00 mm. OBJ positions, mounting translations, and simulator
-positions are stored in **metres**. Quaternions use **`(w, x, y, z)`**.
+positions are stored in **metres**. Reference mounting and public taxel quaternions use **`(w, x, y, z)`**;
+backend state interfaces document their own conventions.
 
 ## Registration and mounting
 
@@ -27,14 +28,14 @@ The mounted sensor and Tesollo hand USD assets live under `assets/robots/tesollo
 Taxel NPZ files ship inside the Python package. Fetch them with `git lfs pull`.
 
 The geometry builder and verification scripts are the reference workflow for
-changes; see [attachment](../guides/attachment.md) and [validation](../validation.md).
+changes; see [attachment](../physx/attachment.md) and [validation](../validation.md).
 
 ## Transform a contact sample
 
 An NPZ pose stores its three local axes in columns 0–2 and position in column 3.
 Column 2 is the outward normal. First apply the mount rotation and translation
 from `reference.json` to obtain coordinates in the sensor rigid body. Then
-apply that body's live world pose from PhysX. For a point `p`:
+apply that body's live world pose from the selected simulator. For a point `p`:
 
 ```text
 p_body  = R_mount p_pattern + t_mount

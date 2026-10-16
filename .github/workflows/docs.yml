@@ -47,9 +47,17 @@ jobs:
       - name: Install documentation dependencies
         run: python -m pip install -r docs/requirements.txt pytest
       - name: Verify versioned publishing behavior
-        run: python -m pytest tests/test_documentation_publishing.py -q
+        run: python -m pytest tests/test_documentation_publishing.py tests/test_documentation_structure.py -q
       - name: Build documentation
         run: make -C docs html
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify environment navigation through ADI transitions
+        run: |
+          npm --prefix docs/tests ci --ignore-scripts
+          python scripts/build_historical_docs.py --output /tmp/dex01-navigation-historical
+          DOCS_SITE_ROOT="$PWD/docs/_build/html" DOCS_HISTORICAL_ROOT=/tmp/dex01-navigation-historical npm --prefix docs/tests test
       - name: Build historical prerelease from tagged sources
         if: github.ref == 'refs/heads/main'
         env:

@@ -2,4 +2,9 @@
 {% block extrahead %}
 {{ super() }}
 <meta name="docs-source-ref" content="{{ docs_source_ref|e }}">
+{% if environment_navigation %}
+{% from "section/environment-tree.html" import render_environment_tree %}
+<meta name="docs-environment" content="{{ active_environment|default('')|e }}">
+<meta name="docs-navigation-html" content="{{ render_environment_tree(active_environment|default(''), environment_toc_tree|default(''), toc_tree, pathto)|forceescape }}">
+{% endif %}
 {% endblock %}

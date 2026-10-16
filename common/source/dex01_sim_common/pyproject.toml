@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dex01-sim-common"
+version = "0.1.0a1"
+description = "Shared DEX-01 sensor utilities"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "LICENSE_Tesollo"]
+authors = [{name = "Analog Devices, Inc."}]
+dependencies = ["numpy", "torch", "matplotlib"]
+
+[tool.setuptools.packages.find]
+include = ["dex01_sim_common", "dex01_sim_common.*"]
+
+
+[tool.setuptools.package-data]
+"dex01_sim_common.taxel_patterns" = ["*.npz"]

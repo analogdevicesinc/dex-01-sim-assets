@@ -1,0 +1,7 @@
+{
+  "name": "dex01-doc-navigation-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "node --test navigation.test.mjs"},
+  "devDependencies": {"jsdom": "26.1.0"}
+}

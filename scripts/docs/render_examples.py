@@ -52,6 +52,7 @@ def validate_motion(manifest, arrays):
     if mask.sum() != len(pixels) or frames.shape[2:] != (32, 32) or (frames[:, :, ~mask] != 0).any():
         raise ValueError("Captured force frames contain invalid unoccupied cells")
     if manifest.get("backend") == "newton":
+        validate_newton_schedule(manifest)
         steps = np.asarray(manifest["steps"])
         if not np.array_equal(np.diff(steps), np.full(count - 1, manifest["capture_stride"])):
             raise ValueError("Newton capture omits sampled ticks")
@@ -77,6 +78,43 @@ def validate_motion(manifest, arrays):
             index = manifest["body_paths"].index(name)
             if np.ptp(poses[:, index], axis=0).max() > 1e-5:
                 raise ValueError("The wrist or stationary gear moves during the captured press")
+
+
+def validate_newton_schedule(manifest):
+    """Require the complete sampled run, not a plausible short slice."""
+    import numpy as np
+
+    requested = manifest.get("requested_steps")
+    completed = manifest.get("completed_steps")
+    mode = manifest["example"]
+    if mode not in ("hand", "stationary-press"):
+        raise ValueError("Unsupported Newton capture mode")
+    period = 600 if mode == "stationary-press" else 360
+    minimum = 1800 if mode == "stationary-press" else 1440
+    if (
+        type(requested) is not int
+        or type(completed) is not int
+        or completed != requested
+        or requested < minimum
+        or requested % period
+        or manifest["capture_stride"] != 8
+        or manifest["physics_dt_s"] != 1 / 240
+        or manifest["playback_fps"] != 30
+    ):
+        raise ValueError("Newton capture requires a complete verified run")
+    expected = np.arange(1200, 1800, 8) if mode == "stationary-press" else np.arange(0, requested, 8)
+    if not np.array_equal(manifest["steps"], expected) or manifest["frame_count"] != len(expected):
+        raise ValueError("Newton capture omits expected beginning, ending or sampled ticks")
+    phases = []
+    for step in expected:
+        t = step / 240 % 2.5
+        phases.append(
+            ("unloaded" if t < 0.25 else "approach" if t < 1 else "hold" if t < 1.5 else "retract")
+            if mode == "stationary-press"
+            else f"Finger {2 + (step // 360) % 4} contact"
+        )
+    if manifest["phases"] != phases:
+        raise ValueError("Newton capture phase labels differ from simulation steps")
 
 
 def main():
@@ -405,7 +443,7 @@ def composite(rgb, frames, pixels, manifest, index, time_s, slowdown, detail=Non
 
     repo = Path(__file__).resolve().parents[2]
     spec = importlib.util.spec_from_file_location(
-        "tactile_colors", repo / "source/dex01_sim_asset/dex01_sim_asset/vis_utils/viewport.py"
+        "tactile_colors", repo / "common/source/dex01_sim_common/dex01_sim_common/vis_utils/viewport.py"
     )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

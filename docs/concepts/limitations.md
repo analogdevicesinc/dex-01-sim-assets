@@ -1,47 +1,44 @@
-# Supported model behavior
+# Model scope and limitations
 
-The sensor reports physical normal contact force in newtons. Known-load checks
-verify that a 0.1 kg fixture under 9.81 m/s² produces approximately 0.981 N.
+Both environments represent normal contact against one configured counter
+object per sensor. Their output follows simulated normal contact load; it is
+not a calibrated model of hardware material response.
 
-## Contact representation
+## Contact and geometry
 
-Each sensor reads contact against one configured rigid body or articulation
-link. Penetration into its SDF determines the relative force distribution across
-taxels; the sum follows the selected backend's filtered normal contact result. The model does not provide
+The exterior, mounting transform, projected contact samples and firmware
+mapping are shared. Frames unwrap the curved surface. Features smaller than
+the local sample spacing, including fine gear teeth, can remain unresolved.
+Grey visualization cells have no taxel; occupied cells at zero load use the
+zero-force color.
+
+The model does not provide shear, hysteresis, manufacturing tolerances or
 independent force estimates for multiple counter objects on one sensor.
+Changing geometry, scale, material settings or a joint trajectory requires
+new fixture and clearance checks. A screenshot complements these checks but
+cannot replace force, mapping or fixed-pose evidence.
 
-Frames unwrap the curved sensing surface into firmware row/column coordinates.
-They show sampled contact footprints. Features smaller than the local sampling
-spacing, including fine gear teeth, can be unresolved. Grey visualization cells
-have no taxel; active cells at zero force remain in the zero-force color.
-If physical contact occurs entirely between sampling points, there is no
-penetrating taxel to receive force and the tactile frame remains zero. On
-curved patches, the reported total is a projection of the net contact-force
-vector onto the weighted sampling normal; opposing contact directions can
-cancel. It is not a sum of individually measured local contact forces.
+If physical contact occurs entirely between sampling points, no penetrating
+taxel receives force and the tactile frame remains zero. On curved patches,
+the total projects the net contact-force vector onto the weighted sampling
+normal; opposing contact directions can cancel. It is not a sum of independently
+measured local contact forces.
 
-## Dynamics and geometry
+## Environment constraints
 
-The current interface reports normal forces. Shear and material hysteresis
-require a different model. Contact stiffness, damping, timestep, and actuator
-gains are configured simulation parameters; see [numerical settings](../reference/numerical-settings.md).
+PhysX supports a rigid body or articulation link with a fixed mesh-to-body
+transform and positive uniform scale. Its counter collision uses SDF and the
+sensor body uses compliant contact; see [attachment](../physx/attachment.md).
 
-The released exterior, mounting, contact sample projection, and supplied hand
-pose are checked. The PhysX articulated fixture verifies its fixed wrist, finger
-motion, contact, and release. Assess clearance for any new pose or trajectory
-before using it in a task. See [validation](../validation.md).
+Newton binds one sensing link and matching counter collider per environment.
+Its counter mesh must be closed and nondegenerate, scale positive and uniform,
+and collider-to-link transform fixed. Contact data must update every tick;
+see [attachment](../newton/attachment.md).
 
-## Newton boundaries
+## What validation establishes
 
-One matching sensing link and counter collider per environment is supported.
-The counter mesh must be closed and nondegenerate, with positive uniform scale
-and a fixed collider-to-link transform. Contact updates must run every physics
-tick. Multiple independent counter objects on one sensor, shear, hysteresis and
-hardware calibration are not modeled.
-
-The single-sensor Newton demo uses the curved fingertip; it is not the PhysX
-flat-grid example. Newton hand validation checks fingers 2–5 and unloaded
-fingers, without the separate PhysX thumb probe. Newton press reports check
-joint motion, fixed wrist/object, hold and release, but their live CUDA run has
-not been repeated on this checkout. Source parameters and CPU tests alone do
-not establish articulated clearance or solver correctness.
+The PhysX track records known-load, all-taxel and articulated fixture results
+for specified revisions. Newton CPU mathematics, capture and recording tests
+do not establish CUDA contact or camera correctness. Use the selected
+[validation workflow](../validation.md), keep its exact revision and package
+provenance, and assess clearance for any new pose or task.

@@ -1,81 +1,62 @@
-# DEX-01 Tactile Sensor
+# DEX-01 tactile simulation
 
-Choose **PhysX (Isaac Sim 5.1)** or **Newton (Isaac Lab 3.0 Early Access)**
-when following the installation and example commands. Patterns, firmware mapping
-and public tactile data are shared; configuration and simulation APIs differ.
-The images below are PhysX captures. Newton GPU validation and media remain pending.
+Simulate normal contact loads on the DEX-01 fingertip, with 738 surface samples
+mapped into its 32 × 32 firmware frame. The physical geometry and data format
+are shared; each simulation environment has its own installation and workflow.
 
-Simulate normal contact forces on a DEX-01 fingertip in NVIDIA Isaac Lab,
-with 740 contact samples mapped into the sensor's 32 × 32 firmware frame.
+## Choose your environment
 
-```{figure} media/dex01-demo.webp
-:alt: PhysX scene showing all five dark DEX-01 fingertips mounted on a Tesollo hand, with finger 2 loaded and its tactile frame active.
-:width: 100%
+<div class="environment-cards">
+<a class="environment-card" href="physx/"><strong>PhysX</strong><span>Isaac Sim 5.1 · Python 3.11</span><span>Established load and contact fixtures, a flat-grid demo, Tesollo hand and WebRTC examples.</span><span>Install and follow the PhysX workflow →</span></a>
+<a class="environment-card" href="newton/"><strong>Newton</strong><span>Isaac Lab 3.0 Early Access · Python 3.12</span><span>Native SDF contacts with MuJoCo-Warp, validated hand and press fixtures, and recorded Newton examples.</span><span>Install and follow the Newton workflow →</span></a>
+</div>
 
-A 0.1 kg cube contacts finger 2 on the Tesollo DG-5F hand. Each panel reports
-physical normal force in newtons using the original firmware pixel mapping.
-```
+Choose a track before installing. Both tracks live in the same repository,
+but use separate Python environments and backend packages. See
+[compatibility](reference/compatibility.md) for version and validation status.
 
-Browse [the visual examples](examples/index.md) to see contact and articulation
-before setting up a scene.
+## Understand the sensor
 
-Start with [installation](getting-started/installation.md), then
-[run your first simulation](getting-started/quickstart.md).
-For integration, see [attaching the sensor](guides/attachment.md) and the
-[API reference](reference/api.md).
+[Contact model](concepts/model.md), [geometry](concepts/geometry.md),
+[patterns](concepts/patterns.md) and [tactile data](reference/data.md)
+apply to both environments. A force frame is an unwrapped sampling of the
+fingertip surface, not a camera image. Summing the taxel forces gives normal
+load in newtons; hardware calibration, shear and material hysteresis are outside
+this model.
 
-## From contact to physical force
-
-Each tactile frame reports **normal force in newtons**. A 0.1 kg fixture under
-9.81 m/s² gravity should produce 0.981 N; the [validation workflow](validation.md)
-checks this against independently filtered PhysX forces and momentum balance.
-See [how contact is modeled](concepts/model.md) and its
-[supported model behavior](concepts/limitations.md).
+Browse [examples by environment](examples/index.md), or read
+[the repository layout](reference/repository.md) before contributing.
 
 ```{toctree}
-:maxdepth: 1
-:caption: Get started
+:hidden:
+:maxdepth: 2
+:caption: Simulation environments
 
-getting-started/installation
-getting-started/quickstart
-getting-started/newton
+physx/index
+newton/index
 ```
 
 ```{toctree}
+:hidden:
 :maxdepth: 1
-:caption: Examples
-
-examples/index
-examples/flat-pad
-examples/hand
-examples/stationary-press
-```
-
-```{toctree}
-:maxdepth: 1
-:caption: Guides
-
-guides/attachment
-guides/read-data
-guides/patterns
-```
-
-```{toctree}
-:maxdepth: 1
-:caption: Concepts and reference
+:caption: Shared sensor concepts
 
 concepts/model
 concepts/geometry
+concepts/patterns
 concepts/limitations
-reference/api
-reference/numerical-settings
-reference/compatibility
 ```
 
 ```{toctree}
+:hidden:
 :maxdepth: 1
-:caption: Validation and support
+:caption: Shared reference and project
 
+reference/data
+reference/api
+reference/compatibility
+reference/repository
+examples/index
 validation
 troubleshooting
 contributing

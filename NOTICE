@@ -9,8 +9,8 @@ Isaac Lab
 Portions of the following files are adapted from the RayCaster and
 FrameTransformer sensors in Isaac Lab:
 
-  source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py
-  source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_cfg.py
+  physx/source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py
+  physx/source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_cfg.py
 
 Upstream: https://github.com/isaac-sim/IsaacLab
 License: BSD-3-Clause
@@ -91,9 +91,9 @@ ADI-authored assets
 -------------------
 assets/sensors/dex01/DEX-01-FINGERTIP-outer.obj and its materials,
 assets/robots/tesollo/dex01.usda and
-source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz,
+common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_pattern.npz,
 and
-source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz
+common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_contact.npz
 are ADI-authored and covered by LICENSE.
 
 Assets fetched at runtime

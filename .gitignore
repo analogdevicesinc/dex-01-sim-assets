@@ -5,10 +5,10 @@
 **/*.pyc
 **/.pytest_cache/
 
-# Virtual environments, in case setup_env.sh is pointed inside the repo
+# Environment-local installations
 env_isaaclab/
 .venv/
-.newton/
+.isaaclab/
 
 # Omniverse
 **/*.dmp
@@ -17,6 +17,8 @@ env_isaaclab/
 
 # Demo output
 /videos/
+/physx/videos/
+/newton/videos/
 
 # IDE
 **/.idea/
@@ -38,3 +40,6 @@ docs/_build/
 
 # Optional isolated documentation renderer
 .venv-render/
+
+# Documentation navigation test dependencies
+docs/tests/node_modules/

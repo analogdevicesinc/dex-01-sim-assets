@@ -52,6 +52,7 @@ repos:
     rev: v2.2.6
     hooks:
       - id: codespell
+        exclude: ^docs/tests/package-lock\.json$  # Registry integrity hashes are generated, not prose.
         additional_dependencies:
           - tomli
   - repo: https://github.com/Lucas-C/pre-commit-hooks
@@ -59,14 +60,14 @@ repos:
     hooks:
       - id: insert-license
         files: \.(py|ya?ml)$
-        exclude: ^source/dex01_sim_asset/dex01_sim_asset/tactile_sensor(_cfg)?\.py$
+        exclude: ^physx/source/dex01_sim_asset/dex01_sim_asset/tactile_sensor(_cfg)?\.py$
         args:
           # The header pins its own year, so the hook must not rewrite it.
           - --license-filepath
           - .github/LICENSE_HEADER.txt
       - id: insert-license
         name: Insert license in adapted Isaac Lab sources
-        files: ^source/dex01_sim_asset/dex01_sim_asset/tactile_sensor(_cfg)?\.py$
+        files: ^physx/source/dex01_sim_asset/dex01_sim_asset/tactile_sensor(_cfg)?\.py$
         args:
           - --license-filepath
           - .github/LICENSE_HEADER_BSD.txt
