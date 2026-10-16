@@ -1,7 +1,16 @@
 # Tesollo hand demo
 
+The video and existing example commands on this page use **PhysX**.
+The Newton section describes the corresponding workflow and its differences.
+
 Watch the object contact fingers 2–5 in turn. The active tactile frame follows
 the loaded finger while the remaining fingers stay unloaded.
+
+```{warning}
+The bundled PhysX hand and press media require regeneration after a scale-export
+correction. They are not Newton recordings. See the
+[media provenance notice](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/docs/media/README.md).
+```
 
 <figure class="example-video">
 <video controls playsinline loop preload="none" width="960" height="800"
@@ -64,3 +73,22 @@ is active only on the loaded finger; the total load is near 0.981 N after settli
 
 Use a flat indenter for quantitative [known-load validation](../validation.md).
 The gear can rock and is not a calibration fixture.
+
+## Newton hand load
+
+From the pinned Newton Lab checkout:
+
+```bash
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --mode hand --indenter flat --max-steps 1440 --report /tmp/newton-hand.json
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --check-report /tmp/newton-hand.json
+```
+
+The 0.1 kg fixture loads fingers 2–5 for 360 ticks each at 1/240 s. Use the
+flat fixture for the 0.981 N check; `--indenter gear` is a footprint demo.
+Finger 1 is displayed but this hand checker does not perform the PhysX thumb
+probe. Newton places the gear using its own centered mesh and dimensions;
+the 6.29 mm PhysX gear dimension is not a Newton setting.
+
+Add `--capture /tmp/newton-hand-capture` to export audited environment-zero
+geometry, poses and force arrays into a new directory. The complete report
+must pass before the capture is published. See [recording and replay](../getting-started/newton.md#capture-and-render-newton-evidence).

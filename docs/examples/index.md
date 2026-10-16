@@ -1,5 +1,9 @@
 # Explore the examples
 
+The gallery videos are **PhysX** captures. Use the backend command table below
+for Newton. Newton media have not been produced or validated on this checkout;
+the PhysX clips illustrate the tasks without serving as Newton evidence.
+
 Choose the scene that matches what you want to learn. Each page includes a
 short video, expected behavior, the command to run it, and how to interpret
 its tactile output.
@@ -23,8 +27,17 @@ within each clip; grey indicates unused cells.
 Hand videos include a second native camera view of the contact so the small
 gear remains legible while the overview shows all five fingertips.
 
-## Newton backend
+## Choose a Newton example
 
-See the [Newton guide](../getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
-normal-force interface, collision settings and required GPU checks. The PhysX
-commands, results and media on this page do not establish Newton correctness.
+Run from the pinned Newton Isaac Lab checkout. Prefix each command below with
+`uv run --frozen python /path/to/dex-01-sim-assets/scripts/`.
+
+| Task | Newton command | Layout and behavior |
+|---|---|---|
+| [Single fingertip](flat-pad.md#newton-single-fingertip) | `dex01_newton.py --mode sensor --indenter sphere --max-steps 240` | Curved DEX-01, 738 taxels; not the PhysX flat grid |
+| [Hand load](hand.md#newton-hand-load) | `dex01_newton.py --mode hand --indenter flat --max-steps 1440 --report /tmp/newton-hand.json` | Five firmware frames, sequential known loads |
+| [Stationary press](stationary-press.md#newton-stationary-press) | `dex01_newton.py --mode press --max-steps 1800 --report /tmp/newton-press.json` | Three joint-driven cycles against a fixed gear |
+
+Use `--viz kit` with the `isaacsim` extra for live viewing. The shared
+[model](../concepts/model.md) explains force distribution; the
+[numerical settings](../reference/numerical-settings.md) distinguish solvers.

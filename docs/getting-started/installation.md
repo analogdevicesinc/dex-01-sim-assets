@@ -1,5 +1,11 @@
 # Installation
 
+This page covers both backends. The host checks and `setup_env.sh` workflow
+below apply to **PhysX**. Use the Newton section for the separate Python 3.12
+environment; do not install Newton into the Isaac Sim 5.1 environment.
+
+## PhysX installation
+
 ## Check the host
 
 The supported baseline is Linux x86_64, Python 3.11, GLIBC 2.35 or newer,
@@ -114,3 +120,41 @@ overlay is available in `simple_example.py` and `verify_dex01_sim.py`.
 Use `--no-tactile-ui` to hide it or `--debug-vis` for 3D sampling markers.
 Stop with Ctrl+C. Pure headless runs without streaming skip the viewport.
 Continue with [your first simulation](quickstart.md) to interpret the result.
+
+## Install Newton
+
+From the repository root, fetch the assets and create an isolated EA environment:
+
+```bash
+git lfs pull
+./setup_newton_env.sh
+```
+
+Use `./setup_newton_env.sh --kit` for local viewing or WebRTC, or `--video` for
+recording. The default checkout is `.newton/IsaacLab`; `--isaaclab PATH` selects
+another checkout. Setup requires the exact unmodified pinned revision and uses
+its upstream `uv.lock`. It does not install into the PhysX environment.
+
+Run these commands from the Newton Isaac Lab checkout, replacing the repo path:
+
+```bash
+cd /path/to/dex-01-sim-assets/.newton/IsaacLab
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/newton_preflight.py --isaaclab . --report /tmp/newton-preflight.json
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --mode hand --indenter flat --max-steps 240
+```
+
+The Newton baseline is Python 3.12, Newton 1.5.2, Warp 1.16.0 and
+MuJoCo/MuJoCo-Warp 3.11.0. CUDA is required. Kit uses Isaac Sim 6.1.0;
+the PhysX 5.1 driver recommendation above is not a Newton compatibility claim.
+See the [compatibility matrix](../reference/compatibility.md) and
+[Newton validation](../validation.md#newton-validation).
+
+For WebRTC, install with `--kit`, run from the pinned Lab checkout, and use:
+
+```bash
+PYTHONPATH="$PWD/source/isaaclab" uv run --frozen --extra isaacsim python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --mode hand --viz kit --livestream 2
+```
+
+Accept NVIDIA's license when prompted and connect after `NEWTON_SCENE_READY`.
+Omit `--livestream 2` for a local window. Use `--viz none` for physics without
+Kit. A working `nvidia-smi` is a prerequisite, not proof of rendering correctness.

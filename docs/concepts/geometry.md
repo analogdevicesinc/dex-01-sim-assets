@@ -1,5 +1,11 @@
 # Geometry and coordinate frames
 
+The exterior mesh, 738 contact poses, firmware mapping and mounting metadata
+on this page are shared by PhysX and Newton. Public taxel orientations and
+reference mounting quaternions use WXYZ. Newton's link-state and collider-pose
+callbacks use XYZW; convert at that interface, not in the stored pattern.
+
+
 The fingertip exterior is 32.70 × 22.41 × 19.00 mm; its rear profile is
 22.40 × 19.00 mm. OBJ positions, mounting translations, and simulator
 positions are stored in **metres**. Quaternions use **`(w, x, y, z)`**.

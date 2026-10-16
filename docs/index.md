@@ -1,5 +1,10 @@
 # DEX-01 Tactile Sensor
 
+Choose **PhysX (Isaac Sim 5.1)** or **Newton (Isaac Lab 3.0 Early Access)**
+when following the installation and example commands. Patterns, firmware mapping
+and public tactile data are shared; configuration and simulation APIs differ.
+The images below are PhysX captures. Newton GPU validation and media remain pending.
+
 Simulate normal contact forces on a DEX-01 fingertip in NVIDIA Isaac Lab,
 with 740 contact samples mapped into the sensor's 32 × 32 firmware frame.
 

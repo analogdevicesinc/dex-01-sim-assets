@@ -1,6 +1,6 @@
 # Compatibility
 
-| Component | Tested baseline |
+| Component | PhysX tested baseline |
 |---|---|
 | Host | Linux x86_64, GLIBC 2.35 or newer |
 | Python | 3.11 |
@@ -21,8 +21,21 @@ bug reports. The `v0.1.0-a.1` snapshot is a prerelease, not a stable release.
 Documentation builds use a separate Python environment and require no GPU,
 Isaac Sim, CUDA, or simulation asset downloads.
 
-## Newton backend
+## Newton pinned baseline
 
-See the [Newton guide](../getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
-normal-force interface, collision settings and required GPU checks. The PhysX
-commands, results and media on this page do not establish Newton correctness.
+| Component | Newton configuration |
+|---|---|
+| Host | Linux x86_64 with working NVIDIA CUDA driver |
+| Python | 3.12, isolated from PhysX |
+| Isaac Lab | `v3.0.0-EA`, `ae37b028ea415c91ea2bc32609efcd759ed2b974` |
+| Newton / Warp | 1.5.2 / 1.16.0 |
+| MuJoCo / MuJoCo-Warp | 3.11.0 / 3.11.0 |
+| Torch | 2.11.0 in upstream frozen lockfile |
+| Kit viewing / streaming | Isaac Sim 6.1.0; `isaacsim` extra |
+| Video | `isaacsim` and `video` extras; live camera uses NewtonWarpRenderer |
+| Documentation RTX replay | Separate rendering environment; recorded physics stays stopped |
+
+CPU mathematics, report, capture and recording tests run on Python 3.11 and 3.12.
+They do not replace CUDA integration. Current Newton GPU physics, live camera
+and replay media validation remain pending. The PhysX R580 driver statement is
+specific to Isaac Sim 5.1; check the EA runtime's host requirements independently.

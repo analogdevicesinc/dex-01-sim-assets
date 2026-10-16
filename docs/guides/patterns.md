@@ -8,8 +8,9 @@ layout; `Dex01PatternCfg` supplies exterior contact sampling poses.
 Their taxel order and pixel mapping are identical.
 
 Read [geometry and coordinate frames](../concepts/geometry.md) before changing
-a layout or mounting transform. Pattern configuration requires an initialized
-Isaac Sim application.
+a layout or mounting transform. Patterns work with both backends. Import them
+inside the selected simulation environment; PhysX requires AppLauncher first,
+while Newton can use the pinned environment without Kit for headless physics.
 
 ```{figure} ../media/taxel-mapping.svg
 :alt: The 740 contact samples on the curved fingertip and their matching occupied locations in the 32 by 32 firmware frame.
@@ -55,3 +56,13 @@ Use local positions in metres and right-handed orthonormal axes. The third
 axis is the outward surface normal. Pixel indices start at zero and are
 ordered `(row, column)`. Empty cells are automatically zero-filled; choose
 indices appropriate to the frame dimensions your consumer expects.
+
+## Patterns with Newton
+
+`Dex01PatternCfg`, `GridPatternCfg` and `CustomPatternCfg` use the same file
+format, sample order and pixel mapping as PhysX. Newton applies mounting fields
+`offset_pos` and `offset_rot_wxyz` instead of PhysX's nested `offset` configuration.
+`Dex01PatternCfg` reads `dex01_contact.npz`; it contains 738 samples. A custom
+grid's image dimensions follow its pixel indices and need not be 32 × 32.
+The Newton documentation capture pipeline currently accepts the five-finger
+738-taxel layout; that capture restriction is not a sensor API restriction.

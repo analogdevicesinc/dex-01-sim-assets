@@ -1,5 +1,11 @@
 # API reference
 
+The common data buffers and pattern types below apply to both backends.
+`dex01_sim_asset.TactileSensor` is PhysX; `dex01_sim_asset.newton.TactileSensor`
+is Newton. Configuration fields and binding lifecycle are separate.
+
+## PhysX sensor interface
+
 Import simulator modules only after Isaac Lab's `AppLauncher` starts Isaac Sim.
 This reference describes the public integration surface; examples run in a
 simulation environment, while the documentation build never imports it.
@@ -42,7 +48,7 @@ rigid body, which is also used by the contact-force filter.
 :end-before:     visualizer_cfg:
 ```
 
-## TactileSensorData
+## Shared TactileSensorData
 
 Here `E` is the number of environments and `T` the number of taxels.
 Buffers are initially `None` and become tensors during sensor initialization.
@@ -56,7 +62,7 @@ Buffers are initially `None` and become tensors during sensor initialization.
 | `depths` | `(E, T)` | Metres; negative in contact and zero otherwise |
 | `depth_dots` | `(E, T)` | Penetration-depth rate, metres per second |
 
-## Lifecycle
+## PhysX lifecycle
 
 Configure sensors on the scene before `sim.reset()`. Then advance the scene
 with `scene.write_data_to_sim()`, `sim.step()`, and `scene.update(sim_dt)` before
@@ -78,8 +84,32 @@ See [pattern file format](../guides/patterns.md).
 Source definitions remain authoritative; changes to these interfaces must
 update this page and the integration guides in the same PR.
 
-## Newton backend
+## Newton TactileSensorCfg
 
-See the [Newton guide](../getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
-normal-force interface, collision settings and required GPU checks. The PhysX
-commands, results and media on this page do not establish Newton correctness.
+Import from `dex01_sim_asset.newton`. Inherits the pinned EA `SensorBaseCfg`.
+
+| Field | Meaning |
+|---|---|
+| `prim_path` | Sensing-link path, one link per environment |
+| `mesh_prim_path` | Configured counter-object path matching the contact filter |
+| `pattern_cfg` | Shared pattern configuration |
+| `offset_pos` | Mount translation in metres |
+| `offset_rot_wxyz` | Unit WXYZ mount quaternion; identity by default |
+| `debug_vis` | Enable sampling markers in Kit |
+
+## Newton TactileSensor lifecycle
+
+| Interface | Contract |
+|---|---|
+| `bind(sensor_state, counter_state, contact, vertices, faces, scale=1.0, mesh_pose=None)` | Call after scene reset; closed triangle mesh and one matching contact filter required |
+| State callbacks | Return Torch link pose `(E,7)` in metres/XYZW, world COM position `(E,3)`, COM velocity `(E,6)` in m/s and rad/s |
+| `mesh_pose` | Fixed collider-to-counter-link pose `(7,)` in metres/XYZW |
+| `update(dt)` and `data` | Refresh the bound sensor after scene/contact updates |
+| `get_tactile_image()` | Same exact firmware mapping as PhysX |
+| `get_filtered_normal_force_w()` | Torch world normal-force vector `(E,3)` from the configured counter filter |
+| `frame_state()` | Current sensing-link callback result |
+| `reset(env_ids=None, env_mask=None)` | Clear selected force/depth buffers; scene reinitialization requires rebinding |
+
+`TactileSensorData` is shared and public `taxel_rot_w` remains WXYZ. A data read
+before binding raises an error. Contact update period must be zero and its force
+matrix must contain exactly one sensing link and one counter object per environment.

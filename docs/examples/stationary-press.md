@@ -1,7 +1,16 @@
 # Press a stationary gear
 
+The video and existing example commands on this page use **PhysX**.
+The Newton section describes the corresponding workflow and its differences.
+
 See how joint motion creates and releases tactile contact. Finger 2 bends
 against the fixed gear while the wrist and object stay in place.
+
+```{warning}
+The bundled PhysX hand and press media require regeneration after a scale-export
+correction. They are not Newton recordings. See the
+[media provenance notice](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/docs/media/README.md).
+```
 
 <figure class="example-video">
 <video controls playsinline loop preload="none" width="960" height="800"
@@ -75,3 +84,25 @@ cycle is 2.5 simulation seconds; observed duration depends on host performance. 
 force is a contact-seeking threshold, not guaranteed force tracking. A small
 gear's individual teeth may not resolve in the sparse fingertip contact patch.
 The existing flat-pad example is suited to viewing broader object footprints.
+
+## Newton stationary press
+
+From the pinned Newton Lab checkout:
+
+```bash
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --mode press --max-steps 1800 --report /tmp/newton-press.json
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --check-report /tmp/newton-press.json
+```
+
+The wrist and gear are fixed. Finger 2 uses actuator position commands to
+approach, hold and retract over three 2.5 s cycles. Newton uses 1/240 s and
+16 solver substeps; the PhysX `--press-time-scale` option and 900-step command
+above do not apply. Endpoint sampling sets the fixture before the run; runtime
+articulation comes from joint commands. The generated gear is scaled to 12 mm
+across its largest in-plane extent, rather than the PhysX video's 8.25 mm.
+
+The report checks every physics tick, fixed wrist/object poses, actual joint
+and fingertip motion, force/frame agreement, sustained contact and release.
+Add `--capture /tmp/newton-press-capture` for an audited third-cycle export.
+Use the Kit installation and `--viz kit --livestream 2` for remote viewing.
+GPU validation remains pending; the clip above is not a Newton result.

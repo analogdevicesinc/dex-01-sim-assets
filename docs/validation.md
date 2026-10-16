@@ -1,5 +1,9 @@
 # Validation
 
+This page separates **PhysX results** from **Newton required checks**.
+The existing results table records PhysX only. Newton commands and the current
+validation status appear in their own section below.
+
 These commands launch Isaac Sim unless they only check an existing report.
 Complete [installation](getting-started/installation.md) first.
 
@@ -96,8 +100,37 @@ Re-run the commands above when geometry or sensing changes. Keep the JSON
 reports and simulator logs with review evidence. Documentation build checks
 validate the site, while these commands validate the simulation.
 
-## Newton backend
+## Newton validation
 
-See the [Newton guide](getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
-normal-force interface, collision settings and required GPU checks. The PhysX
-commands, results and media on this page do not establish Newton correctness.
+Use the pinned Newton Lab checkout and frozen dependencies. Keep every report
+and log with its exact commit and package versions.
+
+```bash
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/newton_preflight.py --isaaclab . --report /tmp/newton-preflight.json
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --mode hand --indenter flat --max-steps 1440 --report /tmp/newton-hand.json
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --check-report /tmp/newton-hand.json
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --mode press --max-steps 1800 --report /tmp/newton-press.json
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --check-report /tmp/newton-press.json
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/verify_dex01_newton.py --sweep-all --report /tmp/newton-sweep.json
+```
+
+| Check | Required evidence |
+|---|---|
+| Flat load | Every tick; 0.981 N settling, unloaded fingers, exact frame mapping, filtered normal force and momentum balance |
+| Press | Three complete cycles, fixed wrist/object, joint and fingertip travel, sustained contact, return and release |
+| All-taxel sweep | Four conditions at all 738 taxels, analytic sphere depth, normal-load conservation, two-environment isolation |
+| GPU regression | Real Warp distance kernel and MuJoCo-Warp contacts, transforms, rates, filtering, subset updates and reset |
+| Capture / video | Same-tick force arrays and link poses, geometry scale/offset/topology, hashes, fixed color scale and playback timing |
+
+Install pytest without changing the simulation pins and require the GPU module:
+
+```bash
+DEX01_REQUIRE_NEWTON_TESTS=1 /path/to/IsaacLab-Newton/.venv/bin/python -m pytest /path/to/dex-01-sim-assets/tests/test_newton_backend.py -q
+```
+
+**Current status:** CPU report, geometry replay, capture corruption and real FFmpeg
+recording tests pass; CUDA physics and camera checks remain pending because the
+validation host lacks the pinned runtime and working driver. A skipped GPU module
+is not a passing result. Do not copy the PhysX force numbers or media into a Newton
+validation claim. See [capture/replay](getting-started/newton.md#capture-and-render-newton-evidence)
+for producing separate Newton artifacts after the live report checks pass.

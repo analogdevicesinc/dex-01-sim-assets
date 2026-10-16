@@ -1,5 +1,9 @@
 # Attach a sensor
 
+The supplied mount and exterior are shared by both backends. The first
+configuration below uses PhysX; Newton requires the separate configuration
+and explicit post-reset binding shown later on this page.
+
 ## Use the supplied Tesollo mount
 
 After `AppLauncher` has initialized Isaac Sim, use the mounted hand variant
@@ -57,8 +61,47 @@ leaf name. `mesh_prim_path` selects the counter object. See
 [configuration fields](../reference/api.md) and
 [numerical settings](../reference/numerical-settings.md).
 
-## Newton backend
+## Attach with Newton
 
-See the [Newton guide](../getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
-normal-force interface, collision settings and required GPU checks. The PhysX
-commands, results and media on this page do not establish Newton correctness.
+Use `prepare_hand_asset()` to generate a Newton collider overlay from the
+released hand. It selects the DEX-01 variant and preserves visual geometry;
+PhysX compliant-contact configuration is not reused as a Newton material model.
+Create the tactile sensor before reset, then bind to one link and counter mesh:
+
+```python
+from dex01_sim_asset.newton import TactileSensor, TactileSensorCfg
+from dex01_sim_asset.taxel_patterns import Dex01PatternCfg
+
+sensor = TactileSensor(TactileSensorCfg(
+    prim_path="/World/envs/env_.*/Robot/rl_dg_2_sensor",
+    mesh_prim_path="/World/envs/env_.*/Probe",
+    pattern_cfg=Dex01PatternCfg(),
+    offset_pos=tuple(reference["mount_translation_m"]),
+    offset_rot_wxyz=tuple(reference["mount_rotation_wxyz"]),
+))
+sim.reset()
+index = robot.body_names.index("rl_dg_2_sensor")
+def sensing_state():
+    return (robot.data.body_link_pose_w.torch[:, index],
+            robot.data.body_com_pose_w.torch[:, index, :3],
+            robot.data.body_com_vel_w.torch[:, index])
+def counter_state():
+    return (probe.data.root_link_pose_w.torch,
+            probe.data.root_com_pos_w.torch,
+            probe.data.root_com_vel_w.torch)
+sensor.bind(sensing_state, counter_state, scene["contact2"],
+            mesh.vertices, mesh.faces)
+```
+
+This fragment assumes an existing Newton scene, reference metadata, and the
+same `mesh` used to spawn the probe. Configure `contact2` with
+`ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/rl_dg_2_sensor",
+filter_prim_paths_expr=["{ENV_REGEX_NS}/Probe"], update_period=0)`.
+
+State providers return XYZW link poses, world COM positions and world COM
+linear/angular velocities. Vertices are in collider coordinates; optional
+`scale` must be positive and uniform and `mesh_pose` is the fixed
+collider-to-link transform in metres/XYZW. The mesh must have nondegenerate
+triangles and be closed. The contact paths must match the sensor's paths.
+See the complete `scripts/dex01_newton_demo.py` scene for collider preparation,
+reset order and binding all five sensors.

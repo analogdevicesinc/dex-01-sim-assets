@@ -1,6 +1,6 @@
 # Newton / Isaac Lab 3.0 Early Access
 
-Newton runs in a separate Python 3.12 environment; the Isaac Sim 5.1 commands above
+Newton runs in a separate Python 3.12 environment; the PhysX Isaac Sim 5.1 commands
 continue to use the original environment. The Newton setup pins Isaac Lab
 `v3.0.0-EA` (`ae37b028ea415c91ea2bc32609efcd759ed2b974`) and its upstream lockfile:
 Newton 1.5.2, Warp 1.16.0, MuJoCo/MuJoCo-Warp 3.11.0 and Torch 2.11.0.
@@ -115,26 +115,14 @@ Live `--record` also saves timestamped force arrays and a JSON manifest beside
 the video, with source, array and video hashes and one shared force scale.
 GPU physics and camera checks remain mandatory before publishing Newton media.
 
-## Sensor interface and solver settings
+## Continue by topic
 
-Import `TactileSensor` and `TactileSensorCfg` from `dex01_sim_asset.newton`.
-Create the sensor before scene reset and call `bind` afterward. Each state
-callback returns `(link_pose, com_position, com_velocity)` tensors with shapes
-`(E, 7)`, `(E, 3)`, and `(E, 6)`. Link and collider quaternions use XYZW; the
-mount configuration `offset_rot_wxyz` and public `taxel_rot_w` use WXYZ.
-COM velocities contain world linear and angular velocity. Configure exactly
-one sensing link and one counter-object filter, with contact updates every tick.
-
-`bind` also accepts the closed triangle mesh's vertices and faces, a positive
-uniform scale, and a fixed collider-to-link pose. Public data retains Torch
-arrays: `normal_forces`, `depths`, `depth_dots`, `taxel_points_w`,
-`taxel_normals_w`, and `taxel_rot_w`. `get_tactile_image()` returns the exact
-firmware mapping; `get_filtered_normal_force_w()` returns the counter-object
-normal force in world coordinates. `frame_state()` exposes sensing-link state.
-
-The demos use a 1/240 s timestep, native Newton SDF collision,
-MuJoCo-Warp `implicitfast`, four solver substeps for hand loads and sixteen for
-articulated pressing, with `nconmax=160` and `njmax=960`. These are demo settings,
-not identified hardware properties. PhysX compliant-contact stiffness and
-damping are not equivalent Newton material parameters. Only normal load is
-redistributed; shear, hysteresis and hardware calibration remain unmodeled.
+- [Installation and streaming](installation.md#install-newton)
+- [First simulation](quickstart.md#first-newton-simulation)
+- [Examples by backend](../examples/index.md#choose-a-newton-example)
+- [Attachment and post-reset binding](../guides/attachment.md#attach-with-newton)
+- [Reading data](../guides/read-data.md#newton-update-order) and [patterns](../guides/patterns.md#patterns-with-newton)
+- [Sensor API](../reference/api.md#newton-tactilesensorcfg)
+- [Numerical settings](../reference/numerical-settings.md#newton-demo-settings) and [compatibility](../reference/compatibility.md#newton-pinned-baseline)
+- [Contact model](../concepts/model.md#newton-contact-and-distance-queries) and [limitations](../concepts/limitations.md#newton-boundaries)
+- [Validation](../validation.md#newton-validation) and [troubleshooting](../troubleshooting.md#newton-startup-and-data-errors)

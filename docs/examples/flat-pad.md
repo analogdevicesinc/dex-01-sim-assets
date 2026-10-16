@@ -1,5 +1,8 @@
 # Flat-pad example
 
+The video and existing example commands on this page use **PhysX**.
+The Newton section describes the corresponding workflow and its differences.
+
 Watch the gear drop onto a flat sensing grid. The contact footprint appears
 as the load rises, then the total force settles near the gear's weight.
 The heatmap is a top view of the 200 × 100 mm pad, displayed at its physical
@@ -57,3 +60,20 @@ readings vary during impact and reset.
 This example demonstrates grid sensing. The curved DEX-01 has 740 occupied
 firmware pixels; use its 0.1 kg flat-indenter fixture for the quantitative
 [known-load verification](../validation.md).
+
+## Newton single fingertip
+
+Newton's `--mode sensor` spawns the curved DEX-01 fingertip, not the 200 × 100 mm
+flat grid in the video. It uses 738 taxels in the firmware frame; the flat-grid
+4.905 N result does not apply. From the pinned Newton Lab checkout:
+
+```bash
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --mode sensor --indenter sphere --max-steps 240
+uv run --frozen python /path/to/dex-01-sim-assets/scripts/verify_dex01_newton.py --sweep-all --report /tmp/newton-sweep.json
+```
+
+The sweep tests separation, touching and two indentation depths at every taxel,
+with analytic sphere-depth and environment-isolation checks. `GridPatternCfg`
+is supported by the Newton sensor API, but there is no Newton equivalent of
+`simple_example.py`'s flat-grid scene. See [patterns](../guides/patterns.md)
+for configuring a custom grid.

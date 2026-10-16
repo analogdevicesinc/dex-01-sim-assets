@@ -63,8 +63,11 @@ See [installation options](docs/getting-started/installation.md),
 
 ## Newton backend
 
-An isolated Isaac Lab 3.0 Early Access backend is available. See the
-[Newton setup, demos and verification guide](docs/getting-started/newton.md).
+An isolated Isaac Lab 3.0 Early Access backend is available.
+[Installation](docs/getting-started/installation.md#install-newton),
+[examples](docs/examples/index.md#choose-a-newton-example),
+[API](docs/reference/api.md#newton-tactilesensorcfg), and
+[validation](docs/validation.md#newton-validation) include Newton-specific guidance.
 PhysX validation results and media do not validate Newton.
 
 ## Contribute and license
