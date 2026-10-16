@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="The fingertip exterior is 32.70 × 22.41 × 19.00 mm; its rear profile is 22.40 × 19.00 mm. OBJ positions, mounting translations, and simulator positions are stored in metres. Quaternions use (w, x, y, z)." name="description" />
+
+    <title>Geometry and coordinate frames &#8212; DEX-01 Tactile Sensor documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=b1d7a81a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/example-media.css?v=e4883b01" />
+    <script src="../../_static/repository-metadata.js?v=968c5fa1"></script>
+    <script async="async" src="../../_static/app.umd.js?v=048c1170"></script>
+    <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/pull/3/concepts/geometry/" />
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Supported model behavior" href="../limitations/" />
+    <link rel="prev" title="Contact-force model" href="../model/" />
+
+   
+  
+    <meta name="robots" content="noindex">
+  
+  
+  
+  <meta name="repository" content="dex-01-sim-assets">
+  <meta name="version" content="pull/3">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+<meta name="docs-source-ref" content="572069b84a80244b18fdded5e71e068b830d71ac">
+
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="../../">
+          <div>DEX-01 Tactile Sensor</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">Geometry and coordinate frames</a><ul>
+<li><a class="reference internal" href="#registration-and-mounting">Registration and mounting</a></li>
+<li><a class="reference internal" href="#asset-sources">Asset sources</a></li>
+<li><a class="reference internal" href="#transform-a-contact-sample">Transform a contact sample</a></li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="no-logo" href="../../">
+      DEX-01 Tactile Sensor
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <p class="caption" role="heading">
+  <span class="caption-text">Get started</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/quickstart/">Your first simulation</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Examples</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/">Explore the examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/flat-pad/">Flat-pad example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/hand/">Tesollo hand demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/stationary-press/">Press a stationary gear</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Guides</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/read-data/">Read tactile data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/patterns/">Configure taxel patterns</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Concepts and reference</span>
+</p>
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../model/">Contact-force model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Geometry and coordinate frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations/">Supported model behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/api/">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/numerical-settings/">Numerical settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/compatibility/">Compatibility</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Validation and support</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../licensing/">Licensing and attribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citation/">Citation</a></li>
+</ul>
+
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="geometry-and-coordinate-frames">
+<h1>Geometry and coordinate frames<a class="headerlink" href="#geometry-and-coordinate-frames" title="Link to this heading"></a></h1>
+<p>The fingertip exterior is 32.70 × 22.41 × 19.00 mm; its rear profile is
+22.40 × 19.00 mm. OBJ positions, mounting translations, and simulator
+positions are stored in <strong>metres</strong>. Quaternions use <strong><code class="docutils literal notranslate"><span class="pre">(w,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z)</span></code></strong>.</p>
+<section id="registration-and-mounting">
+<h2>Registration and mounting<a class="headerlink" href="#registration-and-mounting" title="Link to this heading"></a></h2>
+<p>The original layout aligns to the overmold interior by one translation of
+approximately <code class="docutils literal notranslate"><span class="pre">(-2.775670,</span> <span class="pre">-0.0000166,</span> <span class="pre">-1.429237)</span></code> mm in the sensor frame, with
+no scaling, additional rotation or individual taxel movement. Reference-CAD
+comparison gave 1.37 µm RMS and 4.29 µm maximum residual. Contact poses were then
+projected along the original normals through approximately 1.43 mm of overmold.
+<code class="docutils literal notranslate"><span class="pre">assets/sensors/dex01/reference.json</span></code> records this shift and the mounting offset.
+Offset quaternions use <code class="docutils literal notranslate"><span class="pre">(w,x,y,z)</span></code>; translations and OBJ coordinates use metres.</p>
+</section>
+<section id="asset-sources">
+<h2>Asset sources<a class="headerlink" href="#asset-sources" title="Link to this heading"></a></h2>
+<p>The exterior OBJ and <code class="docutils literal notranslate"><span class="pre">reference.json</span></code> live under <code class="docutils literal notranslate"><span class="pre">assets/sensors/dex01/</span></code>.
+The mounted sensor and Tesollo hand USD assets live under <code class="docutils literal notranslate"><span class="pre">assets/robots/tesollo/</span></code>.
+Taxel NPZ files ship inside the Python package. Fetch them with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span> <span class="pre">pull</span></code>.</p>
+<p>The geometry builder and verification scripts are the reference workflow for
+changes; see <a class="reference internal" href="../../guides/attachment/"><span class="std std-doc">attachment</span></a> and <a class="reference internal" href="../../validation/"><span class="std std-doc">validation</span></a>.</p>
+</section>
+<section id="transform-a-contact-sample">
+<h2>Transform a contact sample<a class="headerlink" href="#transform-a-contact-sample" title="Link to this heading"></a></h2>
+<p>An NPZ pose stores its three local axes in columns 0–2 and position in column 3.
+Column 2 is the outward normal. First apply the mount rotation and translation
+from <code class="docutils literal notranslate"><span class="pre">reference.json</span></code> to obtain coordinates in the sensor rigid body. Then
+apply that body’s live world pose from PhysX. For a point <code class="docutils literal notranslate"><span class="pre">p</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>p_body  = R_mount p_pattern + t_mount
+p_world = R_body  p_body    + t_body
+</pre></div>
+</div>
+<p>Normals receive the rotations without translation. These are fixed mount
+transforms; the sensor’s live body pose changes as the hand articulates.
+The <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/572069b84a80244b18fdded5e71e068b830d71ac/DOCUMENTATION.md#reproduce-the-figures" target="_blank">capture utility</a> verifies
+world-space sample alignment against every mounted visual mesh.</p>
+<p>Use the exterior pattern supplied by <code class="docutils literal notranslate"><span class="pre">Dex01PatternCfg</span></code> for contact sampling.
+The reference <code class="docutils literal notranslate"><span class="pre">dex01_pattern.npz</span></code> retains the original layout for traceability; it is not the
+projected exterior sampling surface. Both files keep the same taxel order and
+firmware pixel mapping.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="../model/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Contact-force model</a>
+    <a href="../limitations/" title="Next document (Alt+Shift+RightArrow)" class="next">Supported model behavior</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2026, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>

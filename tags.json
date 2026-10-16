@@ -6,5 +6,9 @@
   "v0.1.0-a.1": [
     "v0.1.0-a.1",
     "prerelease"
+  ],
+  "pull/3": [
+    "PR #3",
+    "preview"
   ]
 }

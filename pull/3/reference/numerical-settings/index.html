@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="The hand demo uses 20 g sensor mass, 10,000 N/m contact stiffness, and 50 N s/m damping at a 1/240 s timestep. These are simulation parameters." name="description" />
+
+    <title>Numerical settings &#8212; DEX-01 Tactile Sensor documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=b1d7a81a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/example-media.css?v=e4883b01" />
+    <script src="../../_static/repository-metadata.js?v=968c5fa1"></script>
+    <script async="async" src="../../_static/app.umd.js?v=048c1170"></script>
+    <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/pull/3/reference/numerical-settings/" />
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Compatibility" href="../compatibility/" />
+    <link rel="prev" title="API reference" href="../api/" />
+
+   
+  
+    <meta name="robots" content="noindex">
+  
+  
+  
+  <meta name="repository" content="dex-01-sim-assets">
+  <meta name="version" content="pull/3">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+<meta name="docs-source-ref" content="572069b84a80244b18fdded5e71e068b830d71ac">
+
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="../../">
+          <div>DEX-01 Tactile Sensor</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">Numerical settings</a></li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="no-logo" href="../../">
+      DEX-01 Tactile Sensor
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <p class="caption" role="heading">
+  <span class="caption-text">Get started</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/quickstart/">Your first simulation</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Examples</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/">Explore the examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/flat-pad/">Flat-pad example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/hand/">Tesollo hand demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/stationary-press/">Press a stationary gear</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Guides</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/read-data/">Read tactile data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/patterns/">Configure taxel patterns</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Concepts and reference</span>
+</p>
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/model/">Contact-force model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/geometry/">Geometry and coordinate frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/limitations/">Supported model behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/">API reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Numerical settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compatibility/">Compatibility</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Validation and support</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../licensing/">Licensing and attribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citation/">Citation</a></li>
+</ul>
+
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="numerical-settings">
+<h1>Numerical settings<a class="headerlink" href="#numerical-settings" title="Link to this heading"></a></h1>
+<p>The hand demo uses 20 g sensor mass, 10,000 N/m contact stiffness, and
+50 N s/m damping at a 1/240 s timestep. These are simulation parameters.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Values</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mount_translation_m</span></code>, <code class="docutils literal notranslate"><span class="pre">mount_rotation_wxyz</span></code></p></td>
+<td><p>Fixed transform from the original taxel coordinates into the mounted fingertip frame; metres and <code class="docutils literal notranslate"><span class="pre">(w,x,y,z)</span></code> quaternion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">registration_shift_in_sensor_m</span></code></p></td>
+<td><p>Translation fitted to the overmold interior, with no scaling or rotation of the distribution.</p></td>
+</tr>
+<tr class="row-even"><td><p>0.1 kg and 9.81 m/s²</p></td>
+<td><p>Known-load fixture; their product is the expected 0.981 N.</p></td>
+</tr>
+<tr class="row-odd"><td><p>20 g, 10,000 N/m, 50 N s/m</p></td>
+<td><p>Compliant rigid-body simulation parameters, not measured hardware properties.</p></td>
+</tr>
+<tr class="row-even"><td><p>1/240 s timestep</p></td>
+<td><p>Advances 4.17 ms of simulation time per step: 240 steps per simulated second.</p></td>
+</tr>
+<tr class="row-odd"><td><p>192 position and 4 velocity iterations</p></td>
+<td><p>Repeated PhysX solver passes within each step to refine contact and joint constraints; these are not taxel counts. Conservative validated demo settings, not an optimal configuration claim.</p></td>
+</tr>
+<tr class="row-even"><td><p>0.1 mm contact offset; SDF resolutions 384/128</p></td>
+<td><p>Numerical contact margin and field resolutions for the sensor/test objects; unrelated to taxel count.</p></td>
+</tr>
+<tr class="row-odd"><td><p>1 ms SDF probe time</p></td>
+<td><p>Finite-difference half-width used to estimate depth rate, independent of the physics timestep.</p></td>
+</tr>
+<tr class="row-even"><td><p>5% load and 1 mm thumb-centroid tolerances</p></td>
+<td><p>Verification acceptance bounds, not physical sensor specifications.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The DEX-01 frame still contains 738 taxel values in a 32 × 32 layout. A sensor
+updated every step can provide 240 frames per simulated second; wall-clock
+throughput depends on the host.</p>
+<p>Camera positions, colors, and plot cadence affect presentation. Gear scale
+changes collision geometry and the sampled contact patch; changes require
+physics validation. The stationary-press demo uses a 1/120 s timestep and
+waits for the attached sensor body to settle before measuring its endpoint.
+Solver settings and actuator gains control the simulation; changes should pass
+the <a class="reference internal" href="../../validation/"><span class="std std-doc">validation workflow</span></a>. The contact distribution and
+supported counter-object behavior are described in <a class="reference internal" href="../../concepts/limitations/"><span class="std std-doc">the model guide</span></a>.</p>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="../api/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">API reference</a>
+    <a href="../compatibility/" title="Next document (Alt+Shift+RightArrow)" class="next">Compatibility</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2026, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>
