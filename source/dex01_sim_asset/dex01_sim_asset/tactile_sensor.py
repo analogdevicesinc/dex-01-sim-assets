@@ -97,16 +97,25 @@ class TactileSensor(SensorBase):
             )
         self._view = self._physics_sim_view.create_rigid_body_view(self.cfg.prim_path.replace(".*", "*"))
         self._sensor_com_l = self._view.get_coms()[:, :3].to(self._device)
-
-        # contact view filtering the counter-object path
-        self._contact_view = self._physics_sim_view.create_rigid_contact_view(
-            self.cfg.prim_path.replace(".*", "*"),
-            filter_patterns=[self.cfg.mesh_prim_path.replace(".*", "*")],
-        )
+        self._initialize_sensor_scale(prim)
 
         # initialize taxels before building the collider (num_taxels sizes the SDF view)
         self._initialize_taxels_impl()
         self._initialize_collider()
+        # PhysX contact filters require the resolved rigid body, not a spawn
+        # wrapper. Use the same body for force filtering and SDF poses.
+        self._contact_view = self._physics_sim_view.create_rigid_contact_view(
+            self.cfg.prim_path.replace(".*", "*"),
+            filter_patterns=[self._counter_body_path],
+        )
+
+    def _initialize_sensor_scale(self, prim):
+        """PhysX poses omit the inherited scale that also applies to local taxel positions."""
+        world = UsdGeom.XformCache().GetLocalToWorldTransform(prim)
+        scale = np.asarray(Gf.Transform(world).GetScale())
+        if not np.isfinite(scale).all() or (scale <= 0).any() or not np.allclose(scale, scale[0], rtol=1e-5):
+            raise ValueError("Tactile sensor bodies must have positive uniform world scale")
+        self._sensor_scale = float(scale[0])
 
     def _initialize_collider(self):
         """Bind the pose and SDF views for the counter object."""
@@ -119,12 +128,13 @@ class TactileSensor(SensorBase):
         if top_prim is not None and top_prim.HasAPI(UsdPhysics.RigidBodyAPI):
             body_path = mesh_prim_path.replace(".*", "*")
         else:
-            rigid_body_prim = sim_utils.get_first_matching_child_prim(
+            rigid_body_prims = sim_utils.get_all_matching_child_prims(
                 prim_path_0, lambda p: p.HasAPI(UsdPhysics.RigidBodyAPI)
             )
-            if rigid_body_prim is None:
-                raise RuntimeError(f"Could not find a RigidBodyAPI prim at or under: {mesh_prim_path}")
-            body_path = str(rigid_body_prim.GetPath()).replace("env_0", "env_*")
+            if len(rigid_body_prims) != 1:
+                raise RuntimeError(f"Expected exactly one counter rigid body at or under: {mesh_prim_path}")
+            body_path = str(rigid_body_prims[0].GetPath()).replace("env_0", "env_*")
+        self._counter_body_path = body_path
         self._mesh_view = self._physics_sim_view.create_rigid_body_view(body_path)
         self._counter_com_l = self._mesh_view.get_coms()[:, :3].to(self._device)
 
@@ -184,6 +194,7 @@ class TactileSensor(SensorBase):
 
         taxel_points = quat_apply(offset_quat.repeat(self.num_taxels, 1), taxel_points)
         taxel_points += offset_pos
+        taxel_points *= self._sensor_scale
         taxel_axes = quat_apply(offset_quat.expand(self.num_taxels, 3, 4), taxel_axes.transpose(-1, -2)).transpose(
             -1, -2
         )

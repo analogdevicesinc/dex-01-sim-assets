@@ -51,11 +51,11 @@ def quat_inv(q):
     return q * torch.tensor([1.0, -1.0, -1.0, -1.0])
 
 
-def sensor_class():
+def sensor_class(base=object, **bindings):
     tree = ast.parse(SOURCE.read_text())
     cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "TactileSensor")
     namespace = {
-        "SensorBase": object,
+        "SensorBase": base,
         "TactileSensorCfg": object,
         "Sequence": list,
         "torch": torch,
@@ -65,11 +65,65 @@ def sensor_class():
         "quat_inv": quat_inv,
         "convert_quat": lambda q, to: torch.cat((q[..., 3:], q[..., :3]), -1),
     }
+    namespace.update(bindings)
     module = ast.Module(
         body=[ast.ImportFrom(module="__future__", names=[ast.alias(name="annotations")], level=0), cls], type_ignores=[]
     )
     exec(compile(ast.fix_missing_locations(module), str(SOURCE), "exec"), namespace)
     return namespace["TactileSensor"]
+
+
+def test_contact_filter_uses_resolved_body_below_wrapper():
+    class Base:
+        def _initialize_impl(self):
+            pass
+
+    filters = []
+    physics = SimpleNamespace(
+        create_rigid_body_view=lambda path: SimpleNamespace(get_coms=lambda: torch.zeros(1, 7)),
+        create_rigid_contact_view=lambda path, filter_patterns: filters.append(filter_patterns),
+    )
+    cls = sensor_class(
+        base=Base,
+        SimulationManager=SimpleNamespace(get_physics_sim_view=lambda: physics),
+        sim_utils=SimpleNamespace(find_first_matching_prim=lambda path: SimpleNamespace(HasAPI=lambda api: True)),
+        UsdPhysics=SimpleNamespace(RigidBodyAPI=object),
+    )
+    sensor = object.__new__(cls)
+    sensor._device = "cpu"
+    sensor.cfg = SimpleNamespace(prim_path="/World/envs/env_.*/Sensor", mesh_prim_path="/World/envs/env_.*/Wrapper")
+    sensor._initialize_taxels_impl = lambda: None
+    sensor._initialize_sensor_scale = lambda prim: None
+    sensor._initialize_collider = lambda: setattr(sensor, "_counter_body_path", "/World/envs/env_*/Wrapper/body")
+    sensor._initialize_impl()
+    assert filters == [["/World/envs/env_*/Wrapper/body"]]
+
+
+@pytest.mark.parametrize("scale", [0.5, 2.0])
+def test_scaled_sensor_keeps_taxels_on_scaled_surface(scale):
+    Usd = pytest.importorskip("pxr.Usd")
+    from pxr import Gf, UsdGeom
+
+    stage = Usd.Stage.CreateInMemory()
+    parent = UsdGeom.Xform.Define(stage, "/Wrapper")
+    parent.AddScaleOp().Set(Gf.Vec3d(scale))
+    body = UsdGeom.Xform.Define(stage, "/Wrapper/Sensor")
+    sensor = object.__new__(
+        sensor_class(UsdGeom=UsdGeom, Gf=Gf, quat_from_matrix=lambda m: torch.tensor([[1.0, 0, 0, 0]]))
+    )
+    sensor._initialize_sensor_scale(body.GetPrim())
+    sensor._device = "cpu"
+    sensor._view = SimpleNamespace(count=1)
+    sensor._data = SimpleNamespace()
+    points = torch.tensor([[0.0, 0.0, 0.01]])
+    axes = torch.eye(3).unsqueeze(0)
+    sensor.cfg = SimpleNamespace(
+        pattern_cfg=SimpleNamespace(func=lambda cfg, device: (points.clone(), axes.clone(), torch.tensor([[0, 0]]))),
+        offset=SimpleNamespace(pos=(0.001, 0, 0), rot=(1.0, 0, 0, 0)),
+    )
+    sensor._initialize_taxels_impl()
+    assert torch.allclose(sensor.taxel_points_l[0, 0], torch.tensor([0.001, 0, 0.01]) * scale)
+    assert torch.equal(sensor.taxel_axes_l[0, 0], torch.eye(3))
 
 
 class View:

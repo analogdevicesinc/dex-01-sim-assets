@@ -3,8 +3,8 @@
 ## Native camera figures
 
 `dex01-demo.webp` and `loaded-contact.webp` were generated on October 13, 2026
-from the repository's PhysX hand demo at commit
-`3818a8388c970ced7ad03539668d26c1a68e0add`.
+from the audited PhysX hand demo. `render.json` records the base commit and
+the exact source-file hashes, including the working-tree fixes used by this capture.
 
 The physical state was captured by `scripts/docs/export_scene.py` in Isaac Sim
 **5.1.0.0** after 240 steps with a local **0.1 kg cube**. Finger 2 carries
@@ -41,21 +41,15 @@ filtered out to make the fixture appear steadier.
 
 `figures.json` records the hand report, checker, pattern, and SVG hashes.
 The input report comes from the validation command, and the layout comes from
-the released exterior NPZ. The generator also rejects reports whose geometry
-and taxel hashes differ from the current checkout. With the same inputs and
+the released exterior NPZ. The generator also rejects reports whose runtime,
+geometry, or taxel hashes differ from the current checkout. With the same inputs and
 plotting environment, repeat runs produce identical SVGs. Regenerate the figures
 and provenance together when the physics, fixture, or layout changes.
 
 ## Example walkthroughs
 
-The bundled hand and stationary-press media still need regeneration with the
-corrected scale-preserving exporter. Their existing renders enlarged the gear
-while retaining force frames from the smaller simulated object. The capture
-and render checks described below apply to the corrected pipeline; replace the
-affected media and their provenance together before removing this notice.
-
 The flat-pad, hand, and stationary-press clips were captured on October 13,
-2026 from the unchanged Isaac Sim 5.1.0.0 examples and rendered with native
+2026 from the corrected Isaac Sim 5.1.0.0 examples and rendered with native
 Isaac Sim 6.0.1.0 RTX cameras. `examples.json` contains input/output hashes,
 source hashes, timestamps, dimensions, and playback settings for each clip.
 
@@ -63,7 +57,8 @@ Every rendered pose comes from its corresponding captured simulation step.
 The force frame is read at that same step and preserves the source pixel
 mapping. The exporter preserves body scale, including scale inherited from
 spawn wrappers. The renderer verifies position, orientation, scale, and every
-mesh vertex against geometry recorded before export (1 µm tolerance), and keeps
+mesh vertex and primitive dimensions against geometry recorded before export
+(1 µm tolerance), and keeps
 its physical timeline stopped. No poses or force arrays are interpolated.
 The press report independently checks wrist/object invariance, joint motion,
 contact, filtering, and release before the capture is accepted.
@@ -78,13 +73,22 @@ pages provide written descriptions and static before/contact/after states.
 Native images use the source asset materials with adjusted camera/light
 presentation. Hand clips include a synchronized native camera close-up of the
 gear at its actual physical dimensions. The flat-pad capture's debug sample
-markers are hidden in the
-render so they do not obscure the gear and pad. The hand's five fingertip
+markers are hidden in the render so they do not obscure the gear and pad. The hand's five fingertip
 meshes remain visible. Each clip uses a shared force scale; blue is zero,
 cyan/yellow/red is increasing force, and grey denotes unoccupied pixels.
 The hand gear is approximately 6.29 mm wide and the stationary-press gear is
 8.25 mm wide. Their footprints occupy only part of the fingertip's unwrapped
-taxel map. Regenerated images must preserve these physical dimensions.
+taxel map. The regenerated images preserve these physical dimensions.
+
+`audit.json` summarizes the stored October 13 regression results and report hashes.
+The stored October 13 audit records 3,792 loaded taxel samples checked against
+the gear triangle mesh. That external audit predates the committed capture
+checker; use `scripts/docs/check_capture_geometry.py` with a fresh capture to
+reproduce loaded-taxel containment, rather than treating the old report hash
+as a new test result.
+The press report checker additionally verifies broad face contact: at least 90% footprint coverage,
+load in all four quadrants, near-parallel normals, and no separated underside
+edge. Its close-up camera views the face obliquely in the gear's frame.
 
 The repository-only recording instructions and workflow diagram live in
 [DOCUMENTATION.md](../../DOCUMENTATION.md#record-a-simulation).

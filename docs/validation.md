@@ -28,9 +28,16 @@ python scripts/verify_dex01_sim.py \
   --headless \
   --sweep-all \
   --transformed-probe \
+  --wrapped-probe \
   --num-envs 2 \
   --report /tmp/dex01-contact.json
 ```
+
+The wrapper case verifies that contact forces are filtered against the resolved
+rigid body. Add `--sensor-scale 1.5` to also check a scaled sensor and its taxel
+layout. The supervising process rejects a missing report even if Isaac Sim
+exits with code zero. Repository scripts explicitly load this checkout's
+sensor implementation, and fresh reports record its source hash.
 
 For articulated motion checks, see [stationary pressing](examples/stationary-press.md).
 
@@ -44,23 +51,32 @@ show the final 20% used for settling checks. The dashed line is `m × g`.
 
 ## Verified fixture results
 
-On October 12, 2026, the unchanged runtime at commit
-`3818a8388c970ced7ad03539668d26c1a68e0add` was checked on Linux with
-Isaac Sim 5.1.0 and NVIDIA RTX 4500 Ada hardware:
+On October 13, 2026, the corrected runtime was checked on Linux with
+Isaac Sim 5.1.0 and NVIDIA RTX 4500 Ada hardware. Exact source-file and report
+hashes are recorded in `media/audit.json`; the media manifests also identify
+the source snapshots used for each capture.
 
 | Check | Result |
 |---|---|
-| Repository geometry, mapping, force, and visualization tests | 98 passed |
+| Repository geometry, mapping, force, visualization, setup and validation tests | 160 passed |
 | Flat-load report checker, fingers 2–5 | 0.980522, 0.980521, 0.980793, 0.981630 N; unloaded fingers zero |
 | Thumb localization and counter-object filtering | Passed |
-| All 738 taxels, transformed probes, two environments | Passed |
-| Fixed-wrist articulated press and release checker | Passed; reported sustained load 3.916 N |
+| All 738 taxels, transformed wrapper probes, two environments | Passed at sensor scales 1 and 1.5; 1,476 cases |
+| Fixed-wrist planar press and release checker | Passed; median checked hold load 0.613 N |
+| Planar gear-face contact | 48 of 50 footprint taxels loaded; all four quadrants; maximum normal mismatch 0.0333° |
+| Native documentation video geometry | All 225 frames checked against captured geometry |
+| Loaded taxels against the gear triangle mesh | All 3,792 loaded samples lie inside the gear |
 
 The hand report checker also checks filtered PhysX force agreement and
 momentum balance. These results establish the tested physical-force fixtures and trajectories.
 Check new articulated poses for clearance as part of task validation.
-The articulated run emitted a warning that the gear's inherited articulation
-root was ignored on its kinematic body; its invariant and contact checks passed.
+The press endpoint is measured only after its attached sensor body settles.
+Only coplanar samples define its normal. The fixture begins with clearance
+and seeks contact while joint targets correct both position and orientation.
+The press reports the maximum underside gap relative to the moving pad plane,
+and its checker requires that reported gap to stay within 2 µm during hold. Its force
+threshold is not a calibrated force-tracking controller. Headless runs verify
+physics using simulation time; GUI runs additionally check observed timing.
 
 ## Inspect the assembled geometry
 

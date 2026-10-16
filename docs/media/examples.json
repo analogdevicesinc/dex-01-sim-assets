@@ -233,7 +233,7 @@
   },
   "hand": {
     "example": "hand",
-    "capture_sha256": "4973ac42e2523102c784791c0afc363663bd96cc330034c5487ca7ccc39ce57c",
+    "capture_sha256": "946e9336bf4c09f5385933baf5d8f5c11d98619f6f0a3479715fb1d587432f05",
     "physics_version": "5.1.0.0",
     "renderer_version": "6.0.1.0",
     "frame_count": 100,
@@ -250,18 +250,18 @@
     "maximum_rendered_vertex_error_m": 1.2566871346510768e-16,
     "checked_mesh_count": 53,
     "contact_closeup_camera": true,
-    "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
+    "geometry_script_sha256": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
     "shared_force_scale_n": 0.05999999865889549,
-    "renderer_script_sha256": "7a4f20cfb567a2a2c256df1dcce7c5e9677e2df39e3f40464f9315aa696ef0fd",
+    "renderer_script_sha256": "af6434f852355884c86ce225e0934e2972253297add2ac3f3b20939d8ab1e8e6",
     "poster_frame": 20,
     "files": {
-      "hand.webm": "f8e7739fa0d0065353b729619a7f3c59b45da1c7f63f5d442c78eaa1fc6a4747",
-      "hand-before.webp": "e9461dc17ecba4f3ea779ebebffe83bb418907ba3405647b10bb629b634f932e",
-      "hand.mp4": "8feba50b8915791ea62d4dcbb9946bc2c33f00456e10f251ee7428274bfe0e98",
-      "hand-contact.webp": "e033b69b05d6579f1bfafd3af6a2a93a4fe5cca4d5c087517b68d062313ba5a5",
-      "hand.webp": "e033b69b05d6579f1bfafd3af6a2a93a4fe5cca4d5c087517b68d062313ba5a5",
+      "hand.webm": "0ae57148ff41e0a9f6a6d7c9b9d0998f50bc86f6a15c05ba18deae9967ea9106",
+      "hand-before.webp": "06ffdc32bf40c0d60b26cd881e6736b1c5174a3ab142d9b479dcf36303483b9e",
+      "hand.mp4": "18d46a8fb059e584865ef884ba2a4010f5effc7e874359e818b3d217cecdd150",
+      "hand-contact.webp": "470fe5c6eca2cde2befee376c0724b4a1fa3afb339470a92f92fa33cf6bf729d",
+      "hand.webp": "470fe5c6eca2cde2befee376c0724b4a1fa3afb339470a92f92fa33cf6bf729d",
       "hand.vtt": "7c2c354c6fec17e36b4c07516ce038b039cf44d00b4398a154cfdeb571cc6b5f",
-      "hand-after.webp": "a025e521014536bb39358939de9daf9003c341d3bd953d6186181ca204a3c934"
+      "hand-after.webp": "4c67b5483f46c2676203490693d2e27f1d7799f626d179aaca843078cee38124"
     },
     "video_size": [
       960,
@@ -507,215 +507,268 @@
       "meshes": [
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_mount/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_base/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_palm/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_mount_c/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_base_c/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_palm_c/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_1/visuals/rl_dg_1_1/mesh",
-          "body_index": 1
+          "body_index": 1,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_1/collisions/rl_dg_1_1_c/mesh",
-          "body_index": 1
+          "body_index": 1,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_1/visuals/rl_dg_2_1/mesh",
-          "body_index": 2
+          "body_index": 2,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_1/collisions/rl_dg_2_1_c/mesh",
-          "body_index": 2
+          "body_index": 2,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_1/visuals/rl_dg_3_1/mesh",
-          "body_index": 3
+          "body_index": 3,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_1/collisions/rl_dg_3_1_c/mesh",
-          "body_index": 3
+          "body_index": 3,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_1/visuals/rl_dg_4_1/mesh",
-          "body_index": 4
+          "body_index": 4,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_1/collisions/rl_dg_4_1_c/mesh",
-          "body_index": 4
+          "body_index": 4,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_1/visuals/rl_dg_5_1/mesh",
-          "body_index": 5
+          "body_index": 5,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_1/collisions/rl_dg_5_1_c/mesh",
-          "body_index": 5
+          "body_index": 5,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_2/visuals/rl_dg_1_2/mesh",
-          "body_index": 6
+          "body_index": 6,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_2/collisions/rl_dg_1_2_c/mesh",
-          "body_index": 6
+          "body_index": 6,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_2/visuals/rl_dg_2_2/mesh",
-          "body_index": 7
+          "body_index": 7,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_2/collisions/rl_dg_2_2_c/mesh",
-          "body_index": 7
+          "body_index": 7,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_2/visuals/rl_dg_3_2/mesh",
-          "body_index": 8
+          "body_index": 8,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_2/collisions/rl_dg_3_2_c/mesh",
-          "body_index": 8
+          "body_index": 8,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_2/visuals/rl_dg_4_2/mesh",
-          "body_index": 9
+          "body_index": 9,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_2/collisions/rl_dg_4_2_c/mesh",
-          "body_index": 9
+          "body_index": 9,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_2/visuals/rl_dg_5_2/mesh",
-          "body_index": 10
+          "body_index": 10,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_2/collisions/rl_dg_5_2_c/mesh",
-          "body_index": 10
+          "body_index": 10,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_3/visuals/rl_dg_1_3/mesh",
-          "body_index": 11
+          "body_index": 11,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_3/collisions/rl_dg_1_3_c/mesh",
-          "body_index": 11
+          "body_index": 11,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_3/visuals/rl_dg_2_3/mesh",
-          "body_index": 12
+          "body_index": 12,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_3/collisions/rl_dg_2_3_c/mesh",
-          "body_index": 12
+          "body_index": 12,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_3/visuals/rl_dg_3_3/mesh",
-          "body_index": 13
+          "body_index": 13,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_3/collisions/rl_dg_3_3_c/mesh",
-          "body_index": 13
+          "body_index": 13,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_3/visuals/rl_dg_4_3/mesh",
-          "body_index": 14
+          "body_index": 14,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_3/collisions/rl_dg_4_3_c/mesh",
-          "body_index": 14
+          "body_index": 14,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_3/visuals/rl_dg_5_3/mesh",
-          "body_index": 15
+          "body_index": 15,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_3/collisions/rl_dg_5_3_c/mesh",
-          "body_index": 15
+          "body_index": 15,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_4/fingertip/fingertip_base",
-          "body_index": 16
+          "body_index": 16,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_4/fingertip_base",
-          "body_index": 17
+          "body_index": 17,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_4/fingertip_base",
-          "body_index": 18
+          "body_index": 18,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_4/fingertip_base",
-          "body_index": 19
+          "body_index": 19,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_4/fingertip/fingertip_base",
-          "body_index": 20
+          "body_index": 20,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_sensor/visual",
-          "body_index": 21
+          "body_index": 21,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_sensor/collision",
-          "body_index": 21
+          "body_index": 21,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_sensor/visual",
-          "body_index": 22
+          "body_index": 22,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_sensor/collision",
-          "body_index": 22
+          "body_index": 22,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_sensor/visual",
-          "body_index": 23
+          "body_index": 23,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_sensor/collision",
-          "body_index": 23
+          "body_index": 23,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_sensor/visual",
-          "body_index": 24
+          "body_index": 24,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_sensor/collision",
-          "body_index": 24
+          "body_index": 24,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_sensor/visual",
-          "body_index": 25
+          "body_index": 25,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_sensor/collision",
-          "body_index": 25
+          "body_index": 25,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Asset/factory_gear_medium/visuals",
-          "body_index": 26
+          "body_index": 26,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Asset/factory_gear_medium/collisions",
-          "body_index": 26
+          "body_index": 26,
+          "kind": "Mesh"
         }
       ],
       "body_scales": [
@@ -856,7 +909,7 @@
         ]
       ],
       "maximum_exported_vertex_error_m": 7.076311083754595e-17,
-      "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
+      "geometry_script_sha256": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
       "labels": [
         "Finger 1",
         "Finger 2",
@@ -867,20 +920,45 @@
       "frame_count": 100,
       "capture_stride": 12,
       "playback_fps": 20.0,
-      "source_commit": "b81cff9248252cc988bdec6c3f451c7133ae335b",
-      "demo_sha256": "b1ee259165dfb490b47ed4321c63d7f6481ec8ed1f365d58ce36dcec661c50f8",
-      "capture_script_sha256": "b96705e9fbdd02b7e58bac3f4c4067545aaeb43d750a70f37a9a22e68e168622",
+      "source_commit": "c6228aeaf0f09e539a8038a8efb4b12c64f4cebc",
+      "source_files_sha256": {
+        "assets/robots/tesollo/dex01.usda": "d334a69ba39fa62c5772cf424ba58c094978a3f75e1a1298f71b4032243d4002",
+        "assets/robots/tesollo/dg5f_right.usda": "2457ca1923b209e6cd32785b31d873026584157a055d7c2e7cb8c1e17c4e4d78",
+        "assets/sensors/dex01/reference.json": "9f28f8450455bc9c100bafdd6cfadc776d54262c852b3372060ea8fafa2321b1",
+        "scripts/dex01_articulated_press.py": "82d9557b35105d89f365c706b15514a443adc30074e88f11686c6b9f4728f9d8",
+        "scripts/dex01_on_tesollo_dg5f.py": "5a79751eff03b42b5fd00d9e8cabbee6fcf474188dae5517e73c1669b95b2fbd",
+        "scripts/docs/capture_examples.py": "6d85d8013173cd92c6b388f93642f5b2e2272616cf467c5d6d182df02cee8259",
+        "scripts/docs/motion_geometry.py": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
+        "scripts/object_geometry.py": "98d6dd5d76bc72295bd1c25ef1a150a3f692c0f853ec85cc899c21ab3c40998f",
+        "scripts/simple_example.py": "94cf9f862c67f099fa3793e9e23241e6067d0594092f7bdfbc500642495c358f",
+        "source/dex01_sim_asset/dex01_sim_asset/__init__.py": "b93c14d87ae132aa26ba55cacb7b8e6b767862afaf70f912209a1364cec66e4b",
+        "source/dex01_sim_asset/dex01_sim_asset/marker_cfg.py": "33b3333da942c29d42621b386bad6773f84504ffd79ab4808dd80b9a839f82d7",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py": "32393c47b5f852ff0bf167a40eea0e4858c392e97cb56c93ad02f352b83a5261",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_cfg.py": "79327923bdc29b3155bbf153c54a44b25673d757ba6a128e8236e10f02890693",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_data.py": "e67de69a56085750105831f909fc10eb4675c31a0941ecf82078cf251148965f",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/__init__.py": "a5d80bf6032247331ece4fcbf8454ac931f52af153fc6f0c0e9f5d1afc32ac6f",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz": "e2a74fcf70bbc56ca1417e835354fe354ecbc6d7a76b68078ac6155e8efd6702",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz": "971b747bd46997b9bbfcd52be6cb530d9577c31bae3748d5304b19fe0f292f38",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns.py": "a9216dfdcb224ea1015ac9250f4a70cb0c23076a6fcc019f91318ebcc73adb3c",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns_cfg.py": "b8a569e43b76b2bd9d2925f8ecd46caaf012cdb233a273de0a06f3056f1a13b4",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/__init__.py": "be58b48c21483c08b383e7fd718adf1bce0162f727e68a8ce6860aeced4be798",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/scene_recorder.py": "44eb9248087a10a861ef86e4b4a017bff14f47aef43fcf16f84e194171d89175",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/viewport.py": "59084237b2395b475f7d3b6b9452875429de944af1cd33b69dc08aff80317329",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/visualizers.py": "5f0df091b706f19a99669f11b12f01b118ebe783913d436583fd61edd181fe47"
+      },
+      "demo_sha256": "5a79751eff03b42b5fd00d9e8cabbee6fcf474188dae5517e73c1669b95b2fbd",
+      "capture_script_sha256": "6d85d8013173cd92c6b388f93642f5b2e2272616cf467c5d6d182df02cee8259",
       "hold_pacing_s": 0.0,
       "files": {
-        "scene.usda": "6c09dcd3b8a9625028a5d3ebf5b54fd43b5bf527d84ae5cac72a9fbb74afcd56",
+        "scene.usda": "09a0552c2f4e044c74e5990625a5250e8b0f111cab00c5c040ce4c3f796b81af",
         "geometry.npz": "f4af3f1d6904962cb23bf955d96ae78f2a9bd06144f346d5dc9c12b012d7eb7a",
-        "motion.npz": "e9b9e23cd6ff84a4e53468587650168b548f5d392225cad59f26e3c901b5e4c2"
+        "motion.npz": "703f96b65b0bc214e420bc87be089cf505a38e930f97abc6b54af26b8c25fa50"
       }
     }
   },
   "stationary-press": {
     "example": "stationary-press",
-    "capture_sha256": "d5b7c86a6d4720ed865d42006293aecb91aa08bf1f07f90ad16bb7777c0ecd3c",
+    "capture_sha256": "7865cb46cd64b506e4806e4852185e234de22268a4dbe2adf3c7bf3b302be594",
     "physics_version": "5.1.0.0",
     "renderer_version": "6.0.1.0",
     "frame_count": 75,
@@ -894,21 +972,21 @@
     "physical_timeline_advanced_by_renderer": false,
     "force_frames_interpolated": false,
     "maximum_rendered_pose_error": 2.220446049250313e-16,
-    "maximum_rendered_vertex_error_m": 8.355534721610419e-17,
+    "maximum_rendered_vertex_error_m": 7.473417450352271e-17,
     "checked_mesh_count": 53,
     "contact_closeup_camera": true,
-    "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
-    "shared_force_scale_n": 0.9300000071525574,
-    "renderer_script_sha256": "7a4f20cfb567a2a2c256df1dcce7c5e9677e2df39e3f40464f9315aa696ef0fd",
+    "geometry_script_sha256": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
+    "shared_force_scale_n": 0.029999999329447746,
+    "renderer_script_sha256": "b3966237a5ffe1d578a5e73315e197cb7b01511db5c474fd6b96101f43df6b5e",
     "poster_frame": 37,
     "files": {
-      "stationary-press-contact.webp": "57d88a1abea464b1580d471886c79afd57c0266f61fbf3b12a0107920f11ab4d",
-      "stationary-press.webp": "57d88a1abea464b1580d471886c79afd57c0266f61fbf3b12a0107920f11ab4d",
+      "stationary-press-contact.webp": "46839f281a2e4a5142cccd8447e452e56a4f4dd676ed4a630ffc23b465c9ca74",
+      "stationary-press.webp": "46839f281a2e4a5142cccd8447e452e56a4f4dd676ed4a630ffc23b465c9ca74",
       "stationary-press.vtt": "51349579e1a53d345440bfa18ac82d9a4a50f2c3e9eaa13cf14fce34ef61217e",
-      "stationary-press.webm": "201a6baba668a48bdc5117e5b2c2295686e4e3c6ca37d4a2d0e0ca79d29b8861",
-      "stationary-press-before.webp": "4faa112d2cde04b9e6d65dd8714a783bd86f83a2fd2fe3c26afe42fca7a2b0f1",
-      "stationary-press-after.webp": "75f26db1b9a8cf7b7afe94056fc9a0e7b2e43e0ca653dd624496f2309858e5fb",
-      "stationary-press.mp4": "0a64f01a14eaca266b001a5381242caf1007f7306dd3b5dea5d469554a78cd33"
+      "stationary-press.webm": "d8536e6f6c385e9cb2b22db1665d4ed0dc2b1fc5ed04a14cd30aeabc05d0cf9b",
+      "stationary-press-before.webp": "f59544056611bd4d1209d6b20e2d4d177283cc2a4000d76065010d7f6ca5c93d",
+      "stationary-press-after.webp": "7fd3b112ffc6571fb94060c74490c0ecae7e003dc82fe19170011639a874df19",
+      "stationary-press.mp4": "b2880a5627ff11181ecb12a46f211e0c8da22711194dd097736c749e51fe553c"
     },
     "video_size": [
       960,
@@ -1104,215 +1182,268 @@
       "meshes": [
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_mount/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_base/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/visuals/rl_dg_palm/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_mount_c/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_base_c/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_mount/collisions/rl_dg_palm_c/mesh",
-          "body_index": 0
+          "body_index": 0,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_1/visuals/rl_dg_1_1/mesh",
-          "body_index": 1
+          "body_index": 1,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_1/collisions/rl_dg_1_1_c/mesh",
-          "body_index": 1
+          "body_index": 1,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_1/visuals/rl_dg_2_1/mesh",
-          "body_index": 2
+          "body_index": 2,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_1/collisions/rl_dg_2_1_c/mesh",
-          "body_index": 2
+          "body_index": 2,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_1/visuals/rl_dg_3_1/mesh",
-          "body_index": 3
+          "body_index": 3,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_1/collisions/rl_dg_3_1_c/mesh",
-          "body_index": 3
+          "body_index": 3,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_1/visuals/rl_dg_4_1/mesh",
-          "body_index": 4
+          "body_index": 4,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_1/collisions/rl_dg_4_1_c/mesh",
-          "body_index": 4
+          "body_index": 4,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_1/visuals/rl_dg_5_1/mesh",
-          "body_index": 5
+          "body_index": 5,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_1/collisions/rl_dg_5_1_c/mesh",
-          "body_index": 5
+          "body_index": 5,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_2/visuals/rl_dg_1_2/mesh",
-          "body_index": 6
+          "body_index": 6,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_2/collisions/rl_dg_1_2_c/mesh",
-          "body_index": 6
+          "body_index": 6,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_2/visuals/rl_dg_2_2/mesh",
-          "body_index": 7
+          "body_index": 7,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_2/collisions/rl_dg_2_2_c/mesh",
-          "body_index": 7
+          "body_index": 7,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_2/visuals/rl_dg_3_2/mesh",
-          "body_index": 8
+          "body_index": 8,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_2/collisions/rl_dg_3_2_c/mesh",
-          "body_index": 8
+          "body_index": 8,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_2/visuals/rl_dg_4_2/mesh",
-          "body_index": 9
+          "body_index": 9,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_2/collisions/rl_dg_4_2_c/mesh",
-          "body_index": 9
+          "body_index": 9,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_2/visuals/rl_dg_5_2/mesh",
-          "body_index": 10
+          "body_index": 10,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_2/collisions/rl_dg_5_2_c/mesh",
-          "body_index": 10
+          "body_index": 10,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_3/visuals/rl_dg_1_3/mesh",
-          "body_index": 11
+          "body_index": 11,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_3/collisions/rl_dg_1_3_c/mesh",
-          "body_index": 11
+          "body_index": 11,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_3/visuals/rl_dg_2_3/mesh",
-          "body_index": 12
+          "body_index": 12,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_3/collisions/rl_dg_2_3_c/mesh",
-          "body_index": 12
+          "body_index": 12,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_3/visuals/rl_dg_3_3/mesh",
-          "body_index": 13
+          "body_index": 13,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_3/collisions/rl_dg_3_3_c/mesh",
-          "body_index": 13
+          "body_index": 13,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_3/visuals/rl_dg_4_3/mesh",
-          "body_index": 14
+          "body_index": 14,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_3/collisions/rl_dg_4_3_c/mesh",
-          "body_index": 14
+          "body_index": 14,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_3/visuals/rl_dg_5_3/mesh",
-          "body_index": 15
+          "body_index": 15,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_3/collisions/rl_dg_5_3_c/mesh",
-          "body_index": 15
+          "body_index": 15,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_4/fingertip/fingertip_base",
-          "body_index": 16
+          "body_index": 16,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_4/fingertip_base",
-          "body_index": 17
+          "body_index": 17,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_4/fingertip_base",
-          "body_index": 18
+          "body_index": 18,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_4/fingertip_base",
-          "body_index": 19
+          "body_index": 19,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_4/fingertip/fingertip_base",
-          "body_index": 20
+          "body_index": 20,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_sensor/visual",
-          "body_index": 21
+          "body_index": 21,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_1_sensor/collision",
-          "body_index": 21
+          "body_index": 21,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_sensor/visual",
-          "body_index": 22
+          "body_index": 22,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_2_sensor/collision",
-          "body_index": 22
+          "body_index": 22,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_sensor/visual",
-          "body_index": 23
+          "body_index": 23,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_3_sensor/collision",
-          "body_index": 23
+          "body_index": 23,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_sensor/visual",
-          "body_index": 24
+          "body_index": 24,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_4_sensor/collision",
-          "body_index": 24
+          "body_index": 24,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_sensor/visual",
-          "body_index": 25
+          "body_index": 25,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Robot/rl_dg_5_sensor/collision",
-          "body_index": 25
+          "body_index": 25,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Asset/factory_gear_medium/visuals",
-          "body_index": 26
+          "body_index": 26,
+          "kind": "Mesh"
         },
         {
           "path": "/World/envs/env_0/Asset/factory_gear_medium/collisions",
-          "body_index": 26
+          "body_index": 26,
+          "kind": "Mesh"
         }
       ],
       "body_scales": [
@@ -1453,7 +1584,7 @@
         ]
       ],
       "maximum_exported_vertex_error_m": 7.076311083754595e-17,
-      "geometry_script_sha256": "758f5602f1a6802e791ac0896fdf49bcd78bf49e05e2abe8ba8b4f535607facd",
+      "geometry_script_sha256": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
       "labels": [
         "Finger 1",
         "Finger 2",
@@ -1464,16 +1595,56 @@
       "frame_count": 75,
       "capture_stride": 4,
       "playback_fps": 30.0,
-      "source_commit": "b81cff9248252cc988bdec6c3f451c7133ae335b",
-      "demo_sha256": "b1ee259165dfb490b47ed4321c63d7f6481ec8ed1f365d58ce36dcec661c50f8",
-      "capture_script_sha256": "b96705e9fbdd02b7e58bac3f4c4067545aaeb43d750a70f37a9a22e68e168622",
-      "hold_pacing_s": 0.025,
+      "source_commit": "c6228aeaf0f09e539a8038a8efb4b12c64f4cebc",
+      "source_files_sha256": {
+        "assets/robots/tesollo/dex01.usda": "d334a69ba39fa62c5772cf424ba58c094978a3f75e1a1298f71b4032243d4002",
+        "assets/robots/tesollo/dg5f_right.usda": "2457ca1923b209e6cd32785b31d873026584157a055d7c2e7cb8c1e17c4e4d78",
+        "assets/sensors/dex01/reference.json": "9f28f8450455bc9c100bafdd6cfadc776d54262c852b3372060ea8fafa2321b1",
+        "scripts/dex01_articulated_press.py": "058e5c4345c8ef7af7129427fea611de45583c4f5966bfc70dd298816f67e9ed",
+        "scripts/dex01_on_tesollo_dg5f.py": "5a79751eff03b42b5fd00d9e8cabbee6fcf474188dae5517e73c1669b95b2fbd",
+        "scripts/docs/capture_examples.py": "6d85d8013173cd92c6b388f93642f5b2e2272616cf467c5d6d182df02cee8259",
+        "scripts/docs/motion_geometry.py": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
+        "scripts/object_geometry.py": "10e9edcef78d1bbac7d5aac4ec28c690318ac49da51b3ce600028f1ed9a2bc26",
+        "scripts/simple_example.py": "94cf9f862c67f099fa3793e9e23241e6067d0594092f7bdfbc500642495c358f",
+        "source/dex01_sim_asset/dex01_sim_asset/__init__.py": "b93c14d87ae132aa26ba55cacb7b8e6b767862afaf70f912209a1364cec66e4b",
+        "source/dex01_sim_asset/dex01_sim_asset/marker_cfg.py": "33b3333da942c29d42621b386bad6773f84504ffd79ab4808dd80b9a839f82d7",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py": "32393c47b5f852ff0bf167a40eea0e4858c392e97cb56c93ad02f352b83a5261",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_cfg.py": "79327923bdc29b3155bbf153c54a44b25673d757ba6a128e8236e10f02890693",
+        "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_data.py": "e67de69a56085750105831f909fc10eb4675c31a0941ecf82078cf251148965f",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/__init__.py": "a5d80bf6032247331ece4fcbf8454ac931f52af153fc6f0c0e9f5d1afc32ac6f",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz": "e2a74fcf70bbc56ca1417e835354fe354ecbc6d7a76b68078ac6155e8efd6702",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz": "971b747bd46997b9bbfcd52be6cb530d9577c31bae3748d5304b19fe0f292f38",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns.py": "a9216dfdcb224ea1015ac9250f4a70cb0c23076a6fcc019f91318ebcc73adb3c",
+        "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns_cfg.py": "b8a569e43b76b2bd9d2925f8ecd46caaf012cdb233a273de0a06f3056f1a13b4",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/__init__.py": "be58b48c21483c08b383e7fd718adf1bce0162f727e68a8ce6860aeced4be798",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/scene_recorder.py": "44eb9248087a10a861ef86e4b4a017bff14f47aef43fcf16f84e194171d89175",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/viewport.py": "59084237b2395b475f7d3b6b9452875429de944af1cd33b69dc08aff80317329",
+        "source/dex01_sim_asset/dex01_sim_asset/vis_utils/visualizers.py": "5f0df091b706f19a99669f11b12f01b118ebe783913d436583fd61edd181fe47"
+      },
+      "demo_sha256": "5a79751eff03b42b5fd00d9e8cabbee6fcf474188dae5517e73c1669b95b2fbd",
+      "capture_script_sha256": "6d85d8013173cd92c6b388f93642f5b2e2272616cf467c5d6d182df02cee8259",
+      "hold_pacing_s": 0.0,
       "files": {
-        "scene.usda": "628094039123929e14adcc088fa9155c8d3adbf592eaff3beacc49fdca8d02cb",
+        "scene.usda": "3a145b6a0f7ca80ef1220424fe3c1f913144fe19a6758d92b950594e62b2a86a",
         "geometry.npz": "16e51425bd3917d429495eb65cb80e71b61405c755fe469bbde0e920fc91289a",
-        "press-report.json": "4bce625936336fb1a9e621ce69b30471a9628bde891fc1e14481205965e6f5cc",
-        "motion.npz": "e54dc38bfa79ade8af36e54f3cfe8c65c2fde709345ec6bc3cec4c71099c634d"
+        "press-report.json": "f93c493a7c285482963ad33fef762bf61ba90016f1962a236e043e31031de4d5",
+        "motion.npz": "f5fbb5d393b5ddbb1a224dad2f944b09ee047678a27244629fd902bf9b8c95c9"
       }
+    }
+  },
+  "repository_naming_update": {
+    "geometry_and_force_data_unchanged": true,
+    "capture_source_hashes_retained": true,
+    "capture_source_paths_use_current_names": true,
+    "current_file_sha256": {
+      "assets/sensors/dex01/DEX-01-FINGERTIP-outer.obj": "78ccdc8d820bc5706baa9c60f4f0c9532e5b3e3934e4f16e9d05b67329b1e9e5",
+      "assets/sensors/dex01/DEX-01-FINGERTIP-outer.mtl": "79b63f2aec5ed8e34f36f8cb6b4129d10375ea1600cf3a62df4e0b8b13987e78",
+      "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz": "e2a74fcf70bbc56ca1417e835354fe354ecbc6d7a76b68078ac6155e8efd6702",
+      "DOCUMENTATION.md": "797da44ad660d7f0b4ead2e4b9017d76cabba399180db5b5cf37af24046eabb6",
+      "assets/sensors/dex01/reference.json": "f604f8aedf1a1be56cb93e7a0079dd0dc84241d5743c670ee3ed9d0977ffe9f8",
+      "assets/robots/tesollo/dex01.usda": "e9ef675e9aa612a87347c8ad6f43ed6ecb832d30c931ba90853240788f4ed261",
+      "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns_cfg.py": "06bb3e6e2a8949530b4a3b3f285100002b43ba3e9caa701d2bf8ca0dd0723062",
+      "scripts/docs/plot_validation.py": "3375dedc2c3100693fdc28f19ed3d750fa59f2bbb237af6b478bc7fd01ea1d38"
     }
   }
 }

@@ -92,6 +92,16 @@ set -u
 
 install() { uv pip install "$@"; }
 
+# Reject incompatible reused environments before installing or replacing anything.
+python -c 'import sys; sys.exit(sys.version_info[:2] != (3, 11))' ||
+    die "The selected environment must use Python ${PYTHON_VERSION}. Create a separate environment with --venv."
+INSTALLED_ISAACSIM_VERSION="$(python -c "from importlib.metadata import version; print(version('isaacsim'))" 2>/dev/null || true)"
+if [[ -n "${INSTALLED_ISAACSIM_VERSION}" &&
+      "${INSTALLED_ISAACSIM_VERSION}" != "${ISAACSIM_VERSION}" &&
+      "${INSTALLED_ISAACSIM_VERSION}" != "${ISAACSIM_VERSION}.0" ]]; then
+    die "The selected environment has Isaac Sim ${INSTALLED_ISAACSIM_VERSION}, but this setup requires ${ISAACSIM_VERSION}. Use a separate --venv; the existing environment was preserved."
+fi
+
 # --- native build tools ------------------------------------------------------
 
 # egl-probe (via Robomimic) shells out to cmake and make. A pyenv cmake shim

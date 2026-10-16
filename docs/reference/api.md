@@ -31,6 +31,11 @@ and `debug_vis`. The sensor's leaf prim name must be literal, not a regex.
 | `offset.rot` | Sensor-frame rotation as `(w, x, y, z)`; identity by default |
 | `visualizer_cfg` | Optional debug marker configuration |
 
+Positive uniform scale inherited by the sensor body applies to local taxel
+positions and `offset.pos`; normals retain unit length. Nonuniform sensor
+scaling is rejected. A counter-object wrapper must resolve to exactly one
+rigid body, which is also used by the contact-force filter.
+
 ```{literalinclude} ../../source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_cfg.py
 :language: python
 :start-at:     mesh_prim_path:

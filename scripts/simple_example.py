@@ -14,6 +14,10 @@
 # limitations under the License.
 
 import argparse
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "source/dex01_sim_asset"))
 
 from isaaclab.app import AppLauncher
 

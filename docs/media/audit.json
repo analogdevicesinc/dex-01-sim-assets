@@ -1,0 +1,147 @@
+{
+  "date": "2026-10-13",
+  "base_commit": "c6228aeaf0f09e539a8038a8efb4b12c64f4cebc",
+  "tested_with_uncommitted_fixes": true,
+  "physics_version": "5.1.0.0",
+  "renderer_version": "6.0.1.0",
+  "unit_tests_passed": 160,
+  "known_load_medians_n": [
+    0.980522483587265,
+    0.9805211424827576,
+    0.9807929992675781,
+    0.9816303551197052
+  ],
+  "thumb_centroid_error_m": 8.926404916564934e-06,
+  "sweeps": {
+    "contact": {
+      "cases": 738,
+      "environments": 2,
+      "sensor_scale": 1.0,
+      "max_centroid_error_m": 0.0003493972180876881,
+      "max_analytic_depth_error_m": 1.664261831526995e-05
+    },
+    "contact-scaled": {
+      "cases": 738,
+      "environments": 2,
+      "sensor_scale": 1.5,
+      "max_centroid_error_m": 0.00017058942466974258,
+      "max_analytic_depth_error_m": 1.659081488106619e-05
+    }
+  },
+  "video_frames_checked": 225,
+  "maximum_rendered_vertex_error_m": 1.2566871346510768e-16,
+  "loaded_taxel_geometry": {
+    "hand": {
+      "loaded_taxel_samples": 3072,
+      "outside_mesh_max_distance_m": 0.0,
+      "gear_width_m": 0.006288510252078772
+    },
+    "stationary-press": {
+      "loaded_taxel_samples": 720,
+      "outside_mesh_max_distance_m": 0.0,
+      "gear_width_m": 0.00824690654608684
+    }
+  },
+  "report_sha256": {
+    "hand.json": "7998000f58bf33669e6aa3ee061733b19c4dd042216964853c6c783ba473a6e3",
+    "contact.json": "fdbfa28b41330217645d7519aa43d3884526789eddbb048c359d55f5d05caade",
+    "contact-scaled.json": "4c0bbd1e614bb36625afcc4d7961706c7accd12cf07a2a10f66f0ce40b44adb1",
+    "planar-press-report.json": "f93c493a7c285482963ad33fef762bf61ba90016f1962a236e043e31031de4d5",
+    "planar-contact-geometry.json": "a0380d71a9e1c13abcfcc2e53c3755764a179d03feb31c3026ef9f2b7ae2be48"
+  },
+  "runtime_source_files_sha256": {
+    "assets/robots/tesollo/dex01.usda": "d334a69ba39fa62c5772cf424ba58c094978a3f75e1a1298f71b4032243d4002",
+    "assets/robots/tesollo/dg5f_right.usda": "2457ca1923b209e6cd32785b31d873026584157a055d7c2e7cb8c1e17c4e4d78",
+    "assets/sensors/dex01/reference.json": "9f28f8450455bc9c100bafdd6cfadc776d54262c852b3372060ea8fafa2321b1",
+    "scripts/dex01_articulated_press.py": "058e5c4345c8ef7af7129427fea611de45583c4f5966bfc70dd298816f67e9ed",
+    "scripts/dex01_on_tesollo_dg5f.py": "5a79751eff03b42b5fd00d9e8cabbee6fcf474188dae5517e73c1669b95b2fbd",
+    "scripts/docs/capture_examples.py": "6d85d8013173cd92c6b388f93642f5b2e2272616cf467c5d6d182df02cee8259",
+    "scripts/docs/motion_geometry.py": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
+    "scripts/object_geometry.py": "10e9edcef78d1bbac7d5aac4ec28c690318ac49da51b3ce600028f1ed9a2bc26",
+    "scripts/simple_example.py": "94cf9f862c67f099fa3793e9e23241e6067d0594092f7bdfbc500642495c358f",
+    "source/dex01_sim_asset/dex01_sim_asset/__init__.py": "b93c14d87ae132aa26ba55cacb7b8e6b767862afaf70f912209a1364cec66e4b",
+    "source/dex01_sim_asset/dex01_sim_asset/marker_cfg.py": "33b3333da942c29d42621b386bad6773f84504ffd79ab4808dd80b9a839f82d7",
+    "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py": "32393c47b5f852ff0bf167a40eea0e4858c392e97cb56c93ad02f352b83a5261",
+    "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_cfg.py": "79327923bdc29b3155bbf153c54a44b25673d757ba6a128e8236e10f02890693",
+    "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor_data.py": "e67de69a56085750105831f909fc10eb4675c31a0941ecf82078cf251148965f",
+    "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/__init__.py": "a5d80bf6032247331ece4fcbf8454ac931f52af153fc6f0c0e9f5d1afc32ac6f",
+    "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz": "e2a74fcf70bbc56ca1417e835354fe354ecbc6d7a76b68078ac6155e8efd6702",
+    "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz": "971b747bd46997b9bbfcd52be6cb530d9577c31bae3748d5304b19fe0f292f38",
+    "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns.py": "a9216dfdcb224ea1015ac9250f4a70cb0c23076a6fcc019f91318ebcc73adb3c",
+    "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns_cfg.py": "b8a569e43b76b2bd9d2925f8ecd46caaf012cdb233a273de0a06f3056f1a13b4",
+    "source/dex01_sim_asset/dex01_sim_asset/vis_utils/__init__.py": "be58b48c21483c08b383e7fd718adf1bce0162f727e68a8ce6860aeced4be798",
+    "source/dex01_sim_asset/dex01_sim_asset/vis_utils/scene_recorder.py": "44eb9248087a10a861ef86e4b4a017bff14f47aef43fcf16f84e194171d89175",
+    "source/dex01_sim_asset/dex01_sim_asset/vis_utils/viewport.py": "59084237b2395b475f7d3b6b9452875429de944af1cd33b69dc08aff80317329",
+    "source/dex01_sim_asset/dex01_sim_asset/vis_utils/visualizers.py": "5f0df091b706f19a99669f11b12f01b118ebe783913d436583fd61edd181fe47",
+    "setup_env.sh": "d4a3db22bc106dd89968279190aacb7793121fcd007e098d64e7387630a33cf4",
+    "scripts/verify_dex01_sim.py": "ab71d2f2894d6ea450bcf5cbe7d0f536d3aa67d51985a71e51ceb62f2e767e93",
+    "scripts/docs/plot_validation.py": "7e292e0d75cb4dbadd29d1a239767b355db0a29d612b906976c1d2e4be8154f7"
+  },
+  "scope": "Headless PhysX simulation, exported geometry, native RTX documentation rendering, recordings, packaging and automated validation. Live WebRTC client interaction and hardware calibration were not exercised.",
+  "planar_press_contact": {
+    "checked_hold_frames": 11,
+    "max_face_angle_deg": 0.03270664177093741,
+    "max_underside_gap_m": -1.0971904937025859e-06,
+    "min_footprint_coverage": 0.96,
+    "loaded_taxel_samples": 720,
+    "outside_mesh_max_distance_m": 0.0,
+    "gear_width_m": 0.00824690654608684,
+    "expected_face_taxels": 50,
+    "min_quadrant_force_share": 0.18972970312599854,
+    "checked_cycles": 3,
+    "max_report_face_angle_deg": 0.03325662761926651,
+    "max_report_underside_gap_m": -9.808885579332127e-07
+  },
+  "repository_naming_update": {
+    "geometry_and_force_data_unchanged": true,
+    "capture_source_hashes_retained": true,
+    "capture_source_paths_use_current_names": true,
+    "current_file_sha256": {
+      "assets/sensors/dex01/DEX-01-FINGERTIP-outer.obj": "78ccdc8d820bc5706baa9c60f4f0c9532e5b3e3934e4f16e9d05b67329b1e9e5",
+      "assets/sensors/dex01/DEX-01-FINGERTIP-outer.mtl": "79b63f2aec5ed8e34f36f8cb6b4129d10375ea1600cf3a62df4e0b8b13987e78",
+      "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz": "e2a74fcf70bbc56ca1417e835354fe354ecbc6d7a76b68078ac6155e8efd6702",
+      "DOCUMENTATION.md": "797da44ad660d7f0b4ead2e4b9017d76cabba399180db5b5cf37af24046eabb6",
+      "assets/sensors/dex01/reference.json": "f604f8aedf1a1be56cb93e7a0079dd0dc84241d5743c670ee3ed9d0977ffe9f8",
+      "assets/robots/tesollo/dex01.usda": "e9ef675e9aa612a87347c8ad6f43ed6ecb832d30c931ba90853240788f4ed261",
+      "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns_cfg.py": "06bb3e6e2a8949530b4a3b3f285100002b43ba3e9caa701d2bf8ca0dd0723062",
+      "scripts/docs/plot_validation.py": "3375dedc2c3100693fdc28f19ed3d750fa59f2bbb237af6b478bc7fd01ea1d38"
+    }
+  },
+  "evidence_scope": {
+    "recorded_on": "2026-10-13",
+    "prior_external_geometry_audit": "Historical result; original external checker and transient reports are not bundled. Fresh captures can be audited with scripts/docs/check_capture_geometry.py.",
+    "new_checker_scope": "Independent loaded-taxel containment only; press face coverage, alignment, and underside gap are audited separately by the articulated report checker."
+  },
+  "followup_review": {
+    "date": "2026-10-16",
+    "tests_passed": 176,
+    "scope": "CPU regression suite; fresh Isaac Sim 5.1 known-load/thumb, planar press, scaled wrapper sweep, and independent capture containment. Documentation build checked in PR CI.",
+    "independent_checker_sha256": "3afe5131fd541b1ef53c13f945088d8fb73169a007adb309c80991a73bb26214",
+    "physics_reports_sha256": {
+      "hand": "7775f5a1048faf6cdde78e48ed64dbeeb538b0fff7481937459afb05e8b3647c",
+      "press": "e8536d55aa132e73acd4baa558e66a093e35de86f357fac39149745a141a08db",
+      "contact": "1dda47495bf366fb907a00b1c60387f0616066e815d78013e393945a3b0b371c"
+    },
+    "loaded_taxel_geometry": {
+      "hand": {
+        "example": "hand",
+        "capture_sha256": "aaacf1c742f80ab4f7f8ca3fec74321803fcd0d54bdcd470be0a8d88ac85519b",
+        "checker_sha256": "3afe5131fd541b1ef53c13f945088d8fb73169a007adb309c80991a73bb26214",
+        "loaded_taxel_samples": 3072,
+        "outside_mesh_max_distance_m": 0.0,
+        "tolerance_m": 1e-06,
+        "gear_width_m": 0.006288510252078772
+      },
+      "press": {
+        "example": "stationary-press",
+        "capture_sha256": "a42a8f0aa3e5eb5008bf8090bdc1c3d9fe980745dc246070e09bc7ce3ee2b62c",
+        "checker_sha256": "3afe5131fd541b1ef53c13f945088d8fb73169a007adb309c80991a73bb26214",
+        "loaded_taxel_samples": 720,
+        "outside_mesh_max_distance_m": 0.0,
+        "tolerance_m": 1e-06,
+        "gear_width_m": 0.00824690654608684
+      }
+    },
+    "repository_hooks": "passed"
+  }
+}

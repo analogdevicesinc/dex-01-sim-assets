@@ -126,7 +126,12 @@ def render(capture, output, manifest, app):
     import omni.replicator.core as rep
     import omni.timeline
     import omni.usd
-    from motion_geometry import apply_body_poses, transform_points, verify_geometry
+    from motion_geometry import (
+        apply_body_poses,
+        pose_matrix,
+        transform_points,
+        verify_geometry,
+    )
     from pxr import Gf, Sdf, UsdGeom, UsdLux, UsdShade
 
     omni.usd.get_context().open_stage(str(capture / "scene.usda"))
@@ -240,7 +245,13 @@ def render(capture, output, manifest, app):
                 )
                 center = (gear_world.min(0) + gear_world.max(0)) / 2
                 detail_target = Gf.Vec3d(*map(float, center))
-                detail_eye = Gf.Vec3d(*map(float, center + [-0.025, -0.035, 0.045]))
+                detail_offset = np.array([-0.025, -0.035, 0.045])
+                if manifest["example"] == "stationary-press":
+                    # View the contact face obliquely in its own frame. A fixed
+                    # world offset grazes the bent pad and hides the contact.
+                    rotation = np.asarray(pose_matrix(poses[index, mesh_entry["body_index"]]))[:3, :3]
+                    detail_offset = detail_offset @ rotation
+                detail_eye = Gf.Vec3d(*map(float, center + detail_offset))
                 detail_op.Set(Gf.Matrix4d(1).SetLookAt(detail_eye, detail_target, Gf.Vec3d(0, 0, 1)).GetInverse())
             for _ in range(2):
                 app.update()

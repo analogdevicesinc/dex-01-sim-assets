@@ -14,6 +14,11 @@ Frames unwrap the curved sensing surface into firmware row/column coordinates.
 They show sampled contact footprints. Features smaller than the local sampling
 spacing, including fine gear teeth, can be unresolved. Grey visualization cells
 have no taxel; active cells at zero force remain in the zero-force color.
+If physical contact occurs entirely between sampling points, there is no
+penetrating taxel to receive force and the tactile frame remains zero. On
+curved patches, the reported total is a projection of the net contact-force
+vector onto the weighted sampling normal; opposing contact directions can
+cancel. It is not a sum of individually measured local contact forces.
 
 ## Dynamics and geometry
 

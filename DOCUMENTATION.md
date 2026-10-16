@@ -129,9 +129,8 @@ selected physics step. They also save the original body scales and mesh
 vertices in `geometry.npz` before replacing any USD transforms. PhysX poses
 contain only translation and rotation; preserve the accumulated scale when
 applying them to meshes under scaled spawn wrappers. The source examples run
-unchanged. The press capture
-checks its original report and paces the hold interval for its observed-duration
-acceptance; physics timesteps, targets, and forces are unchanged.
+unchanged. The press capture checks its original report using simulation time.
+Headless physics checks do not enforce GUI wall-clock timing or add artificial delays.
 
 In the isolated renderer environment, install the video encoder and render:
 
@@ -181,7 +180,7 @@ heatmaps. Offscreen cameras exclude Kit UI; the recorder composes its own
 heatmaps from sensor arrays. Use `--local-plot` on a local desktop for the
 optional separate live plot.
 
-![Live viewport streaming and recorded camera/sensor composition](documentation/media/streaming-workflow.svg)
+![Live viewport streaming and recorded camera/sensor composition](.github/media/streaming-workflow.svg)
 
 The diagram distinguishes a streamed viewport from camera pixels composed
 with tactile frames for a saved recording. To generate compact, verified

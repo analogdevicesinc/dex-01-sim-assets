@@ -47,7 +47,10 @@ in `reference.json`.
 
 Supported counter objects are rigid bodies or articulation links, one per
 sensor, with positive uniform scale and a fixed mesh-to-body transform shared
-across environments.
+across environments. A wrapper path must contain exactly one rigid body; the
+sensor resolves that body for both SDF queries and force filtering. Sensor
+bodies also support positive uniform scale, applied to taxel positions and
+their mounting offset. The supplied DEX-01 hand uses scale 1.
 
 The sensor `prim_path` must select the fingertip rigid-body link, with a literal
 leaf name. `mesh_prim_path` selects the counter object. See
