@@ -50,7 +50,7 @@ jobs:
       - name: Install test dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install numpy pytest matplotlib trimesh scipy rtree usd-core==26.8
+          python -m pip install numpy pytest matplotlib trimesh scipy rtree pillow imageio-ffmpeg usd-core==26.8
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
       - name: Run tests
         run: python -m pytest tests -q

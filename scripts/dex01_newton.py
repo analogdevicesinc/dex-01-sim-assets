@@ -35,6 +35,7 @@ def main():
     parser.add_argument("--max-steps", type=int, default=1800)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--check-report", type=Path, help="Validate an existing report without launching simulation.")
+    parser.add_argument("--capture", type=Path, help="Export audited poses/forces for documentation replay.")
     parser.add_argument("--record", type=Path, help="Write synchronized RGB/tactile video.")
     parser.add_argument("--debug-vis", action="store_true")
     parser.add_argument("--no-tactile-ui", action="store_true")
@@ -49,6 +50,10 @@ def main():
         return
     if args.num_envs < 1 or args.max_steps < 1:
         parser.error("Environment and step counts must be positive")
+    if args.capture and (args.mode == "sensor" or args.no_sensing or not args.report):
+        parser.error("--capture requires hand/press sensing and --report")
+    if args.capture and (args.capture.exists() or args.max_steps < (1800 if args.mode == "press" else 1440)):
+        parser.error("--capture requires a new output path and complete verification cycles")
     if args.record and args.debug_vis:
         parser.error("Disable debug markers for recordings")
     if args.device == "cpu":

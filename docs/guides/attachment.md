@@ -56,3 +56,9 @@ The sensor `prim_path` must select the fingertip rigid-body link, with a literal
 leaf name. `mesh_prim_path` selects the counter object. See
 [configuration fields](../reference/api.md) and
 [numerical settings](../reference/numerical-settings.md).
+
+## Newton backend
+
+See the [Newton guide](../getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
+normal-force interface, collision settings and required GPU checks. The PhysX
+commands, results and media on this page do not establish Newton correctness.

@@ -22,3 +22,9 @@ clip. The force frames preserve their exact pixel mapping and share one scale
 within each clip; grey indicates unused cells.
 Hand videos include a second native camera view of the contact so the small
 gear remains legible while the overview shows all five fingertips.
+
+## Newton backend
+
+See the [Newton guide](../getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
+normal-force interface, collision settings and required GPU checks. The PhysX
+commands, results and media on this page do not establish Newton correctness.

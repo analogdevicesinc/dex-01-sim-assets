@@ -30,3 +30,9 @@ The released exterior, mounting, contact sample projection, and supplied hand
 pose are checked. The articulated demo also verifies its fixed wrist, finger
 motion, contact, and release. Assess clearance for any new pose or trajectory
 before using it in a task. See [validation](../validation.md).
+
+## Newton backend
+
+See the [Newton guide](../getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
+normal-force interface, collision settings and required GPU checks. The PhysX
+commands, results and media on this page do not establish Newton correctness.

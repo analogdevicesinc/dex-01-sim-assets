@@ -33,6 +33,7 @@ See [how contact is modeled](concepts/model.md) and its
 
 getting-started/installation
 getting-started/quickstart
+getting-started/newton
 ```
 
 ```{toctree}

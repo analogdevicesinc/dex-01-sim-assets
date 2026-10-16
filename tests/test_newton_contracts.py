@@ -60,7 +60,7 @@ def test_curved_normal_projection_rejects_outward_force():
 
 def test_report_checker_rejects_missing_ticks_and_fake_geometry():
     verification = load("scripts/dex01_newton_verification.py")
-    package = ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact_v10.npz"
+    package = ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz"
     pixels = np.load(package)["taxel2pixel"]
     report = {
         "backend": "newton",
@@ -232,9 +232,7 @@ def test_newton_ctrl_c_restores_handler_and_allows_persisting(tmp_path):
 
 @pytest.fixture
 def valid_press_report():
-    pixels = np.load(ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact_v10.npz")[
-        "taxel2pixel"
-    ]
+    pixels = np.load(ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz")["taxel2pixel"]
     loaded = np.zeros((32, 32))
     loaded[tuple(pixels[0])] = 2.0
     loaded_taxels = [2.0] + [0.0] * 737

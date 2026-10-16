@@ -51,10 +51,29 @@ def validate_motion(manifest, arrays):
     mask[pixels[:, 0], pixels[:, 1]] = True
     if mask.sum() != len(pixels) or frames.shape[2:] != (32, 32) or (frames[:, :, ~mask] != 0).any():
         raise ValueError("Captured force frames contain invalid unoccupied cells")
+    if manifest.get("backend") == "newton":
+        steps = np.asarray(manifest["steps"])
+        if not np.array_equal(np.diff(steps), np.full(count - 1, manifest["capture_stride"])):
+            raise ValueError("Newton capture omits sampled ticks")
+        if not np.allclose(times, (steps + 1) * manifest["physics_dt_s"], rtol=0, atol=1e-9):
+            raise ValueError("Newton capture time differs from physics steps")
+        taxels = arrays["taxel_forces_n"]
+        if taxels.shape != (count, len(manifest["labels"]), len(pixels)) or not np.array_equal(
+            frames[:, :, pixels[:, 0], pixels[:, 1]], taxels
+        ):
+            raise ValueError("Newton capture taxel forces differ from firmware frames")
     if manifest["example"] == "stationary-press":
         if (times[-1] - times[0]) > 2.5 or set(manifest["phases"]) != {"unloaded", "approach", "hold", "retract"}:
             raise ValueError("Expected one complete captured press cycle")
-        for name in ["/World/envs/env_0/Robot/rl_dg_mount", "/World/envs/env_0/Asset/factory_gear_medium"]:
+        stationary_paths = [
+            "/World/envs/env_0/Robot/rl_dg_mount",
+            (
+                "/World/envs/env_0/Probe"
+                if manifest.get("backend") == "newton"
+                else "/World/envs/env_0/Asset/factory_gear_medium"
+            ),
+        ]
+        for name in stationary_paths:
             index = manifest["body_paths"].index(name)
             if np.ptp(poses[:, index], axis=0).max() > 1e-5:
                 raise ValueError("The wrist or stationary gear moves during the captured press")
@@ -74,6 +93,14 @@ def main():
     for name, expected in manifest["files"].items():
         if hashlib.sha256((capture / name).read_bytes()).hexdigest() != expected:
             raise RuntimeError(f"Recorded example hash mismatch: {name}")
+    if manifest.get("backend") == "newton":
+        import numpy as np
+
+        required = {"scene.usda", "geometry.npz", "motion.npz"}
+        if not required.issubset(manifest["files"]):
+            raise RuntimeError("Newton capture is missing required files")
+        with np.load(capture / "motion.npz", allow_pickle=False) as arrays:
+            validate_motion(manifest, arrays)
     if not args.worker:
         with tempfile.TemporaryDirectory(prefix="dex01-example-render-", dir=args.output.resolve().parent) as tmp:
             staging = Path(tmp)
@@ -211,7 +238,10 @@ def render(capture, output, manifest, app):
         gear_mesh = next(
             (i, mesh)
             for i, mesh in enumerate(manifest["meshes"])
-            if "/Asset/" in mesh["path"] and mesh["path"].endswith("/visuals")
+            if (
+                (manifest.get("backend") == "newton" and mesh["path"] == "/World/envs/env_0/Probe/collision")
+                or ("/Asset/" in mesh["path"] and mesh["path"].endswith("/visuals"))
+            )
         )
     rep.orchestrator.set_capture_on_play(False)
     import carb.settings

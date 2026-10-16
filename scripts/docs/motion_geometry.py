@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Preserve physical dimensions when replaying scale-free PhysX body poses."""
+"""Preserve physical dimensions when replaying scale-free physics body poses."""
 
 from itertools import product
 

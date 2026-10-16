@@ -95,3 +95,9 @@ a force or invariance report.
 Re-run the commands above when geometry or sensing changes. Keep the JSON
 reports and simulator logs with review evidence. Documentation build checks
 validate the site, while these commands validate the simulation.
+
+## Newton backend
+
+See the [Newton guide](getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
+normal-force interface, collision settings and required GPU checks. The PhysX
+commands, results and media on this page do not establish Newton correctness.

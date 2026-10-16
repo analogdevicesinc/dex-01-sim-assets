@@ -26,3 +26,9 @@ waits for the attached sensor body to settle before measuring its endpoint.
 Solver settings and actuator gains control the simulation; changes should pass
 the [validation workflow](../validation.md). The contact distribution and
 supported counter-object behavior are described in [the model guide](../concepts/limitations.md).
+
+## Newton backend
+
+See the [Newton guide](../getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
+normal-force interface, collision settings and required GPU checks. The PhysX
+commands, results and media on this page do not establish Newton correctness.

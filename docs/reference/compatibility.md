@@ -20,3 +20,9 @@ bug reports. The `v0.1.0-a.1` snapshot is a prerelease, not a stable release.
 
 Documentation builds use a separate Python environment and require no GPU,
 Isaac Sim, CUDA, or simulation asset downloads.
+
+## Newton backend
+
+See the [Newton guide](../getting-started/newton.md) for its Python 3.12 environment, XYZW state providers,
+normal-force interface, collision settings and required GPU checks. The PhysX
+commands, results and media on this page do not establish Newton correctness.

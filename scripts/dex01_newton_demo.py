@@ -185,7 +185,9 @@ def run(args, root, launcher, stop=None):
             robot.write_joint_state_to_sim_index(position=rest, velocity=torch.zeros_like(rest))
         else:
             place_probe(probe, selected, 400, float(mesh.extents[2] / 2) + 0.0005, orient=args.indenter != "sphere")
-        observations, rgb, tactile = [], [], []
+        capture = create_capture(args, root, context, robot, fingers)
+        observations, rgb, tactile, recording_steps = [], [], [], []
+        completed_steps = 0
         peak_contacts = 0
         step_times = []
         sensor_times = []
@@ -219,7 +221,7 @@ def run(args, root, launcher, stop=None):
                     torch.cuda.synchronize()
                     physics_started = time.perf_counter()
                 context.step(render=step % 4 == 0)
-                if args.report:
+                if args.report or args.capture:
                     peak_contacts = check_contact_capacity(peak_contacts)
                 if args.benchmark:
                     torch.cuda.synchronize()
@@ -262,7 +264,15 @@ def run(args, root, launcher, stop=None):
                         entry["joints_rad"] = robot.data.joint_pos.torch[0].cpu().tolist()
                         entry["wrist_pose"] = robot.data.body_link_pose_w.torch[0, 0].cpu().tolist()
                     observations.append(entry)
+                completed_steps = step + 1
+                if capture and step % 8 == 0 and (args.mode != "press" or 1200 <= step < 1800):
+                    poses = np.concatenate((
+                        robot.data.body_link_pose_w.torch[0].cpu().numpy(),
+                        probe.data.root_link_pose_w.torch[0:1].cpu().numpy(),
+                    ))
+                    capture.append(step, poses, sensors)
                 if camera and step > 60 and step % 8 == 0:
+                    recording_steps.append(step)
                     rgb.append(camera.data.output["rgb"].torch[0, :, :, :3].cpu().numpy().copy())
                     tactile.append([sensor.get_tactile_image()[0].cpu().numpy().copy() for sensor in sensors])
                 if args.benchmark:
@@ -298,11 +308,40 @@ def run(args, root, launcher, stop=None):
                     )
                     + "\n"
                 )
-        if camera:
-            save_recording(args.record, rgb, tactile, sensors)
+        save_outputs(args, capture, completed_steps, rgb, tactile, sensors, recording_steps, root)
         if args.benchmark:
             write_benchmark(args, root, step_times, sensor_times, physics_times)
         viewer.close()
+
+
+def create_capture(args, root, context, robot, fingers):
+    if not args.capture:
+        return None
+    from pxr import Usd
+
+    from docs.newton_capture import NewtonCapture
+
+    paths = [f"/World/envs/env_0/Robot/{name}" for name in robot.body_names] + ["/World/envs/env_0/Probe"]
+    return NewtonCapture(
+        Usd.Stage.Open(context.stage.Flatten()),
+        paths,
+        [f"Finger {i}" for i in fingers],
+        args.mode,
+        args.capture,
+        provenance(root),
+    )
+
+
+def save_outputs(args, capture, completed_steps, rgb, tactile, sensors, recording_steps, root):
+    if capture:
+        from dex01_newton_verification import check_report
+
+        check_report(json.loads(args.report.read_text()))
+        capture.save(completed_steps == args.max_steps)
+    if args.record:
+        from dex01_newton_recording import save_recording
+
+        save_recording(args.record, rgb, tactile, sensors, recording_steps, provenance(root))
 
 
 def provenance(root):
@@ -321,10 +360,17 @@ def provenance(root):
         "packages": packages,
         "gpu": gpu.stdout,
         "gpu_returncode": gpu.returncode,
+        "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip(),
         "source_hashes": {
             str(path.relative_to(root)): hashlib.sha256(path.read_bytes()).hexdigest()
             for path in (
                 root / "assets/sensors/dex01/reference.json",
+                root / "assets/robots/tesollo/dex01.usda",
+                root / "assets/robots/tesollo/dg5f_right.usda",
+                root / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz",
+                root / "scripts/dex01_newton_demo.py",
+                root / "scripts/docs/newton_capture.py",
+                root / "scripts/dex01_newton_recording.py",
                 root / "source/dex01_sim_asset/dex01_sim_asset/newton/tactile_sensor.py",
             )
         },
@@ -359,31 +405,6 @@ def place_probe(probe, sensor, taxel, distance, orient=False):
         pose[:, 3:] = quat_from_matrix(torch.stack([x, y, normals], dim=-1))
     probe.write_root_pose_to_sim_index(root_pose=pose)
     probe.write_root_velocity_to_sim_index(root_velocity=torch.zeros(len(points), 6, device=points.device))
-
-
-def save_recording(path, rgb, frames, sensors):
-    import imageio_ffmpeg
-    from dex01_sim_asset.vis_utils.viewport import force_frame_rgba
-
-    if not rgb or np.std(rgb[-1]) < 1:
-        raise RuntimeError("Recording camera has no meaningful image output")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    width = max(rgb[0].shape[1], 128 * len(sensors))
-    height = rgb[0].shape[0] + 128
-    writer = imageio_ffmpeg.write_frames(str(path), (width, height), fps=30)
-    writer.send(None)
-    try:
-        for image, tactile in zip(rgb, frames):
-            composed = np.zeros((height, width, 3), dtype=np.uint8)
-            composed[: image.shape[0], : image.shape[1]] = image
-            vmax = max(0.01, max(float(f.max()) for f in tactile))
-            for index, (sensor, frame) in enumerate(zip(sensors, tactile)):
-                panel = force_frame_rgba(frame, sensor.taxel2pixel.cpu().numpy(), vmax)[:, :, :3]
-                panel = np.repeat(np.repeat(panel, 4, 0), 4, 1)
-                composed[-128:, index * 128 : (index + 1) * 128] = panel
-            writer.send(composed)
-    finally:
-        writer.close()
 
 
 def press_fraction(time_s):

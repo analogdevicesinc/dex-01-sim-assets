@@ -61,6 +61,12 @@ See [installation options](docs/getting-started/installation.md),
 [remote viewing](docs/getting-started/installation.md#view-a-remote-simulation), and
 [known-load validation](docs/validation.md). The gear is not a calibration load.
 
+## Newton backend
+
+An isolated Isaac Lab 3.0 Early Access backend is available. See the
+[Newton setup, demos and verification guide](docs/getting-started/newton.md).
+PhysX validation results and media do not validate Newton.
+
 ## Contribute and license
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for development checks and required DCO
