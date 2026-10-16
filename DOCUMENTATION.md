@@ -182,7 +182,7 @@ heatmaps. Offscreen cameras exclude Kit UI; the recorder composes its own
 heatmaps from sensor arrays. Use `--local-plot` on a local desktop for the
 optional separate live plot.
 
-![Live viewport streaming and recorded camera/sensor composition](.github/media/streaming-workflow.svg)
+![Live viewport streaming and recorded camera/sensor composition](docs/media/streaming-workflow.svg)
 
 The diagram distinguishes a streamed viewport from camera pixels composed
 with tactile frames for a saved recording. To generate compact, verified
