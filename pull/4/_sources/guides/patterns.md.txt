@@ -3,9 +3,8 @@
 Use `GridPatternCfg` for a flat pad, `CustomPatternCfg` for arbitrary NPZ poses,
 or `Dex01PatternCfg` for the DEX-01 exterior. Custom NPZ files contain `poses` of
 shape `(N,3,4)`, with the third axis as the surface normal, and integer
-`taxel2pixel` pairs `(row,column)`. `dex01_pattern.npz` preserves the corrected
-original layout; the exterior pattern supplied by `Dex01PatternCfg` contains
-the contact sampling poses.
+`taxel2pixel` pairs `(row,column)`. `dex01_pattern.npz` stores the source
+layout; `Dex01PatternCfg` supplies exterior contact sampling poses.
 Their taxel order and pixel mapping are identical.
 
 Read [geometry and coordinate frames](../concepts/geometry.md) before changing
@@ -56,5 +55,3 @@ Use local positions in metres and right-handed orthonormal axes. The third
 axis is the outward surface normal. Pixel indices start at zero and are
 ordered `(row, column)`. Empty cells are automatically zero-filled; choose
 indices appropriate to the frame dimensions your consumer expects.
-
-The supplied DEX-01 layout has 740 occupied cells and 284 empty cells.

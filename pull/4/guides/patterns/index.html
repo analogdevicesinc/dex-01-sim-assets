@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="Use GridPatternCfg for a flat pad, CustomPatternCfg for arbitrary NPZ poses, or Dex01PatternCfg for the DEX-01 exterior. Custom NPZ files contain poses of shape (N,3,4), with the third axis as the surface normal, and integer taxel2pixel pairs (row,column). dex01_pattern.npz preserves the corrected original layout; the exterior pattern supplied by Dex01PatternCfg contains the contact sampling poses. Their taxel order and pixel mapping are identical." name="description" />
+<meta content="Use GridPatternCfg for a flat pad, CustomPatternCfg for arbitrary NPZ poses, or Dex01PatternCfg for the DEX-01 exterior. Custom NPZ files contain poses of shape (N,3,4), with the third axis as the surface normal, and integer taxel2pixel pairs (row,column). dex01_pattern.npz stores the source layout; Dex01PatternCfg supplies exterior contact sampling poses. Their taxel order and pixel mapping are identical." name="description" />
 
     <title>Configure taxel patterns &#8212; DEX-01 Tactile Sensor documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="50135df774fca4f6fda7d13eb4a57122e4ff1f9b">
+<meta name="docs-source-ref" content="82ff17651e40abf86cb045598583d687f6b8509f">
 
   </head>
   
@@ -201,9 +201,8 @@ Content on this topic
 <p>Use <code class="docutils literal notranslate"><span class="pre">GridPatternCfg</span></code> for a flat pad, <code class="docutils literal notranslate"><span class="pre">CustomPatternCfg</span></code> for arbitrary NPZ poses,
 or <code class="docutils literal notranslate"><span class="pre">Dex01PatternCfg</span></code> for the DEX-01 exterior. Custom NPZ files contain <code class="docutils literal notranslate"><span class="pre">poses</span></code> of
 shape <code class="docutils literal notranslate"><span class="pre">(N,3,4)</span></code>, with the third axis as the surface normal, and integer
-<code class="docutils literal notranslate"><span class="pre">taxel2pixel</span></code> pairs <code class="docutils literal notranslate"><span class="pre">(row,column)</span></code>. <code class="docutils literal notranslate"><span class="pre">dex01_pattern.npz</span></code> preserves the corrected
-original layout; the exterior pattern supplied by <code class="docutils literal notranslate"><span class="pre">Dex01PatternCfg</span></code> contains
-the contact sampling poses.
+<code class="docutils literal notranslate"><span class="pre">taxel2pixel</span></code> pairs <code class="docutils literal notranslate"><span class="pre">(row,column)</span></code>. <code class="docutils literal notranslate"><span class="pre">dex01_pattern.npz</span></code> stores the source
+layout; <code class="docutils literal notranslate"><span class="pre">Dex01PatternCfg</span></code> supplies exterior contact sampling poses.
 Their taxel order and pixel mapping are identical.</p>
 <p>Read <a class="reference internal" href="../../concepts/geometry/"><span class="std std-doc">geometry and coordinate frames</span></a> before changing
 a layout or mounting transform. Pattern configuration requires an initialized
@@ -264,7 +263,6 @@ supplied exterior pattern.</p>
 axis is the outward surface normal. Pixel indices start at zero and are
 ordered <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">column)</span></code>. Empty cells are automatically zero-filled; choose
 indices appropriate to the frame dimensions your consumer expects.</p>
-<p>The supplied DEX-01 layout has 740 occupied cells and 284 empty cells.</p>
 </section>
 </section>
 
