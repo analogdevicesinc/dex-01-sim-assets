@@ -56,7 +56,7 @@ def test_recording_rejects_misaligned_sequences(tmp_path):
         visualizer([], [[]] * 5, str(tmp_path / "empty"))
 
 
-def test_display_mask_preserves_all_738_cells_and_hand_plot():
+def test_display_mask_preserves_all_740_cells_and_hand_plot():
     matplotlib = pytest.importorskip("matplotlib")
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -69,7 +69,7 @@ def test_display_mask_preserves_all_738_cells_and_hand_plot():
         pixels = data["taxel2pixel"]
     frame = np.arange(1024, dtype=np.float32).reshape(32, 32)
     displayed, mask = module.prettify_dex01(frame)
-    assert mask.sum() == 738
+    assert mask.sum() == 740
     assert mask[pixels[:, 0], pixels[:, 1]].all()
     assert np.array_equal(displayed, frame)
     fig, ax = plt.subplots()

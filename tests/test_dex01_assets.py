@@ -43,10 +43,10 @@ def test_corrected_source_pattern_identity_and_frames():
     assert hashlib.sha256(PATTERN.read_bytes()).hexdigest() == REFERENCE["pattern_sha256"]
     with np.load(PATTERN, allow_pickle=False) as data:
         poses, pixels = data["poses"], data["taxel2pixel"]
-    assert poses.shape == (738, 3, 4)
-    assert pixels.shape == (738, 2)
+    assert poses.shape == (740, 3, 4)
+    assert pixels.shape == (740, 2)
     assert np.isfinite(poses).all()
-    assert len(np.unique(pixels, axis=0)) == 738
+    assert len(np.unique(pixels, axis=0)) == 740
     assert np.issubdtype(pixels.dtype, np.integer)
     assert pixels.min() == 0 and pixels.max() == 31
     rotations = poses[:, :, :3]
@@ -214,3 +214,50 @@ def test_collision_surface_and_dg5f_mount_clearance():
             matrix.Transform(inv.Transform(xf.Transform(Gf.Vec3d(p)))) for p in UsdGeom.Mesh(base).GetPointsAttr().Get()
         ])
         assert coords[:, 0].min() - vertices[:, 0].max() > 0.00029
+
+
+def test_dex01_layout_matches_firmware_addresses():
+    # Occupied row/column ranges of the DEX-01 firmware frame.
+    address_ranges = (
+        (range(8), ((10, 22),)),
+        (range(8, 9), ((0, 1), (10, 22), (31, 32))),
+        (range(9, 10), ((0, 2), (10, 22), (30, 32))),
+        (range(10, 11), ((0, 3), (10, 22), (29, 32))),
+        (range(11, 13), ((0, 4), (9, 23), (28, 32))),
+        (range(13, 20), ((0, 5), (9, 23), (27, 32))),
+        (range(20, 32), ((0, 32),)),
+    )
+    expected = {
+        row * 32 + col
+        for rows, spans in address_ranges
+        for row in rows
+        for start, stop in spans
+        for col in range(start, stop)
+    }
+    assert len(expected) == 740
+    with np.load(PATTERN, allow_pickle=False) as data:
+        source_pixels = data["taxel2pixel"].copy()
+    for path in (PATTERN, ROOT / REFERENCE["contact_pattern_path"]):
+        with np.load(path, allow_pickle=False) as data:
+            poses, pixels = data["poses"], data["taxel2pixel"]
+        assert poses.shape == (740, 3, 4)
+        assert pixels.shape == (740, 2)
+        assert np.issubdtype(pixels.dtype, np.integer)
+        assert (pixels >= 0).all() and (pixels < 32).all()
+        indices = pixels[:, 0] * 32 + pixels[:, 1]
+        assert set(indices) == expected
+        assert len(np.unique(indices)) == 740
+        assert np.array_equal(pixels, source_pixels)
+        assert np.isfinite(poses).all()
+        axes = poses[:, :, :3]
+        assert np.allclose(axes.transpose(0, 2, 1) @ axes, np.eye(3), atol=1e-6)
+        assert np.allclose(np.linalg.det(axes), 1, atol=1e-6)
+
+
+def test_sensor_metadata_identifies_current_contact_layout():
+    from pxr import Usd
+
+    path = ROOT / REFERENCE["contact_pattern_path"]
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == REFERENCE["contact_pattern_sha256"]
+    stage = Usd.Stage.Open(str(ROOT / "assets/robots/tesollo/dex01.usda"))
+    assert stage.GetDefaultPrim().GetCustomDataByKey("patternSha256") == REFERENCE["contact_pattern_sha256"]

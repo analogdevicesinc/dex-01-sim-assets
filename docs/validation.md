@@ -21,7 +21,7 @@ with zero on unloaded fingers. The checker verifies forces, counter-object
 filtering and momentum balance, then reports the separate thumb probe result.
 The gear can rock and is not a calibration load.
 
-For the complete 738-contact sweep:
+For the complete 740-contact sweep:
 
 ```bash
 python scripts/verify_dex01_sim.py \
