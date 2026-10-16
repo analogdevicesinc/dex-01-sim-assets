@@ -114,9 +114,9 @@
   },
   "followup_review": {
     "date": "2026-10-16",
-    "tests_passed": 176,
+    "tests_passed": 177,
     "scope": "CPU regression suite; fresh Isaac Sim 5.1 known-load/thumb, planar press, scaled wrapper sweep, and independent capture containment. Documentation build checked in PR CI.",
-    "independent_checker_sha256": "3afe5131fd541b1ef53c13f945088d8fb73169a007adb309c80991a73bb26214",
+    "independent_checker_sha256": "f82826ba52dd0d370951811847f9d78b7d3dbbacc6c56e81aedbbbda77518ef9",
     "physics_reports_sha256": {
       "hand": "7775f5a1048faf6cdde78e48ed64dbeeb538b0fff7481937459afb05e8b3647c",
       "press": "e8536d55aa132e73acd4baa558e66a093e35de86f357fac39149745a141a08db",
@@ -126,7 +126,7 @@
       "hand": {
         "example": "hand",
         "capture_sha256": "aaacf1c742f80ab4f7f8ca3fec74321803fcd0d54bdcd470be0a8d88ac85519b",
-        "checker_sha256": "3afe5131fd541b1ef53c13f945088d8fb73169a007adb309c80991a73bb26214",
+        "checker_sha256": "f82826ba52dd0d370951811847f9d78b7d3dbbacc6c56e81aedbbbda77518ef9",
         "loaded_taxel_samples": 3072,
         "outside_mesh_max_distance_m": 0.0,
         "tolerance_m": 1e-06,
@@ -135,7 +135,7 @@
       "press": {
         "example": "stationary-press",
         "capture_sha256": "a42a8f0aa3e5eb5008bf8090bdc1c3d9fe980745dc246070e09bc7ce3ee2b62c",
-        "checker_sha256": "3afe5131fd541b1ef53c13f945088d8fb73169a007adb309c80991a73bb26214",
+        "checker_sha256": "f82826ba52dd0d370951811847f9d78b7d3dbbacc6c56e81aedbbbda77518ef9",
         "loaded_taxel_samples": 720,
         "outside_mesh_max_distance_m": 0.0,
         "tolerance_m": 1e-06,

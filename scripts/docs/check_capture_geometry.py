@@ -57,6 +57,10 @@ def check_capture(capture, tolerance_m=1e-6):
         )
     if not mesh.is_volume or not all(component.is_volume for component in mesh.split(only_watertight=False)):
         raise ValueError("Collision mesh components must be closed and outward oriented")
+    # trimesh ray tolerances assume ordinary model units; millimetre-sized
+    # contacts in metre coordinates can be misclassified at triangle edges.
+    # Scale both surfaces and queries, then convert distances back to metres.
+    mesh.apply_scale(1000.0)
     pixels = arrays["taxel2pixel"]
     forces = arrays["frames"][:, :, pixels[:, 0], pixels[:, 1]]
     count, outside = 0, 0.0
@@ -64,7 +68,7 @@ def check_capture(capture, tolerance_m=1e-6):
         loaded = points[index][forces[index] > 1e-8]
         if not len(loaded):
             continue
-        local = Rotation.from_quat(pose[3:]).inv().apply(loaded - pose[:3])
+        local = Rotation.from_quat(pose[3:]).inv().apply(loaded - pose[:3]) * 1000.0
         # Ray parity determines containment. The nearest-face normal heuristic
         # used by signed_distance can flip the sign near triangulation edges.
         exterior = local[~mesh.contains(local)]
@@ -72,7 +76,7 @@ def check_capture(capture, tolerance_m=1e-6):
             _, distance, _ = trimesh.proximity.closest_point(mesh, exterior)
             if not np.isfinite(distance).all():
                 raise ValueError("Invalid independent mesh distances")
-            outside = max(outside, float(distance.max()))
+            outside = max(outside, float(distance.max()) / 1000.0)
         count += len(loaded)
     if count == 0:
         raise ValueError("Capture has no loaded taxels")
@@ -85,7 +89,7 @@ def check_capture(capture, tolerance_m=1e-6):
         "loaded_taxel_samples": count,
         "outside_mesh_max_distance_m": outside,
         "tolerance_m": tolerance_m,
-        "gear_width_m": float(np.ptp(mesh.vertices[:, 1])),
+        "gear_width_m": float(np.ptp(mesh.vertices[:, 1])) / 1000.0,
     }
 
 

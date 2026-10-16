@@ -99,3 +99,37 @@ def test_corrupt_capture_is_rejected(tmp_path):
 def test_inward_surface_cannot_hide_an_outside_sample(tmp_path):
     with pytest.raises(ValueError, match="outward oriented"):
         checker.check_capture(capture(tmp_path, outside=True, inverted=True))
+
+
+def test_thin_inside_samples_are_not_misclassified_by_ray_tolerance(tmp_path):
+    path = capture(tmp_path)
+    mesh = trimesh.creation.box(extents=[0.008, 0.008, 0.005])
+    mesh.apply_translation([0.004, 0, 0.0035])
+    np.savez(
+        path / "geometry.npz",
+        points_0=mesh.vertices,
+        counts_0=np.full(len(mesh.faces), 3),
+        indices_0=mesh.faces.ravel(),
+    )
+    with np.load(path / "motion.npz") as source:
+        arrays = dict(source)
+    arrays["poses"][:, 1, :] = [0, 0, 0, 0, 0, 0, 1]
+    arrays["frames"][:] = 0
+    xy = np.array([(x, y) for x in np.linspace(0.0001, 0.0079, 5) for y in np.linspace(-0.0039, 0.0039, 5)])
+    points = np.column_stack([xy, np.full(25, 0.0010005)])
+    arrays["taxel_points_w"][:, 0, :25] = points
+    pixels = arrays["taxel2pixel"][:25]
+    arrays["frames"][:, 0, pixels[:, 0], pixels[:, 1]] = 1
+    np.savez(path / "motion.npz", **arrays)
+    manifest = json.loads((path / "capture.json").read_text())
+    for name in manifest["files"]:
+        manifest["files"][name] = hashlib.sha256((path / name).read_bytes()).hexdigest()
+    (path / "capture.json").write_text(json.dumps(manifest))
+    state = np.random.get_state()
+    try:
+        np.random.seed(1)
+        result = checker.check_capture(path, tolerance_m=1e-7)
+    finally:
+        np.random.set_state(state)
+    assert result["loaded_taxel_samples"] == 100
+    assert result["outside_mesh_max_distance_m"] == 0
