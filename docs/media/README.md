@@ -10,7 +10,7 @@ The physical state was captured by `scripts/docs/export_scene.py` in Isaac Sim
 **5.1.0.0** after 240 steps with a local **0.1 kg cube**. Finger 2 carries
 approximately **0.988 N** in this frame; all other fingers report zero. The
 export preserves live PhysX body poses, all five visible fingertip meshes, and
-the original 738-taxel firmware mapping. The maximum taxel-to-visible-surface
+the recorded firmware pixel mapping. The maximum taxel-to-visible-surface
 error in this capture is approximately **0.017 µm**.
 
 `scripts/docs/render_scene.py` opens the frozen capture in an isolated

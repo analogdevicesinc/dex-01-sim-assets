@@ -43,7 +43,7 @@ def validate_motion(manifest, arrays):
     expected_interval = manifest["physics_dt_s"] * manifest["capture_stride"]
     if not np.allclose(np.diff(times), expected_interval, rtol=0, atol=1e-9):
         raise ValueError("Captured frames are not uniformly timed")
-    if pixels.shape not in ([(738, 2), (740, 2)] if len(manifest["labels"]) == 5 else [(1024, 2)]):
+    if pixels.shape != (740 if len(manifest["labels"]) == 5 else 1024, 2):
         raise ValueError("Captured taxel layout differs from the example")
     if not np.issubdtype(pixels.dtype, np.integer) or (pixels < 0).any() or (pixels >= 32).any():
         raise ValueError("Invalid firmware pixel indices")
