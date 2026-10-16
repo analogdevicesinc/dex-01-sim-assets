@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="572069b84a80244b18fdded5e71e068b830d71ac">
+<meta name="docs-source-ref" content="dd2638061c1928d3692cc188727f0f3efa768b55">
 
   </head>
   
@@ -226,7 +226,7 @@ must already exist under the paths shown. Spawn <code class="docutils literal no
 <code class="docutils literal notranslate"><span class="pre">variants={&quot;fingertip&quot;:</span> <span class="pre">&quot;dex01&quot;}</span></code>. For the local flat indenter, select
 <code class="docutils literal notranslate"><span class="pre">mesh_prim_path=&quot;/World/envs/env_.*/Asset&quot;</span></code> instead of the nested gear link.</p>
 <p>The complete runnable scene is in the
-<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/572069b84a80244b18fdded5e71e068b830d71ac/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a>.
+<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/dd2638061c1928d3692cc188727f0f3efa768b55/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a>.
 Its <code class="docutils literal notranslate"><span class="pre">finger_sensor()</span></code> helper is the canonical configuration for all five fingers.</p>
 </section>
 <section id="prepare-collision-geometry">
@@ -234,8 +234,8 @@ Its <code class="docutils literal notranslate"><span class="pre">finger_sensor()
 <p>Both sensor body and counter object need contact sensors enabled. The sensor
 body must use compliant contact; the counter object requires an SDF collision
 mesh. Use the matching mounting offset and a small timestep. The
-<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/572069b84a80244b18fdded5e71e068b830d71ac/scripts/verify_dex01_sim.py" target="_blank">verification example</a> contains a complete scene
-with a local sphere; the <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/572069b84a80244b18fdded5e71e068b830d71ac/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a> shows robot
+<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/dd2638061c1928d3692cc188727f0f3efa768b55/scripts/verify_dex01_sim.py" target="_blank">verification example</a> contains a complete scene
+with a local sphere; the <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/dd2638061c1928d3692cc188727f0f3efa768b55/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a> shows robot
 attachment. The released OBJ is the editable exterior source; regenerate its
 USD with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/build_dex01_asset.py</span></code> after updating the source hash
 in <code class="docutils literal notranslate"><span class="pre">reference.json</span></code>.</p>
