@@ -22,7 +22,7 @@ force in newtons. [Figure provenance](docs/media/README.md).*
 
 ## What you can do
 
-- Read **738 contact samples** as a **32 × 32 firmware-mapped force frame**.
+- Read **740 contact samples** as a **32 × 32 firmware-mapped force frame**.
 - Explore contact on a Tesollo hand or a flat pad, with live tactile heatmaps,
   remote WebRTC viewing, and camera recordings.
 - Check normal-force balance with a known **0.981 N** load and run geometry,

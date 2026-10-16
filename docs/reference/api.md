@@ -12,7 +12,7 @@ Construct it with `TactileSensorCfg` through your scene configuration.
 | Interface | Result |
 |---|---|
 | `data` | Updated `TactileSensorData` buffers |
-| `num_taxels` | Number of sample points; 738 for the supplied DEX-01 layout |
+| `num_taxels` | Number of sample points; 740 for the supplied DEX-01 layout |
 | `taxel2pixel` | Integer `(row, column)` pairs in taxel order |
 | `get_tactile_image()` | Force frame `(environments, height, width)`; DEX-01 uses 32 × 32 |
 

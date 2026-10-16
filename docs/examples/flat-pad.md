@@ -54,6 +54,6 @@ total load. At 60 steps, the checked run reported about 0.1735 N peak taxel
 force and 4.9035 N total load, close to the gear's 4.905 N weight. Transient
 readings vary during impact and reset.
 
-This example demonstrates grid sensing. The curved DEX-01 has 738 occupied
+This example demonstrates grid sensing. The curved DEX-01 has 740 occupied
 firmware pixels; use its 0.1 kg flat-indenter fixture for the quantitative
 [known-load verification](../validation.md).

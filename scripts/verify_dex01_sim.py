@@ -41,7 +41,7 @@ def check_hand_report(path):
 
     report = json.loads(path.read_text())
     steps_per_finger = report.get("steps_per_finger", 100)
-    assert report["taxels_per_finger"] == [738] * 5
+    assert report["taxels_per_finger"] == [740] * 5
     for finger in range(2, 6):
         entries = [
             entry

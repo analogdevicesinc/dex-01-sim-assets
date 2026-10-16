@@ -1,0 +1,7 @@
+{
+  "contact_pattern_sha256": "463716137c0add66ca9a53c2d1e3bab8a1197cb9fbf8bfb7c9d67576930da966",
+  "figure_sha256": "499d94fb2ecf2a222746a6b9c12d7ac108717cdb1f5d090f569b6e58c0f944af",
+  "num_taxels": 740,
+  "unoccupied_pixels": 284,
+  "generator": "scripts/docs/plot_validation.py --mapping-only"
+}
