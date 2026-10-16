@@ -18,8 +18,14 @@
 import argparse
 import hashlib
 import json
+import math
+import shutil
+import subprocess
+import sys
 import tempfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "source/dex01_sim_asset"))
 
 # Acceptance bounds for this simulation fixture; none are hardware accuracy claims.
 REFERENCE_LOAD_MASS_KG = 0.1
@@ -36,12 +42,48 @@ MINIMUM_PROBE_CONTACT_FORCE_N = 0.1
 THUMB_CENTROID_TOLERANCE_M = 0.001
 
 
+def _require(condition, message="Verification failed"):
+    if not condition:
+        raise ValueError(message)
+
+
 def check_hand_report(path):
     import numpy as np
 
     report = json.loads(path.read_text())
-    steps_per_finger = report.get("steps_per_finger", 100)
-    assert report["taxels_per_finger"] == [738] * 5
+    _require(not report.get("failure"), f"Hand run failed: {report.get('failure')}")
+    steps_per_finger = report["steps_per_finger"]
+    _require(type(steps_per_finger) is int and steps_per_finger > 0, "Invalid load-cycle length")
+    dt = report["physics_dt_s"]
+    _require(np.isfinite(dt) and dt > 0, "Invalid physics timestep")
+    entries = report["observations"]
+    _require(len(entries) >= steps_per_finger * 4, "Missing full hand load cycle")
+    _require(len(entries) % (steps_per_finger * 4) == 0, "Incomplete hand load cycle")
+    steps = np.asarray([e["step"] for e in entries])
+    _require(np.array_equal(steps, np.arange(len(entries))), "Missing or unordered observations")
+    targets = np.asarray([e["target_finger"] for e in entries])
+    _require(np.array_equal(targets, 2 + (steps // steps_per_finger) % 4), "Incorrect target-finger sequence")
+    # Validate the entire run before selecting settled samples: a bad transient
+    # or non-target force must not disappear from the audit.
+    data = {}
+    for field, shape in {
+        "forces_n": (5,),
+        "min_forces_n": (5,),
+        "depth_min_m": (5,),
+        "contact_forces_w_n": (5, 3),
+        "gear_velocity_w": (6,),
+        "gear_position_m": (3,),
+        "sensor_positions_m": (5, 3),
+    }.items():
+        values = np.asarray([e[field] for e in entries], dtype=float)
+        _require(values.shape == (len(entries), *shape) and np.isfinite(values).all(), f"Invalid {field}")
+        data[field] = values
+    _require((data["forces_n"] >= 0).all() and (data["min_forces_n"] >= 0).all(), "Negative taxel force")
+    _require((data["depth_min_m"] <= 0).all(), "Positive penetration depth")
+    other = data["forces_n"].copy()
+    other[np.arange(len(entries)), targets - 1] = 0
+    _require(other.max() < UNLOADED_FORCE_TOLERANCE_N, "Unexpected force on a non-target finger")
+    _require(report["taxels_per_finger"] == [738] * 5, "Verification failed: report['taxels_per_finger'] == [738] * 5")
     for finger in range(2, 6):
         entries = [
             entry
@@ -50,44 +92,107 @@ def check_hand_report(path):
             and entry["step"] % steps_per_finger >= steps_per_finger * SETTLED_CYCLE_FRACTION
         ]
         readings = np.array([entry["forces_n"] for entry in entries])
-        assert len(readings) >= MINIMUM_SETTLED_SAMPLES, f"Missing settling samples for finger {finger}"
-        assert np.isfinite(readings).all() and (readings >= 0).all()
+        _require(len(readings) >= MINIMUM_SETTLED_SAMPLES, f"Missing settling samples for finger {finger}")
+        _require(
+            np.isfinite(readings).all() and (readings >= 0).all(),
+            "Verification failed: np.isfinite(readings).all() and (readings >= 0).all()",
+        )
         median = np.median(readings[:, finger - 1])
-        assert (
-            abs(median - REFERENCE_WEIGHT_N) / REFERENCE_WEIGHT_N < LOAD_RELATIVE_TOLERANCE
-        ), f"Finger {finger}: {median} N differs from 0.1 kg weight"
-        assert np.max(np.delete(readings, finger - 1, axis=1)) < UNLOADED_FORCE_TOLERANCE_N
+        _require(
+            abs(median - REFERENCE_WEIGHT_N) / REFERENCE_WEIGHT_N < LOAD_RELATIVE_TOLERANCE,
+            f"Finger {finger}: {median} N differs from 0.1 kg weight",
+        )
+        _require(
+            np.max(np.delete(readings, finger - 1, axis=1)) < UNLOADED_FORCE_TOLERANCE_N,
+            "Verification failed: np.max(np.delete(readings, finger - 1, axis=1)) < UNLOADED_FORCE_TOLERANCE_N",
+        )
         if report.get("indenter") == "flat":
             loads = readings[:, finger - 1]
-            assert (
-                np.max(np.abs(loads - REFERENCE_WEIGHT_N)) / REFERENCE_WEIGHT_N < LOAD_RELATIVE_TOLERANCE
-            ), f"Finger {finger}: flat load did not settle"
+            _require(
+                np.max(np.abs(loads - REFERENCE_WEIGHT_N)) / REFERENCE_WEIGHT_N < LOAD_RELATIVE_TOLERANCE,
+                f"Finger {finger}: flat load did not settle",
+            )
             # Compare independently filtered PhysX vertical load with the taxel sum.
             contact = np.array([entry["contact_forces_w_n"][finger - 1] for entry in entries])
-            assert (
-                abs(-contact[:, 2].mean() - REFERENCE_WEIGHT_N) / REFERENCE_WEIGHT_N < CONTACT_MEAN_RELATIVE_TOLERANCE
+            _require(
+                abs(-contact[:, 2].mean() - REFERENCE_WEIGHT_N) / REFERENCE_WEIGHT_N < CONTACT_MEAN_RELATIVE_TOLERANCE,
+                "Verification failed: abs(-contact[:, 2].mean() - REFERENCE_WEIGHT_N) / REFERENCE_WEIGHT_N <"
+                " CONTACT_MEAN_RELATIVE_TOLERANCE",
             )
-            assert np.max(np.abs(loads + contact[:, 2])) < FORCE_AGREEMENT_TOLERANCE_N
+            _require(
+                np.max(np.abs(loads + contact[:, 2])) < FORCE_AGREEMENT_TOLERANCE_N,
+                "Verification failed: np.max(np.abs(loads + contact[:, 2])) < FORCE_AGREEMENT_TOLERANCE_N",
+            )
             speed = np.linalg.norm([entry["gear_velocity_w"][:3] for entry in entries], axis=1)
-            assert speed.max() < SETTLED_SPEED_TOLERANCE_M_S
+            _require(
+                speed.max() < SETTLED_SPEED_TOLERANCE_M_S,
+                "Verification failed: speed.max() < SETTLED_SPEED_TOLERANCE_M_S",
+            )
             # Vertical momentum balance provides a second reference independent of
             # the sensor's force redistribution and the steady-load median.
             dt = report["physics_dt_s"]
             vz = np.array([entry["gear_velocity_w"][2] for entry in entries])
             impulse_residual = (-contact[1:, 2] - REFERENCE_WEIGHT_N) * dt - REFERENCE_LOAD_MASS_KG * np.diff(vz)
-            assert np.max(np.abs(impulse_residual)) < CONTACT_MEAN_RELATIVE_TOLERANCE * REFERENCE_WEIGHT_N * dt
+            _require(
+                np.max(np.abs(impulse_residual)) < CONTACT_MEAN_RELATIVE_TOLERANCE * REFERENCE_WEIGHT_N * dt,
+                "Verification failed: np.max(np.abs(impulse_residual)) < CONTACT_MEAN_RELATIVE_TOLERANCE *"
+                " REFERENCE_WEIGHT_N * dt",
+            )
         print(f"Finger {finger}: {median:.6f} N; unloaded fingers zero")
     thumb = report["thumb"]
-    assert thumb["probe_taxel_force_n"] > MINIMUM_PROBE_CONTACT_FORCE_N
-    assert thumb["probe_centroid_error_m"] < THUMB_CENTROID_TOLERANCE_M
-    assert thumb["gear_filtered_force_n"] == 0
+    _require(thumb is not None, "Missing thumb verification")
+    for field in ("probe_taxel_force_n", "probe_centroid_error_m", "gear_filtered_force_n"):
+        _require(np.isfinite(thumb[field]) and thumb[field] >= 0, f"Invalid thumb {field}")
+    _require(
+        thumb["probe_taxel_force_n"] > MINIMUM_PROBE_CONTACT_FORCE_N,
+        "Verification failed: thumb['probe_taxel_force_n'] > MINIMUM_PROBE_CONTACT_FORCE_N",
+    )
+    _require(
+        thumb["probe_centroid_error_m"] < THUMB_CENTROID_TOLERANCE_M,
+        "Verification failed: thumb['probe_centroid_error_m'] < THUMB_CENTROID_TOLERANCE_M",
+    )
+    _require(thumb["gear_filtered_force_n"] == 0, "Verification failed: thumb['gear_filtered_force_n'] == 0")
     print("Thumb: localized force and counter-object filtering passed")
 
 
+def run_checked(arguments, report_path):
+    """Require a current report even if Kit exits zero after a native failure."""
+    destination = Path(report_path).resolve()
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.unlink(missing_ok=True)
+    with tempfile.TemporaryDirectory(prefix="dex01-verify-") as directory:
+        report = Path(directory) / "report.json"
+        run = subprocess.run(
+            [
+                sys.executable,
+                *subprocess._args_from_interpreter_flags(),
+                str(Path(__file__).resolve()),
+                *arguments,
+                "--verification-worker",
+                "--report",
+                str(report),
+            ],
+            check=False,
+        )
+        _require(
+            run.returncode == 0 and report.exists(),
+            f"Verification worker failed or produced no report (exit {run.returncode})",
+        )
+        result = json.loads(report.read_text())
+        _require(result.get("status") == "passed" and not result.get("failure"), "Verification did not pass")
+        shutil.copy2(report, destination)
+    print(f"Verified report: {destination}", flush=True)
+
+
 parser = argparse.ArgumentParser()
+parser.add_argument("--verification-worker", action="store_true", help=argparse.SUPPRESS)
 parser.add_argument("--report", default="/tmp/dex01-simulation-verification.json")
 parser.add_argument(
     "--transformed-probe", action="store_true", help="Exercise an offset, rotated and scaled collision mesh."
+)
+parser.add_argument("--wrapped-probe", action="store_true", help="Select a spawn wrapper above the counter rigid body.")
+parser.add_argument(
+    "--sensor-scale", type=float, default=1.0, help="Uniform scale of the sensor body and taxel layout."
 )
 parser.add_argument(
     "--sweep-all", action="store_true", help="Check a localized contact at every occupied firmware cell."
@@ -96,8 +201,13 @@ parser.add_argument("--no-tactile-ui", action="store_true", help="Hide the strea
 parser.add_argument("--num-envs", type=int, default=1, choices=[1, 2])
 parser.add_argument("--check-hand-report", type=Path, help="Check a saved hand report without launching Isaac Sim.")
 known_args, _ = parser.parse_known_args()
+if not math.isfinite(known_args.sensor_scale) or known_args.sensor_scale <= 0:
+    parser.error("--sensor-scale must be finite and positive")
 if known_args.check_hand_report:
     check_hand_report(known_args.check_hand_report)
+    raise SystemExit(0)
+if __name__ == "__main__" and not known_args.verification_worker and not any(a in sys.argv for a in ("-h", "--help")):
+    run_checked(sys.argv[1:], known_args.report)
     raise SystemExit(0)
 
 from isaaclab.app import AppLauncher
@@ -125,10 +235,11 @@ def make_probe(path):
     UsdGeom.SetStageUpAxis(stage, UsdGeom.Tokens.z)
     root = UsdGeom.Xform.Define(stage, "/Probe").GetPrim()
     stage.SetDefaultPrim(root)
-    UsdPhysics.RigidBodyAPI.Apply(root)
-    UsdPhysics.MassAPI.Apply(root).CreateMassAttr(0.1)
+    body = UsdGeom.Xform.Define(stage, "/Probe/body").GetPrim() if args.wrapped_probe else root
+    UsdPhysics.RigidBodyAPI.Apply(body)
+    UsdPhysics.MassAPI.Apply(body).CreateMassAttr(0.1)
     sphere = trimesh.creation.icosphere(subdivisions=3, radius=0.003 / (1.25 if args.transformed_probe else 1.0))
-    mesh = UsdGeom.Mesh.Define(stage, "/Probe/collision")
+    mesh = UsdGeom.Mesh.Define(stage, str(body.GetPath()) + "/collision")
     mesh.CreatePointsAttr([Gf.Vec3f(*p) for p in sphere.vertices])
     mesh.CreateFaceVertexCountsAttr([3] * len(sphere.faces))
     mesh.CreateFaceVertexIndicesAttr(sphere.faces.flatten().tolist())
@@ -156,6 +267,7 @@ def main():
             prim_path="/World/envs/env_.*/Sensor",
             spawn=sim.UsdFileCfg(
                 usd_path=str(ROOT / "assets/robots/tesollo/dex01.usda"),
+                scale=(args.sensor_scale,) * 3,
                 rigid_props=sim.RigidBodyPropertiesCfg(kinematic_enabled=True),
                 activate_contact_sensors=True,
             ),
@@ -210,6 +322,8 @@ def main():
         "num_taxels": sensor.num_taxels,
         "environments": args.num_envs,
         "transformed_probe": args.transformed_probe,
+        "wrapped_probe": args.wrapped_probe,
+        "sensor_scale": args.sensor_scale,
         "cases": [],
     }
     target_pixels = pixels.cpu().tolist() if args.sweep_all else ((25, 15), (25, 2), (25, 29), (3, 15), (12, 15))
@@ -251,21 +365,39 @@ def main():
             report["cases"].append(case)
             if not args.sweep_all or len(report["cases"]) % 100 == 0:
                 print(case, flush=True)
-            assert torch.isfinite(force).all() and force.min() >= 0
+            _require(
+                torch.isfinite(force).all() and force.min() >= 0,
+                "Verification failed: torch.isfinite(force).all() and force.min() >= 0",
+            )
             image = sensor.get_tactile_image()[0]
-            assert torch.equal(image[pixels[:, 0], pixels[:, 1]], force)
+            _require(
+                torch.equal(image[pixels[:, 0], pixels[:, 1]], force),
+                "Verification failed: torch.equal(image[pixels[:, 0], pixels[:, 1]], force)",
+            )
             if args.num_envs == 2:
-                assert sensor.data.normal_forces[1].sum() == 0
+                _require(
+                    sensor.data.normal_forces[1].sum() == 0,
+                    "Verification failed: sensor.data.normal_forces[1].sum() == 0",
+                )
             if penetration < 0:
-                assert force.sum() == 0 and depths.min() == 0
+                _require(
+                    force.sum() == 0 and depths.min() == 0,
+                    "Verification failed: force.sum() == 0 and depths.min() == 0",
+                )
             if penetration > 0:
-                assert force.sum() > 0.1
+                _require(force.sum() > 0.1, "Verification failed: force.sum() > 0.1")
                 centroid = (points * force[:, None]).sum(0) / force.sum()
-                assert (centroid - point).norm() < (0.0005 if args.sweep_all else 0.0008)
+                _require(
+                    (centroid - point).norm() < (0.0005 if args.sweep_all else 0.0008),
+                    "Verification failed: (centroid - point).norm() < (0.0005 if args.sweep_all else 0.0008)",
+                )
                 contact_normal = (normals * depths[:, None]).sum(0) / depths.sum()
                 contact_normal /= contact_normal.norm()
                 projected = -(net * contact_normal).sum().clamp(max=0)
-                assert torch.allclose(force.sum(), projected, rtol=1e-5, atol=1e-6)
+                _require(
+                    torch.allclose(force.sum(), projected, rtol=1e-05, atol=1e-06),
+                    "Verification failed: torch.allclose(force.sum(), projected, rtol=1e-05, atol=1e-06)",
+                )
                 # Independently evaluate signed sphere distance in world coordinates.
                 current_q = probe.data.root_quat_w[0].cpu().numpy()
                 current_rotation = Rotation.from_quat(current_q[[1, 2, 3, 0]])
@@ -273,14 +405,17 @@ def main():
                 current_offset = torch.tensor(current_rotation.apply(offset), device=context.device)
                 analytic = (points - probe.data.root_pos_w[0] - current_offset).norm(dim=-1) - 0.003
                 contact = depths < 0
-                assert torch.max(torch.abs(depths[contact] - analytic[contact])) < 0.00005
+                _require(
+                    torch.max(torch.abs(depths[contact] - analytic[contact])) < 5e-05,
+                    "Verification failed: torch.max(torch.abs(depths[contact] - analytic[contact])) < 5e-05",
+                )
                 case["analytic_depth_error_m"] = torch.max(torch.abs(depths[contact] - analytic[contact])).item()
                 case["centroid_error_m"] = (centroid - point).norm().item()
                 case["target_depth_m"] = depths[index].item()
-                assert depths[index] < 0
+                _require(depths[index] < 0, "Verification failed: depths[index] < 0")
         if not args.sweep_all:
             loaded = [c["sum_force"] for c in report["cases"][-4:] if c["penetration_m"] > 0]
-            assert loaded[1] > loaded[0]
+            _require(loaded[1] > loaded[0], "Verification failed: loaded[1] > loaded[0]")
     # Verify depth rate against an independent world-space finite difference.
     # The stationary sensor and moving probe include translation and rotation;
     # an offset mesh center moves due to angular velocity as well.
@@ -356,9 +491,9 @@ def main():
         },
         flush=True,
     )
-    assert sdf_error < 0.0001
+    _require(sdf_error < 0.0001, "Verification failed: sdf_error < 0.0001")
     # Bound the approximation separately rather than treating it as exact hardware.
-    assert error < 0.002
+    _require(error < 0.002, "Verification failed: error < 0.002")
     report["motion_ideal_sphere_error_m_s"] = float(error)
     report["motion_sdf_finite_difference_error_m_s"] = float(sdf_error)
     if args.num_envs == 2:
@@ -377,11 +512,17 @@ def main():
         probe.update(dt)
         sensor_body.update(dt)
         sensor._update_buffers_impl(torch.tensor([1], device=context.device))
-        assert torch.equal(sensor._data.normal_forces[0], before)
+        _require(
+            torch.equal(sensor._data.normal_forces[0], before),
+            "Verification failed: torch.equal(sensor._data.normal_forces[0], before)",
+        )
         force = sensor._data.normal_forces[1]
-        assert force.sum() > 0.1
+        _require(force.sum() > 0.1, "Verification failed: force.sum() > 0.1")
         centroid = (sensor._data.taxel_points_w[1] * force[:, None]).sum(0) / force.sum()
-        assert (centroid - position[index]).norm() < 0.001
+        _require(
+            (centroid - position[index]).norm() < 0.001,
+            "Verification failed: (centroid - position[index]).norm() < 0.001",
+        )
         report["subset_env_contact_force_n"] = force.sum().item()
         report["subset_env_centroid_error_m"] = (centroid - position[index]).norm().item()
     report["status"] = "passed"

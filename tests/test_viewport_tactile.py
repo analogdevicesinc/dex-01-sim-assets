@@ -227,6 +227,146 @@ def test_local_plot_receives_current_sensor_frames():
     assert len(displayed) == 2
 
 
+def test_articulated_report_rejects_contact_on_another_finger():
+    module, report = articulation_fixture()
+    report["observations"][0]["forces_n"][2] = 0.5
+    with pytest.raises(ValueError, match="uncommanded finger"):
+        module.check_articulated_report(report)
+
+
+def test_headless_physics_does_not_require_artificial_wall_clock_delays():
+    module, report = articulation_fixture()
+    for entry in report["observations"]:
+        entry["elapsed_wall_s"] = (entry["step"] + 1) / 1000
+    with pytest.raises(ValueError, match="Hold is too brief"):
+        module.check_articulated_report(report)
+    report["check_wall_clock"] = False
+    assert module.check_articulated_report(report) == pytest.approx(2)
+
+
+def test_planar_patch_excludes_the_rounded_transition():
+    import json
+
+    import torch
+    from scipy.spatial.transform import Rotation
+
+    module = load_module(ROOT / "scripts/dex01_articulated_press.py")
+    reference = json.loads((ROOT / "assets/sensors/dex01/reference.json").read_text())
+    with np.load(ROOT / reference["contact_pattern_path"]) as pattern:
+        poses = pattern["poses"]
+    q = np.array(reference["mount_rotation_wxyz"])
+    rotation = Rotation.from_quat(q[[1, 2, 3, 0]])
+    points = torch.tensor(rotation.apply(poses[:, :, 3]) + reference["mount_translation_m"])
+    normals = torch.tensor(rotation.apply(poses[:, :, 2]))
+    flat = module.planar_patch(points, normals, torch.tensor([0.0, 0.0, 1.0], dtype=points.dtype))
+    assert int(flat.sum()) == 192
+    assert int((normals[:, 2] > 0.995).sum()) == 206
+    assert float(points[flat, 2].max() - points[flat, 2].min()) < 1e-8
+    assert torch.allclose(normals[flat], torch.tensor([0.0, 0.0, 1.0], dtype=normals.dtype).expand(192, 3), atol=1e-6)
+
+
+def test_cartesian_press_preserves_orientation():
+    import torch
+
+    module = load_module(ROOT / "scripts/dex01_articulated_press.py")
+    jacobian = torch.tensor([[1.0, 0, 0], [0, 0, 0], [0, 1.0, 0], [0, 0, 0], [1.0, 1.0, 1.0], [0, 0, 0]])
+    shift = torch.tensor([0.0, 0.0, 0.0001])
+    correction = module.cartesian_joint_correction(jacobian, torch.tensor([0.02, 0, 0.01]), shift, torch.zeros(3))
+    assert abs(float(correction.sum())) < 1e-9
+    assert torch.allclose(jacobian[:3] @ correction, shift, atol=1e-9)
+
+
+def planar_report_fixture():
+    module, report = articulation_fixture()
+    report.update(
+        mode="fixed-wrist-planar-press",
+        face_taxel_indices=[0, 1, 2, 3],
+        face_taxel_quadrants=[0, 1, 2, 3],
+        taxel2pixel=[[0, 0], [0, 1], [1, 0], [1, 1]],
+    )
+    for entry in report["observations"]:
+        load = entry["forces_n"][1]
+        entry.update(
+            frame_n=[[load / 4, load / 4], [load / 4, load / 4]],
+            taxel_forces_n=[load / 4] * 4,
+            face_normal_w=[0, 0, 1],
+            face_angle_deg=0.0,
+            face_max_gap_m=-0.0001 if load else 0.01,
+            face_coverage=1.0 if load else 0.0,
+            face_quadrant_forces_n=[load / 4] * 4,
+        )
+    return module, report
+
+
+def test_full_face_report_passes():
+    module, report = planar_report_fixture()
+    assert module.check_articulated_report(report) == pytest.approx(2.0)
+
+
+@pytest.mark.parametrize(
+    "defect,error", [("edge", "coverage"), ("tilt", "parallel"), ("gap", "separated"), ("one_sided", "four sides")]
+)
+def test_full_face_report_rejects_partial_contact(defect, error):
+    module, report = planar_report_fixture()
+    for entry in report["observations"]:
+        if entry["phase"] != "hold":
+            continue
+        load = entry["forces_n"][1]
+        if defect in {"edge", "one_sided"}:
+            force = (
+                [load / 2, load / 2, 0, 0] if defect == "edge" else [load * 0.96, load * 0.02, load * 0.01, load * 0.01]
+            )
+            entry.update(
+                taxel_forces_n=force,
+                frame_n=[force[:2], force[2:]],
+                face_quadrant_forces_n=force,
+                face_coverage=0.5 if defect == "edge" else 1.0,
+            )
+        elif defect == "tilt":
+            angle = np.deg2rad(0.35)
+            entry.update(face_normal_w=[np.sin(angle), 0, np.cos(angle)], face_angle_deg=0.35)
+        else:
+            entry["face_max_gap_m"] = 0.00005
+    with pytest.raises(ValueError, match=error):
+        module.check_articulated_report(report)
+
+
+def test_endpoint_sampling_waits_for_the_attached_sensor():
+    from types import SimpleNamespace
+
+    import torch
+
+    module = load_module(ROOT / "scripts/dex01_articulated_press.py")
+    sensor = SimpleNamespace(data=SimpleNamespace(taxel_points_w=torch.zeros(1, 1, 3)))
+    targets = torch.zeros(1, 3)
+    robot = SimpleNamespace(data=SimpleNamespace(joint_pos=targets.clone()))
+    positions = iter([0.006, 0.012, 0.013, 0.013, 0.013, 0.013])
+    calls = []
+
+    def update(dt):
+        calls.append(dt)
+        sensor.data.taxel_points_w[0, 0, 0] = next(positions)
+
+    scene = SimpleNamespace(write_data_to_sim=lambda: None, update=update)
+    sim = SimpleNamespace(step=lambda render: None, get_physics_dt=lambda: 1 / 120)
+    module.settle_joint_pose(sim, scene, robot, sensor, targets)
+    assert len(calls) == 6
+    assert float(sensor.data.taxel_points_w[0, 0, 0]) == pytest.approx(0.013)
+
+
+def test_demo_supervisor_rejects_silent_zero_exit(tmp_path, monkeypatch):
+    import json
+    import subprocess
+
+    module = load_module(ROOT / "scripts/dex01_articulated_press.py")
+    destination = tmp_path / "report.json"
+    destination.write_text('{"observations": [{}]}')
+    monkeypatch.setattr(module.subprocess, "run", lambda *a, **k: subprocess.CompletedProcess(a, 0))
+    with pytest.raises(RuntimeError, match="no report"):
+        module.run_subprocess_with_report("unused.py", [], destination)
+    assert json.loads(destination.read_text())["failure"]
+
+
 def test_setup_failure_replaces_stale_success_report(tmp_path):
     import json
 

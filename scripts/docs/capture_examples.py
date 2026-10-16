@@ -28,7 +28,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import time
 import traceback
 from pathlib import Path
 
@@ -37,6 +36,27 @@ PRESETS = {
     "hand": ("dex01_on_tesollo_dg5f.py", 1200, 12, 0),
     "stationary-press": ("dex01_on_tesollo_dg5f.py", 900, 4, 600),
 }
+
+
+def simulation_source_hashes(repo):
+    """Identify the actual simulation inputs, including uncommitted runtime edits."""
+    package = repo / "source/dex01_sim_asset/dex01_sim_asset"
+    paths = list(package.rglob("*.py")) + list(package.rglob("*.npz"))
+    paths += [
+        repo / name
+        for name in (
+            "scripts/simple_example.py",
+            "scripts/dex01_on_tesollo_dg5f.py",
+            "scripts/dex01_articulated_press.py",
+            "scripts/object_geometry.py",
+            "scripts/docs/capture_examples.py",
+            "scripts/docs/motion_geometry.py",
+            "assets/robots/tesollo/dg5f_right.usda",
+            "assets/robots/tesollo/dex01.usda",
+            "assets/sensors/dex01/reference.json",
+        )
+    ]
+    return {str(path.relative_to(repo)): hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(paths)}
 
 
 def main():
@@ -92,6 +112,7 @@ def capture(example, output):
     module = runpy.run_path(sys.argv[0], run_name="_docs_video_capture")
     from importlib.metadata import version
 
+    import dex01_sim_asset
     import numpy as np
     import omni.usd
     from isaaclab.scene import InteractiveScene
@@ -100,6 +121,9 @@ def capture(example, output):
 
     if version("isaacsim") != "5.1.0.0":
         raise RuntimeError("Documentation example captures require the validated Isaac Sim 5.1.0.0 runtime")
+    if Path(dex01_sim_asset.__file__).resolve().parent != repo / "source/dex01_sim_asset/dex01_sim_asset":
+        raise RuntimeError("The simulator imported dex01_sim_asset from another checkout")
+    source_hashes = simulation_source_hashes(repo)
     original_update = InteractiveScene.update
     recorded = []
     paths, reference_stage, dt = None, None, None
@@ -113,15 +137,6 @@ def capture(example, output):
         if caller.f_code.co_name not in {"main", "run_simulator", "run_articulated_press"}:
             return
         step = caller.f_locals.get("step")
-        if (
-            example == "stationary-press"
-            and step is not None
-            and caller.f_locals.get("phase") == "hold"
-            and caller.f_locals.get("cycle", 0) >= 4.5
-        ):
-            # Preserve physical integration while pacing the headless capture
-            # enough for the demo's observed hold-duration check.
-            time.sleep(0.025)
         if step is None or step < start or step % stride or step >= max_steps:
             return
         dt = time_step
@@ -169,13 +184,19 @@ def capture(example, output):
             phase = "falling" if totals[0] < 0.01 else ("impact" if step < 20 else "settling / contact")
         if example == "hand":
             phase = f"Finger {module['PRESSED_FINGERS'][step // module['STEPS_PER_FINGER']]} contact"
-        recorded.append(
-            {"step": step, "phase": phase, "poses": np.stack([current[p] for p in paths]), "frames": np.stack(frames)}
-        )
+        recorded.append({
+            "step": step,
+            "phase": phase,
+            "poses": np.stack([current[p] for p in paths]),
+            "frames": np.stack(frames),
+            "taxel_points_w": np.stack([sensor.data.taxel_points_w[0].cpu().numpy().copy() for sensor in sensors]),
+        })
 
     InteractiveScene.update = record
     try:
         module["main"]()
+        if simulation_source_hashes(repo) != source_hashes:
+            raise RuntimeError("Simulation sources changed during capture; rerun with stable inputs")
         if not recorded:
             raise RuntimeError("No physical example frames captured")
         if example == "stationary-press":
@@ -192,6 +213,7 @@ def capture(example, output):
             poses=np.stack([r["poses"] for r in recorded]),
             frames=np.stack([r["frames"] for r in recorded]),
             taxel2pixel=pixels,
+            taxel_points_w=np.stack([r["taxel_points_w"] for r in recorded]),
             simulation_time_s=np.array([(r["step"] + 1) * dt for r in recorded]),
         )
         manifest = {
@@ -212,9 +234,10 @@ def capture(example, output):
             "capture_stride": stride,
             "playback_fps": 1 / (dt * stride),
             "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip(),
+            "source_files_sha256": source_hashes,
             "demo_sha256": hashlib.sha256((repo / "scripts" / demo_name).read_bytes()).hexdigest(),
             "capture_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-            "hold_pacing_s": 0.025 if example == "stationary-press" else 0.0,
+            "hold_pacing_s": 0.0,
             "files": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in output.iterdir() if p.is_file()},
         }
         (output / "capture.json").write_text(json.dumps(manifest, indent=2) + "\n")

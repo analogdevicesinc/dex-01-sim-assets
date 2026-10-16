@@ -172,6 +172,8 @@ class FiveFingerDex01Visualizer:
     """Renders a recorded run as a video: the scene camera beside five DEX-01 taxel images."""
 
     def __init__(self, writer="ffmpeg", fps=60):
+        if not np.isfinite(fps) or fps <= 0:
+            raise ValueError("Video frame rate must be finite and positive")
         if writer == "ffmpeg":
             self.writer = FFMpegWriter(fps=fps)
             self.ext = ".mp4"
@@ -189,6 +191,19 @@ class FiveFingerDex01Visualizer:
         max_force: float = None,
         start: int = 0,
     ):
+        count = len(cam_frames)
+        if not isinstance(start, int) or not 0 <= start < count:
+            raise ValueError("Recording start must select an existing frame")
+        if len(sensor_frames) != 5 or any(len(frames) != count for frames in sensor_frames):
+            raise ValueError("Supply five sensor sequences matching the camera frame count")
+        for frames in sensor_frames:
+            values = np.asarray(frames)
+            if values.shape != (count, 32, 32) or not np.isfinite(values).all() or (values < 0).any():
+                raise ValueError("Recorded tactile frames must be finite nonnegative 32x32 arrays")
+        if max_force is None:
+            max_force = max(1e-6, max(float(np.asarray(sf).max()) for sf in sensor_frames))
+        if not np.isfinite(max_force) or max_force <= 0:
+            raise ValueError("Force scale must be finite and positive")
         fig = plt.figure(figsize=(8, 3), dpi=200)
         gs = gridspec.GridSpec(
             3,
@@ -209,14 +224,11 @@ class FiveFingerDex01Visualizer:
         cbar_ax = fig.add_subplot(gs[1, 2])
         rgb_ax.axis("off")
 
-        if max_force is None:
-            max_force = max(np.asarray(sf).max() for sf in sensor_frames)
-
-        rgb_im = rgb_ax.imshow(cam_frames[0])
+        rgb_im = rgb_ax.imshow(cam_frames[start])
         sensor_ims = dex01_hand_plot(
             fig,
             hand_ax,
-            [sf[0] for sf in sensor_frames],
+            [sf[start] for sf in sensor_frames],
             vmin=0,
             vmax=max_force,
         )
@@ -235,7 +247,9 @@ class FiveFingerDex01Visualizer:
 
             return rgb_im, *sensor_ims
 
-        anim = FuncAnimation(fig, update, frames=len(cam_frames) - 1 - start, blit=True)
-        anim.save(f"{name}{self.ext}", writer=self.writer)
-        plt.close(fig)
+        anim = FuncAnimation(fig, update, frames=count - start, blit=True)
+        try:
+            anim.save(f"{name}{self.ext}", writer=self.writer)
+        finally:
+            plt.close(fig)
         return f"{name}{self.ext}"
