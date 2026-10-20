@@ -113,13 +113,18 @@ def capture_checked(output, steps):
 def export_state(scene, output, repo, steps):
     from importlib.metadata import version
 
+    import dex01_sim_asset
     import numpy as np
     import omni.usd
-    from pxr import Gf, Usd, UsdGeom
+    from capture_examples import simulation_source_hashes
+    from motion_geometry import apply_body_poses, capture_geometry, verify_geometry
+    from pxr import Usd, UsdGeom
 
     physics_version = version("isaacsim")
     if physics_version != "5.1.0.0":
         raise RuntimeError(f"This capture is validated for Isaac Sim 5.1.0.0, found {physics_version}")
+    if Path(dex01_sim_asset.__file__).resolve().parent != repo / "source/dex01_sim_asset/dex01_sim_asset":
+        raise RuntimeError("The simulator imported dex01_sim_asset from another checkout")
     stage = omni.usd.get_context().get_stage()
     robot = scene["robot"]
     poses = {}
@@ -136,17 +141,11 @@ def export_state(scene, output, repo, steps):
     pose = asset.root_physx_view.get_transforms()[0].cpu().numpy()
     poses[asset.root_physx_view.prim_paths[0]] = (pose[:3], pose[[6, 3, 4, 5]])
     flat = Usd.Stage.Open(stage.Flatten())
-    for path, (position, quaternion) in poses.items():
-        prim = flat.GetPrimAtPath(path)
-        if not prim.IsValid():
-            raise RuntimeError(f"Body is missing from the exported stage: {path}")
-        world = Gf.Matrix4d(1)
-        world.SetRotate(Gf.Quatd(float(quaternion[0]), Gf.Vec3d(*map(float, quaternion[1:]))))
-        world.SetTranslateOnly(Gf.Vec3d(*map(float, position)))
-        parent = UsdGeom.Xformable(prim.GetParent()).ComputeLocalToWorldTransform(Usd.TimeCode.Default())
-        xform = UsdGeom.Xformable(prim)
-        xform.ClearXformOpOrder()
-        xform.AddTransformOp().Set(world * parent.GetInverse())
+    paths = list(poses)
+    meshes, geometry = capture_geometry(flat, paths)
+    body_poses = np.array([np.concatenate([position, quat[[1, 2, 3, 0]]]) for position, quat in poses.values()])
+    apply_body_poses(flat, paths, body_poses, geometry["body_scales"])
+    _, vertex_error = verify_geometry(flat, paths, body_poses, meshes, geometry)
     visible_sensors = [
         prim
         for prim in Usd.PrimRange(flat.GetPrimAtPath("/World/envs/env_0"), Usd.TraverseInstanceProxies())
@@ -192,8 +191,10 @@ def export_state(scene, output, repo, steps):
         "indenter": "0.1 kg flat cube",
         "forces_n": forces,
         "sensor_visual_count": len(visible_sensors),
+        "maximum_exported_vertex_error_m": vertex_error,
         "taxel_surface_max_error_m": surface_errors,
         "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip(),
+        "source_files_sha256": simulation_source_hashes(repo),
         "demo_sha256": hashlib.sha256((repo / "scripts/dex01_on_tesollo_dg5f.py").read_bytes()).hexdigest(),
         "scene_sha256": hashlib.sha256((output / "scene.usda").read_bytes()).hexdigest(),
         "tactile_sha256": hashlib.sha256((output / "tactile.npz").read_bytes()).hexdigest(),

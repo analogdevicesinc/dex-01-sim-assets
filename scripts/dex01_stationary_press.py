@@ -38,8 +38,13 @@ if __name__ == "__main__":
     if args.check_report:
         from dex01_articulated_press import check_articulated_report
 
-        force = check_articulated_report(json.loads(args.check_report.read_text()))
-        print(f"Fixed wrist, articulated finger, stationary gear, sustained load ({force:.3f} N) and release passed")
+        report = json.loads(args.check_report.read_text())
+        force = check_articulated_report(report)
+        contact = "broad planar contact, " if report["mode"] == "fixed-wrist-planar-press" else ""
+        print(
+            f"Fixed wrist, articulated finger, stationary gear, {contact}sustained load ({force:.3f} N) and release"
+            " passed"
+        )
         raise SystemExit(0)
     sys.argv.insert(1, "--stationary-press")
     from dex01_articulated_press import run_with_report

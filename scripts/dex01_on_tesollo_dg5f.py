@@ -16,6 +16,7 @@
 import argparse
 import hashlib
 import json
+import sys
 import tempfile
 from pathlib import Path
 
@@ -24,8 +25,14 @@ if __name__ == "__main__":
     bootstrap.add_argument("-h", "--help", action="store_true")
     bootstrap.add_argument("--stationary-press", action="store_true")
     bootstrap.add_argument("--verification-report")
+    bootstrap.add_argument("--verification-worker", action="store_true")
     startup_args, _ = bootstrap.parse_known_args()
-    if startup_args.stationary_press:
+    if startup_args.verification_report and not startup_args.verification_worker and not startup_args.help:
+        from dex01_articulated_press import run_subprocess_with_report
+
+        run_subprocess_with_report(Path(__file__).resolve(), sys.argv[1:], startup_args.verification_report)
+        raise SystemExit(0)
+    if startup_args.stationary_press or startup_args.verification_report:
         import runpy
 
         from dex01_articulated_press import run_with_report
@@ -37,12 +44,16 @@ if __name__ == "__main__":
         run_with_report(
             lambda: runpy.run_path(str(Path(__file__).resolve()), run_name="_dex01_hand_run"),
             startup_args.verification_report,
+            mode="fixed-wrist-articulated-press" if startup_args.stationary_press else "hand-gravity-load",
         )
         raise SystemExit(0)
 
 from isaaclab.app import AppLauncher
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+# Repository examples must exercise this checkout even when a shared virtual
+# environment has an editable install pointing at a different clone.
+sys.path.insert(0, str(REPO_ROOT / "source/dex01_sim_asset"))
 DEX01_REFERENCE = json.loads((REPO_ROOT / "assets/sensors/dex01/reference.json").read_text())
 
 parser = argparse.ArgumentParser(description="DEX-01 tactile sensors on a Tesollo DG-5F hand.")
@@ -50,6 +61,7 @@ parser.add_argument("--record", action="store_true", help="Render an offscreen c
 parser.add_argument("--video-dir", default=str(REPO_ROOT / "videos"), help="Directory the recording is written to.")
 parser.add_argument("--max-steps", type=int, default=0, help="Stop after this many steps (0 runs continuously).")
 parser.add_argument("--verification-report", help="Write per-step force and pose observations as JSON.")
+parser.add_argument("--verification-worker", action="store_true", help=argparse.SUPPRESS)
 parser.add_argument("--snapshot", help="Save one rendered RGB frame (requires --enable_cameras).")
 parser.add_argument("--inspection-dir", help="Save CAD views from multiple angles (requires --enable_cameras).")
 parser.add_argument("--debug-vis", action="store_true", help="Show markers at the taxel sampling positions.")
@@ -77,6 +89,10 @@ parser.add_argument(
 
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
+if args_cli.max_steps < 0:
+    parser.error("--max-steps must be nonnegative")
+if (args_cli.record or args_cli.snapshot or args_cli.inspection_dir) and not args_cli.enable_cameras:
+    parser.error("Camera recording, snapshots and inspection require --enable_cameras")
 if not 0.1 <= args_cli.press_time_scale <= 1:
     parser.error("--press-time-scale must be in [0.1, 1]")
 if not 0 < args_cli.press_force_n <= 2:
@@ -99,6 +115,8 @@ from isaaclab.scene import InteractiveScene, InteractiveSceneCfg
 from isaaclab.sensors.camera import CameraCfg
 from isaaclab.utils import configclass
 from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+from isaaclab.utils.math import quat_apply
+from object_geometry import lower_face_center
 from pxr import Usd, UsdGeom
 
 # Demo parameters, not measured sensor or hand properties. Keep values fixed
@@ -234,19 +252,19 @@ REPORT_INTERVAL = 20
 PLOT_INTERVAL = 5
 
 
-def gear_half_height() -> float:
-    """Half the spawned gear's vertical extent, i.e. how far its underside sits below its origin."""
-    stage = omni.usd.get_context().get_stage()
-    bbox_cache = UsdGeom.BBoxCache(Usd.TimeCode.Default(), [UsdGeom.Tokens.default_])
-    extent = bbox_cache.ComputeWorldBound(stage.GetPrimAtPath("/World/envs/env_0/Asset")).ComputeAlignedRange()
-    return 0.5 * extent.GetSize()[2]
-
-
 def run_simulator(sim, scene):
     robot = scene["robot"]
     asset = scene["asset"]
     sensors = [scene[f"finger{i}_sensor"] for i in range(1, 6)]
-    gear_half_h = gear_half_height()
+    sensor_source = Path(sys.modules[type(sensors[0]).__module__].__file__).resolve()
+    expected_source = REPO_ROOT / "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py"
+    if sensor_source != expected_source:
+        raise RuntimeError(f"The demo imported a sensor from another checkout: {sensor_source}")
+    support = torch.tensor(
+        lower_face_center(omni.usd.get_context().get_stage(), asset.root_physx_view.prim_paths[0]),
+        device=sim.device,
+        dtype=torch.float32,
+    )
     cycle_steps = STEPS_PER_FINGER * len(PRESSED_FINGERS)
     labels = [f"f{i}" for i in range(1, 6)]
     viewer = vis_utils.LiveDex01Viewer(labels) if args_cli.local_plot else None
@@ -268,7 +286,7 @@ def run_simulator(sim, scene):
         recorder = vis_utils.SceneRecorder(
             camera=camera,
             sensors=sensors,
-            visualizer=vis_utils.FiveFingerDex01Visualizer(writer="ffmpeg"),
+            visualizer=vis_utils.FiveFingerDex01Visualizer(writer="ffmpeg", fps=1 / sim.get_physics_dt()),
         )
 
     sim_dt = sim.get_physics_dt()
@@ -280,10 +298,6 @@ def run_simulator(sim, scene):
     while simulation_app.is_running():
         if step % cycle_steps == 0:
             if args_cli.record and reset_count > 0:
-                video_dir = Path(args_cli.video_dir)
-                video_dir.mkdir(parents=True, exist_ok=True)
-                # save_video appends the writer's extension, so it takes a path stem.
-                recorder.save_video(str(video_dir / Path(__file__).stem), start=10)
                 break
 
             root_state = asset.data.default_root_state.clone()
@@ -312,9 +326,10 @@ def run_simulator(sim, scene):
             if not horizontal.any():
                 raise RuntimeError("No upward-facing sensor patch for the gravity-load demonstration")
             root_state = asset.data.default_root_state.clone()
-            root_state[:, 0:2] = taxel_points[:, horizontal].mean(dim=1)[:, 0:2]
+            root_state[:, :3] = taxel_points[:, horizontal].mean(dim=1)
             # Height still clears the whole pad, otherwise the gear can start inside its far end.
-            root_state[:, 2] = taxel_points[..., 2].max(dim=1).values + gear_half_h + SETTLE_CLEARANCE
+            root_state[:, 2] = taxel_points[..., 2].max(dim=1).values + SETTLE_CLEARANCE
+            root_state[:, :3] -= quat_apply(root_state[:, 3:7], support.expand(len(root_state), 3))
             asset.write_root_pose_to_sim(root_state[:, :7])
             asset.write_root_velocity_to_sim(torch.zeros_like(root_state[:, 7:]))
             asset.reset()
@@ -359,6 +374,10 @@ def run_simulator(sim, scene):
             break
 
     viewport_viewer.close()
+    if args_cli.record and len(recorder):
+        video_dir = Path(args_cli.video_dir)
+        video_dir.mkdir(parents=True, exist_ok=True)
+        recorder.save_video(str(video_dir / Path(__file__).stem), start=0)
     if args_cli.verify_thumb:
         probe = scene["thumb_probe"]
         thumb_sensor = scene["thumb_check_sensor"]
@@ -391,14 +410,19 @@ def run_simulator(sim, scene):
             "minimum_depth_m": thumb_sensor.data.depths[0].min().item(),
         }
         print("THUMB", thumb_observation, flush=True)
-        assert force.sum() > 0.1
-        assert thumb_observation["probe_centroid_error_m"] < 0.001
-        assert thumb_observation["gear_filtered_force_n"] == 0
+        if (
+            force.sum() <= 0.1
+            or thumb_observation["probe_centroid_error_m"] >= 0.001
+            or thumb_observation["gear_filtered_force_n"] != 0
+        ):
+            raise RuntimeError("Thumb force localization or counter-object filtering failed")
 
     if args_cli.verification_report:
         Path(args_cli.verification_report).write_text(
             json.dumps(
                 {
+                    "sensor_code_sha256": hashlib.sha256(sensor_source.read_bytes()).hexdigest(),
+                    "demo_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                     "pattern_sha256": DEX01_REFERENCE["pattern_sha256"],
                     "contact_pattern_sha256": DEX01_REFERENCE["contact_pattern_sha256"],
                     "asset_sha256": hashlib.sha256(

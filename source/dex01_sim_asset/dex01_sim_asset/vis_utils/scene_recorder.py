@@ -45,10 +45,11 @@ class SceneRecorder:
             tac_image = sensor.get_tactile_image()[self.env_id].clone().cpu().numpy()
             self.sensor_frames[si].append(tac_image)
 
-    def save_video(self, name: str, max_force: float = None, start=30):
-        print(f"[INFO]: Saving video with {len(self.cam_frames) - 1} frames...")
+    def save_video(self, name: str, max_force: float = None, start=0):
+        print(f"[INFO]: Saving video with {len(self.cam_frames) - start} frames...")
         path = self.visualizer(self.cam_frames, self.sensor_frames, name=name, max_force=max_force, start=start)
         print(f"[INFO]: Video saved at {path}")
+        return path
 
     def __len__(self):
         return len(self.cam_frames)

@@ -24,6 +24,38 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def load_visualizers():
+    matplotlib = pytest.importorskip("matplotlib")
+    matplotlib.use("Agg")
+    path = ROOT / "source/dex01_sim_asset/dex01_sim_asset/vis_utils/visualizers.py"
+    spec = importlib.util.spec_from_file_location("_recorded_visualizers", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+@pytest.mark.parametrize("count,start", [(1, 0), (3, 0), (3, 1)])
+def test_recording_includes_final_frame(tmp_path, count, start):
+    from PIL import Image
+
+    module = load_visualizers()
+    camera = [np.full((8, 8, 3), 20 + i * 90, dtype=np.uint8) for i in range(count)]
+    sensors = [[np.full((32, 32), i * 0.01) for i in range(count)] for _ in range(5)]
+    visualizer = module.FiveFingerDex01Visualizer(writer="gif", fps=20)
+    result = visualizer(camera, sensors, str(tmp_path / "recording"), start=start)
+    with Image.open(result) as video:
+        assert video.n_frames == count - start
+
+
+def test_recording_rejects_misaligned_sequences(tmp_path):
+    module = load_visualizers()
+    visualizer = module.FiveFingerDex01Visualizer(writer="gif")
+    with pytest.raises(ValueError, match="camera frame count"):
+        visualizer([np.zeros((8, 8, 3), dtype=np.uint8)] * 2, [[np.zeros((32, 32))]] * 5, str(tmp_path / "bad"))
+    with pytest.raises(ValueError, match="existing frame"):
+        visualizer([], [[]] * 5, str(tmp_path / "empty"))
+
+
 def test_display_mask_preserves_all_738_cells_and_hand_plot():
     matplotlib = pytest.importorskip("matplotlib")
     matplotlib.use("Agg")

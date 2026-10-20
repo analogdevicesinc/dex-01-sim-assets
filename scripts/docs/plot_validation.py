@@ -41,6 +41,8 @@ def main():
     if report.get("indenter") != "flat" or report["taxels_per_finger"] != [738] * 5:
         parser.error("Expected the checked five-finger flat-load report")
     inputs = {
+        "sensor_code_sha256": repo / "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py",
+        "demo_sha256": repo / "scripts/dex01_on_tesollo_dg5f.py",
         "pattern_sha256": repo / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz",
         "contact_pattern_sha256": repo / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz",
         "asset_sha256": repo / "assets/robots/tesollo/dex01.usda",
