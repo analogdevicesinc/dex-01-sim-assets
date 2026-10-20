@@ -66,7 +66,6 @@ The press endpoint is measured after its attached sensor body settles. The
 fixture uses coplanar samples to align the pad and checks its underside gap
 during hold. Its force threshold is not a calibrated force-tracking controller.
 
-
 ## Inspect the assembled geometry
 
 ```{figure} media/loaded-contact.webp
