@@ -17,10 +17,12 @@ The hand demo uses 20 g sensor mass, 10,000 N/m contact stiffness, and
 
 The DEX-01 frame still contains 738 taxel values in a 32 × 32 layout. A sensor
 updated every step can provide 240 frames per simulated second; wall-clock
-throughput depends on the host. The stationary-press demo uses a 1/120 s timestep.
+throughput depends on the host.
 
 Camera positions, colors, and plot cadence affect presentation. Gear scale
-changes physical collision geometry and contact footprints and requires validation.
+changes collision geometry and the sampled contact patch; changes require
+physics validation. The stationary-press demo uses a 1/120 s timestep and
+waits for the attached sensor body to settle before measuring its endpoint.
 Solver settings and actuator gains control the simulation; changes should pass
 the [validation workflow](../validation.md). The contact distribution and
 supported counter-object behavior are described in [the model guide](../concepts/limitations.md).
