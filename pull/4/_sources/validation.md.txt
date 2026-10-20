@@ -28,9 +28,16 @@ python scripts/verify_dex01_sim.py \
   --headless \
   --sweep-all \
   --transformed-probe \
+  --wrapped-probe \
   --num-envs 2 \
   --report /tmp/dex01-contact.json
 ```
+
+The wrapper case verifies that contact forces are filtered against the resolved
+rigid body. Add `--sensor-scale 1.5` to also check a scaled sensor and its taxel
+layout. The supervising process rejects a missing report even if Isaac Sim
+exits with code zero. Repository scripts explicitly load this checkout's
+sensor implementation, and fresh reports record its source hash.
 
 For articulated motion checks, see [stationary pressing](examples/stationary-press.md).
 
@@ -55,6 +62,9 @@ The supplied 740-taxel layout passes the following simulation fixtures:
 The hand report checker also checks filtered PhysX force agreement and
 momentum balance. Check new articulated poses for clearance, contact, and
 release using the stationary-press example.
+The press endpoint is measured after its attached sensor body settles. The
+fixture uses coplanar samples to align the pad and checks its underside gap
+during hold. Its force threshold is not a calibrated force-tracking controller.
 
 ## Inspect the assembled geometry
 

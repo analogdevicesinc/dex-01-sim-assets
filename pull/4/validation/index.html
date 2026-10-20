@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="a9e0759592dac0920396a21d96fc71a129921770">
+<meta name="docs-source-ref" content="403204908dba23267dd5b5942aaf6306190d07e7">
 
   </head>
   
@@ -220,10 +220,16 @@ The gear can rock and is not a calibration load.</p>
 <span class="w">  </span>--headless<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--sweep-all<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--transformed-probe<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--wrapped-probe<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--num-envs<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--report<span class="w"> </span>/tmp/dex01-contact.json
 </pre></div>
 </div>
+<p>The wrapper case verifies that contact forces are filtered against the resolved
+rigid body. Add <code class="docutils literal notranslate"><span class="pre">--sensor-scale</span> <span class="pre">1.5</span></code> to also check a scaled sensor and its taxel
+layout. The supervising process rejects a missing report even if Isaac Sim
+exits with code zero. Repository scripts explicitly load this checkout’s
+sensor implementation, and fresh reports record its source hash.</p>
 <p>For articulated motion checks, see <a class="reference internal" href="../examples/stationary-press/"><span class="std std-doc">stationary pressing</span></a>.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/known-load.svg"><img alt="Four force traces for fingers 2 through 5 settling around the dashed 0.981 newton fixture-weight reference." src="../_images/known-load.svg" style="width: 100%;" />
@@ -258,7 +264,10 @@ show the final 20% used for settling checks. The dashed line is <code class="doc
 </div>
 <p>The hand report checker also checks filtered PhysX force agreement and
 momentum balance. Check new articulated poses for clearance, contact, and
-release using the stationary-press example.</p>
+release using the stationary-press example.
+The press endpoint is measured after its attached sensor body settles. The
+fixture uses coplanar samples to align the pad and checks its underside gap
+during hold. Its force threshold is not a calibrated force-tracking controller.</p>
 </section>
 <section id="inspect-the-assembled-geometry">
 <h2>Inspect the assembled geometry<a class="headerlink" href="#inspect-the-assembled-geometry" title="Link to this heading"></a></h2>

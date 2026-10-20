@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="a9e0759592dac0920396a21d96fc71a129921770">
+<meta name="docs-source-ref" content="403204908dba23267dd5b5942aaf6306190d07e7">
 
   </head>
   
@@ -209,7 +209,12 @@ independent force estimates for multiple counter objects on one sensor.</p>
 <p>Frames unwrap the curved sensing surface into firmware row/column coordinates.
 They show sampled contact footprints. Features smaller than the local sampling
 spacing, including fine gear teeth, can be unresolved. Grey visualization cells
-have no taxel; active cells at zero force remain in the zero-force color.</p>
+have no taxel; active cells at zero force remain in the zero-force color.
+If physical contact occurs entirely between sampling points, there is no
+penetrating taxel to receive force and the tactile frame remains zero. On
+curved patches, the reported total is a projection of the net contact-force
+vector onto the weighted sampling normal; opposing contact directions can
+cancel. It is not a sum of individually measured local contact forces.</p>
 </section>
 <section id="dynamics-and-geometry">
 <h2>Dynamics and geometry<a class="headerlink" href="#dynamics-and-geometry" title="Link to this heading"></a></h2>

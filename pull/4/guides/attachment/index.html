@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="a9e0759592dac0920396a21d96fc71a129921770">
+<meta name="docs-source-ref" content="403204908dba23267dd5b5942aaf6306190d07e7">
 
   </head>
   
@@ -226,7 +226,7 @@ must already exist under the paths shown. Spawn <code class="docutils literal no
 <code class="docutils literal notranslate"><span class="pre">variants={&quot;fingertip&quot;:</span> <span class="pre">&quot;dex01&quot;}</span></code>. For the local flat indenter, select
 <code class="docutils literal notranslate"><span class="pre">mesh_prim_path=&quot;/World/envs/env_.*/Asset&quot;</span></code> instead of the nested gear link.</p>
 <p>The complete runnable scene is in the
-<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/a9e0759592dac0920396a21d96fc71a129921770/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a>.
+<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/403204908dba23267dd5b5942aaf6306190d07e7/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a>.
 Its <code class="docutils literal notranslate"><span class="pre">finger_sensor()</span></code> helper is the canonical configuration for all five fingers.</p>
 </section>
 <section id="prepare-collision-geometry">
@@ -234,14 +234,17 @@ Its <code class="docutils literal notranslate"><span class="pre">finger_sensor()
 <p>Both sensor body and counter object need contact sensors enabled. The sensor
 body must use compliant contact; the counter object requires an SDF collision
 mesh. Use the matching mounting offset and a small timestep. The
-<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/a9e0759592dac0920396a21d96fc71a129921770/scripts/verify_dex01_sim.py" target="_blank">verification example</a> contains a complete scene
-with a local sphere; the <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/a9e0759592dac0920396a21d96fc71a129921770/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a> shows robot
+<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/403204908dba23267dd5b5942aaf6306190d07e7/scripts/verify_dex01_sim.py" target="_blank">verification example</a> contains a complete scene
+with a local sphere; the <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/403204908dba23267dd5b5942aaf6306190d07e7/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a> shows robot
 attachment. The released OBJ is the editable exterior source; regenerate its
 USD with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/build_dex01_asset.py</span></code> after updating the source hash
 in <code class="docutils literal notranslate"><span class="pre">reference.json</span></code>.</p>
 <p>Supported counter objects are rigid bodies or articulation links, one per
 sensor, with positive uniform scale and a fixed mesh-to-body transform shared
-across environments.</p>
+across environments. A wrapper path must contain exactly one rigid body; the
+sensor resolves that body for both SDF queries and force filtering. Sensor
+bodies also support positive uniform scale, applied to taxel positions and
+their mounting offset. The supplied DEX-01 hand uses scale 1.</p>
 <p>The sensor <code class="docutils literal notranslate"><span class="pre">prim_path</span></code> must select the fingertip rigid-body link, with a literal
 leaf name. <code class="docutils literal notranslate"><span class="pre">mesh_prim_path</span></code> selects the counter object. See
 <a class="reference internal" href="../../reference/api/"><span class="std std-doc">configuration fields</span></a> and

@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="a9e0759592dac0920396a21d96fc71a129921770">
+<meta name="docs-source-ref" content="403204908dba23267dd5b5942aaf6306190d07e7">
 
   </head>
   
@@ -263,6 +263,10 @@ and <code class="docutils literal notranslate"><span class="pre">debug_vis</span
 </tbody>
 </table>
 </div>
+<p>Positive uniform scale inherited by the sensor body applies to local taxel
+positions and <code class="docutils literal notranslate"><span class="pre">offset.pos</span></code>; normals retain unit length. Nonuniform sensor
+scaling is rejected. A counter-object wrapper must resolve to exactly one
+rigid body, which is also used by the contact-force filter.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">mesh_prim_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">MISSING</span>
 <span class="w">    </span><span class="sd">"""Prim path expression (with '.*' env wildcard) for the counter object.</span>
 
