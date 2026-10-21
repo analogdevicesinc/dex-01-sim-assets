@@ -3,6 +3,10 @@
     "main",
     "development"
   ],
+  "v0.1.1-a.1": [
+    "v0.1.1-a.1",
+    "prerelease"
+  ],
   "v0.1.0-a.1": [
     "v0.1.0-a.1",
     "prerelease"

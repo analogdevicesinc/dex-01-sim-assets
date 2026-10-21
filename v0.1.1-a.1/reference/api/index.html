@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Import simulator modules only after Isaac Lab’s AppLauncher starts Isaac Sim. This reference describes the public integration surface; examples run in a simulation environment, while the documentation build never imports it." name="description" />
+
+    <title>API reference &#8212; DEX-01 Tactile Sensor documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=b1d7a81a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/example-media.css?v=e4883b01" />
+    <script src="../../_static/repository-metadata.js?v=968c5fa1"></script>
+    <script async="async" src="../../_static/app.umd.js?v=048c1170"></script>
+    <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/v0.1.1-a.1/reference/api/" />
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Numerical settings" href="../numerical-settings/" />
+    <link rel="prev" title="Supported model behavior" href="../../concepts/limitations/" />
+
+   
+  
+  
+  
+  <meta name="repository" content="dex-01-sim-assets">
+  <meta name="version" content="v0.1.1a1">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+<meta name="docs-source-ref" content="0f9295513a257fa1f95b7488687346e07ab8123c">
+
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="../../">
+          <div>DEX-01 Tactile Sensor</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">API reference</a><ul>
+<li><a class="reference internal" href="#tactilesensor">TactileSensor</a></li>
+<li><a class="reference internal" href="#tactilesensorcfg">TactileSensorCfg</a></li>
+<li><a class="reference internal" href="#tactilesensordata">TactileSensorData</a></li>
+<li><a class="reference internal" href="#lifecycle">Lifecycle</a></li>
+<li><a class="reference internal" href="#pattern-configurations">Pattern configurations</a></li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="no-logo" href="../../">
+      DEX-01 Tactile Sensor
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <p class="caption" role="heading">
+  <span class="caption-text">Get started</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/quickstart/">Your first simulation</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Examples</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/">Explore the examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/flat-pad/">Flat-pad example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/hand/">Tesollo hand demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/stationary-press/">Press a stationary gear</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Guides</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/read-data/">Read tactile data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/patterns/">Configure taxel patterns</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Concepts and reference</span>
+</p>
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/model/">Contact-force model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/geometry/">Geometry and coordinate frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/limitations/">Supported model behavior</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numerical-settings/">Numerical settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compatibility/">Compatibility</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Validation and support</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../licensing/">Licensing and attribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citation/">Citation</a></li>
+</ul>
+
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="api-reference">
+<h1>API reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<p>Import simulator modules only after Isaac Lab’s <code class="docutils literal notranslate"><span class="pre">AppLauncher</span></code> starts Isaac Sim.
+This reference describes the public integration surface; examples run in a
+simulation environment, while the documentation build never imports it.</p>
+<section id="tactilesensor">
+<h2>TactileSensor<a class="headerlink" href="#tactilesensor" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">dex01_sim_asset.TactileSensor</span></code> extends Isaac Lab’s <code class="docutils literal notranslate"><span class="pre">SensorBase</span></code>.
+Construct it with <code class="docutils literal notranslate"><span class="pre">TactileSensorCfg</span></code> through your scene configuration.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Interface</p></th>
+<th class="head"><p>Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">data</span></code></p></td>
+<td><p>Updated <code class="docutils literal notranslate"><span class="pre">TactileSensorData</span></code> buffers</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">num_taxels</span></code></p></td>
+<td><p>Number of sample points; 740 for the supplied DEX-01 layout</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">taxel2pixel</span></code></p></td>
+<td><p>Integer <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">column)</span></code> pairs in taxel order</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">get_tactile_image()</span></code></p></td>
+<td><p>Force frame <code class="docutils literal notranslate"><span class="pre">(environments,</span> <span class="pre">height,</span> <span class="pre">width)</span></code>; DEX-01 uses 32 × 32</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>See <a class="reference internal" href="../../guides/read-data/"><span class="std std-doc">reading data</span></a> for an executable usage snippet.</p>
+</section>
+<section id="tactilesensorcfg">
+<h2>TactileSensorCfg<a class="headerlink" href="#tactilesensorcfg" title="Link to this heading"></a></h2>
+<p>Inherits Isaac Lab’s <code class="docutils literal notranslate"><span class="pre">SensorBaseCfg</span></code>, including <code class="docutils literal notranslate"><span class="pre">prim_path</span></code>, <code class="docutils literal notranslate"><span class="pre">update_period</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">debug_vis</span></code>. The sensor’s leaf prim name must be literal, not a regex.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mesh_prim_path</span></code></p></td>
+<td><p>Required counter-object path; its collision mesh must use SDF</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pattern_cfg</span></code></p></td>
+<td><p>Required taxel pattern configuration</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">offset.pos</span></code></p></td>
+<td><p>Sensor-frame translation relative to the parent, in metres</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">offset.rot</span></code></p></td>
+<td><p>Sensor-frame rotation as <code class="docutils literal notranslate"><span class="pre">(w,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z)</span></code>; identity by default</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">visualizer_cfg</span></code></p></td>
+<td><p>Optional debug marker configuration</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Positive uniform scale inherited by the sensor body applies to local taxel
+positions and <code class="docutils literal notranslate"><span class="pre">offset.pos</span></code>; normals retain unit length. Nonuniform sensor
+scaling is rejected. A counter-object wrapper must resolve to exactly one
+rigid body, which is also used by the contact-force filter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">mesh_prim_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">MISSING</span>
+<span class="w">    </span><span class="sd">"""Prim path expression (with '.*' env wildcard) for the counter object.</span>
+
+<span class="sd">    May point at a rigid body or an articulation link. The prim must carry a collision mesh whose</span>
+<span class="sd">    approximation is ``sdf``, since penetration is measured against the PhysX signed distance field.</span>
+<span class="sd">    """</span>
+
+    <span class="n">offset</span><span class="p">:</span> <span class="n">OffsetCfg</span> <span class="o">=</span> <span class="n">OffsetCfg</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">"""The offset pose of the sensor's frame from the sensor's parent frame. Defaults to identity."""</span>
+
+    <span class="n">pattern_cfg</span><span class="p">:</span> <span class="n">PatternBaseCfg</span> <span class="o">=</span> <span class="n">MISSING</span>
+<span class="w">    </span><span class="sd">"""The pattern that defines the local taxel layout in terms of positions and normals."""</span>
+
+</pre></div>
+</div>
+</section>
+<section id="tactilesensordata">
+<h2>TactileSensorData<a class="headerlink" href="#tactilesensordata" title="Link to this heading"></a></h2>
+<p>Here <code class="docutils literal notranslate"><span class="pre">E</span></code> is the number of environments and <code class="docutils literal notranslate"><span class="pre">T</span></code> the number of taxels.
+Buffers are initially <code class="docutils literal notranslate"><span class="pre">None</span></code> and become tensors during sensor initialization.</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Shape</p></th>
+<th class="head"><p>Units and interpretation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">normal_forces</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(E,</span> <span class="pre">T)</span></code></p></td>
+<td><p>Normal force magnitudes, newtons</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">taxel_points_w</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(E,</span> <span class="pre">T,</span> <span class="pre">3)</span></code></p></td>
+<td><p>Sample positions in world coordinates, metres</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">taxel_normals_w</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(E,</span> <span class="pre">T,</span> <span class="pre">3)</span></code></p></td>
+<td><p>Unit world normals</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">taxel_rot_w</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(E,</span> <span class="pre">T,</span> <span class="pre">4)</span></code></p></td>
+<td><p>World quaternions <code class="docutils literal notranslate"><span class="pre">(w,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">depths</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(E,</span> <span class="pre">T)</span></code></p></td>
+<td><p>Metres; negative in contact and zero otherwise</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">depth_dots</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(E,</span> <span class="pre">T)</span></code></p></td>
+<td><p>Penetration-depth rate, metres per second</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="lifecycle">
+<h2>Lifecycle<a class="headerlink" href="#lifecycle" title="Link to this heading"></a></h2>
+<p>Configure sensors on the scene before <code class="docutils literal notranslate"><span class="pre">sim.reset()</span></code>. Then advance the scene
+with <code class="docutils literal notranslate"><span class="pre">scene.write_data_to_sim()</span></code>, <code class="docutils literal notranslate"><span class="pre">sim.step()</span></code>, and <code class="docutils literal notranslate"><span class="pre">scene.update(sim_dt)</span></code> before
+reading frames. The sensor’s <code class="docutils literal notranslate"><span class="pre">data</span></code> property updates outdated buffers; its
+<code class="docutils literal notranslate"><span class="pre">update_period</span></code> comes from Isaac Lab’s base sensor configuration.</p>
+<p><code class="docutils literal notranslate"><span class="pre">normal_forces</span></code> is nonnegative. <code class="docutils literal notranslate"><span class="pre">depths</span></code> is negative only for penetrating
+samples when the configured object contributes contact force; otherwise it is
+zero. The sum is the normal projection of the configured object’s filtered
+PhysX contact force. The pattern decides the image dimensions; DEX-01 is
+32 × 32, while grid patterns can have different dimensions.</p>
+</section>
+<section id="pattern-configurations">
+<h2>Pattern configurations<a class="headerlink" href="#pattern-configurations" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">GridPatternCfg</span></code> creates a flat sampling grid. <code class="docutils literal notranslate"><span class="pre">CustomPatternCfg</span></code> reads NPZ
+poses and pixel mappings. <code class="docutils literal notranslate"><span class="pre">Dex01PatternCfg</span></code> selects the supplied DEX-01 layout.
+See <a class="reference internal" href="../../guides/patterns/"><span class="std std-doc">pattern file format</span></a>.</p>
+<p>Source definitions remain authoritative; changes to these interfaces must
+update this page and the integration guides in the same PR.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="../../concepts/limitations/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Supported model behavior</a>
+    <a href="../numerical-settings/" title="Next document (Alt+Shift+RightArrow)" class="next">Numerical settings</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2026, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>
