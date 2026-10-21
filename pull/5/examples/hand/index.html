@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Watch the object contact fingers 2–5 in turn. The active tactile frame follows the loaded finger while the remaining fingers stay unloaded." name="description" />
+
+    <title>Tesollo hand demo &#8212; DEX-01 Tactile Sensor documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=b1d7a81a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/example-media.css?v=e4883b01" />
+    <script src="../../_static/repository-metadata.js?v=968c5fa1"></script>
+    <script async="async" src="../../_static/app.umd.js?v=048c1170"></script>
+    <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/pull/5/examples/hand/" />
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Press a stationary gear" href="../stationary-press/" />
+    <link rel="prev" title="Flat-pad example" href="../flat-pad/" />
+
+   
+  
+    <meta name="robots" content="noindex">
+  
+  
+  
+  <meta name="repository" content="dex-01-sim-assets">
+  <meta name="version" content="pull/5">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+<meta name="docs-source-ref" content="047e9210488ae3f60e40ca5225a6ce2c89c237c7">
+
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="../../">
+          <div>DEX-01 Tactile Sensor</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">Tesollo hand demo</a><ul>
+<li><a class="reference internal" href="#read-the-sequence">Read the sequence</a></li>
+<li><a class="reference internal" href="#run-the-example">Run the example</a></li>
+<li><a class="reference internal" href="#inspect-a-known-contact">Inspect a known contact</a></li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="no-logo" href="../../">
+      DEX-01 Tactile Sensor
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <p class="caption" role="heading">
+  <span class="caption-text">Get started</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/quickstart/">Your first simulation</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Examples</span>
+</p>
+
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../">Explore the examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../flat-pad/">Flat-pad example</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tesollo hand demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../stationary-press/">Press a stationary gear</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Guides</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/read-data/">Read tactile data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/patterns/">Configure taxel patterns</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Concepts and reference</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/model/">Contact-force model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/geometry/">Geometry and coordinate frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/limitations/">Supported model behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/api/">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/numerical-settings/">Numerical settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/compatibility/">Compatibility</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Validation and support</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../licensing/">Licensing and attribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citation/">Citation</a></li>
+</ul>
+
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="tesollo-hand-demo">
+<h1>Tesollo hand demo<a class="headerlink" href="#tesollo-hand-demo" title="Link to this heading"></a></h1>
+<p>Watch the object contact fingers 2–5 in turn. The active tactile frame follows
+the loaded finger while the remaining fingers stay unloaded.</p>
+<figure class="example-video">
+<video controls playsinline loop preload="none" width="960" height="800"
+       poster="../../_static/videos/hand.webp"
+       aria-label="A captured 5-second hand sequence at simulation-time playback, with synchronized per-finger load and firmware frames.">
+  <source src="../../_static/videos/hand.webm" type="video/webm">
+  <source src="../../_static/videos/hand.mp4" type="video/mp4">
+  <track kind="captions" src="../../_static/videos/hand.vtt" srclang="en" label="Phases">
+  <a href="../../_static/videos/hand.mp4">Download the example video</a>
+</video>
+<figcaption>A captured 5-second hand sequence at simulation-time playback, with synchronized per-finger load and firmware frames.</figcaption>
+</figure>
+<div class="phase-gallery">
+<figure><img src="../../_static/videos/hand-before.webp" alt="The gear starts above finger 2 with unloaded tactile frames"><figcaption><strong>Start on finger 2</strong><span>The gear begins above the fingertip.</span></figcaption></figure>
+<figure><img src="../../_static/videos/hand-contact.webp" alt="Finger 2 supports the gear and its force frame is active"><figcaption><strong>Read the loaded frame</strong><span>The close-up shows the small contact object.</span></figcaption></figure>
+<figure><img src="../../_static/videos/hand-after.webp" alt="The gear is now supported by finger 5 and its frame is active"><figcaption><strong>Advance to finger 5</strong><span>The active frame follows the loaded finger.</span></figcaption></figure>
+</div>
+<section id="read-the-sequence">
+<h2>Read the sequence<a class="headerlink" href="#read-the-sequence" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>The gear is placed above finger 2 and drops into contact.</p></li>
+<li><p>The contact frame shows the sampled footprint, with its total force in newtons.</p></li>
+<li><p>The demo resets the gear over each following finger; the active frame moves
+across fingers 3, 4, and 5. Finger 1 is checked separately by the thumb probe.</p></li>
+</ol>
+<p>The native camera inset follows the gear at its physical size (about 6.29 mm
+wide). Match that contact to the active patch in the corresponding finger’s
+unwrapped frame; the heatmap shows force per taxel, not an optical image.</p>
+</section>
+<section id="run-the-example">
+<h2>Run the example<a class="headerlink" href="#run-the-example" title="Link to this heading"></a></h2>
+<p>Prerequisites: <a class="reference internal" href="../../getting-started/installation/"><span class="std std-doc">installed environment</span></a>,
+a supported NVIDIA GPU, and fetched Git LFS assets.</p>
+<p>For a local desktop:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py
+</pre></div>
+</div>
+<p>A gear contacts fingers 2–5 in turn. The Isaac Sim viewport includes live
+firmware heatmaps and each finger’s measured normal load in newtons, so they
+appear in the WebRTC GUI. Blue is zero load; cyan, yellow and red show increasing
+force per taxel, with a shared adaptive scale printed below the images. Grey
+cells have no sensor taxel. Firmware row/column positions are preserved, with
+no smoothing: the contact footprint (including gear teeth when resolved by the
+sampling) is visible rather than just an aggregate force. These frames unwrap
+the curved fingertip; they are not an optical picture of the object.</p>
+</section>
+<section id="inspect-a-known-contact">
+<h2>Inspect a known contact<a class="headerlink" href="#inspect-a-known-contact" title="Link to this heading"></a></h2>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../_images/loaded-contact.webp"><img alt="A 0.1 kilogram cube resting on the DEX-01 pad of finger 2, with the mounting frame and adjacent fingertips visible." src="../../_images/loaded-contact.webp" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The local flat-load fixture on finger 2. The corresponding tactile frame
+is active only on the loaded finger; the total load is near 0.981 N after settling.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Use a flat indenter for quantitative <a class="reference internal" href="../../validation/"><span class="std std-doc">known-load validation</span></a>.
+The gear can rock and is not a calibration fixture.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="../flat-pad/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Flat-pad example</a>
+    <a href="../stationary-press/" title="Next document (Alt+Shift+RightArrow)" class="next">Press a stationary gear</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2026, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>

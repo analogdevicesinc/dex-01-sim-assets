@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="An Isaac Lab tactile sensor model with a physically scaled DEX-01 fingertip on the Tesollo DG-5F hand. The fingertip is one exterior-only mesh, approximately 32.70 x 22.41 x 19.00 mm, with a 22.40 x 19.00 mm rear profile. It has 740 contact samples mapped into a 32x32 firmware frame." name="description" />
+
+    <title>Contact-force model &#8212; DEX-01 Tactile Sensor documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=b1d7a81a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/example-media.css?v=e4883b01" />
+    <script src="../../_static/repository-metadata.js?v=968c5fa1"></script>
+    <script async="async" src="../../_static/app.umd.js?v=048c1170"></script>
+    <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/pull/5/concepts/model/" />
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Geometry and coordinate frames" href="../geometry/" />
+    <link rel="prev" title="Configure taxel patterns" href="../../guides/patterns/" />
+
+   
+  
+    <meta name="robots" content="noindex">
+  
+  
+  
+  <meta name="repository" content="dex-01-sim-assets">
+  <meta name="version" content="pull/5">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+<meta name="docs-source-ref" content="047e9210488ae3f60e40ca5225a6ce2c89c237c7">
+
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="../../">
+          <div>DEX-01 Tactile Sensor</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">Contact-force model</a><ul>
+<li><a class="reference internal" href="#force-distribution">Force distribution</a></li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="no-logo" href="../../">
+      DEX-01 Tactile Sensor
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <p class="caption" role="heading">
+  <span class="caption-text">Get started</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation/">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/quickstart/">Your first simulation</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Examples</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/">Explore the examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/flat-pad/">Flat-pad example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/hand/">Tesollo hand demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/stationary-press/">Press a stationary gear</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Guides</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/read-data/">Read tactile data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/patterns/">Configure taxel patterns</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Concepts and reference</span>
+</p>
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contact-force model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../geometry/">Geometry and coordinate frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../limitations/">Supported model behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/api/">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/numerical-settings/">Numerical settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/compatibility/">Compatibility</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Validation and support</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../licensing/">Licensing and attribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citation/">Citation</a></li>
+</ul>
+
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="contact-force-model">
+<h1>Contact-force model<a class="headerlink" href="#contact-force-model" title="Link to this heading"></a></h1>
+<p>An Isaac Lab tactile sensor model with a physically scaled DEX-01 fingertip
+on the Tesollo DG-5F hand. The fingertip is one exterior-only mesh, approximately
+32.70 x 22.41 x 19.00 mm, with a 22.40 x 19.00 mm rear profile. It has 740 contact
+samples mapped into a 32x32 firmware frame.</p>
+<p>The model queries the counter object’s PhysX signed distance field (SDF) and
+distributes the measured normal contact load across penetrating samples by
+depth, following <a class="icon link reference external" href="https://arxiv.org/abs/2408.06506" target="_blank">TacSL</a>. Output is normal contact force in newtons.</p>
+<p>Each sample queries the counter-object SDF. Penetrating samples receive a
+share of the measured net normal contact force according to penetration depth.
+The frame unwraps the fingertip surface; it is not an optical contact image.</p>
+<p>A taxel is one contact sample on the fingertip surface. The 740 samples retain
+the firmware pixel mapping; unoccupied frame cells contain zero. Summing all
+taxel values gives the sensor’s total normal load.</p>
+<p>Use <a class="reference internal" href="../../validation/"><span class="std std-doc">known-load validation</span></a> to check simulated force balance
+and <a class="reference internal" href="../limitations/"><span class="std std-doc">limitations</span></a> to understand the model boundary.</p>
+<section id="force-distribution">
+<h2>Force distribution<a class="headerlink" href="#force-distribution" title="Link to this heading"></a></h2>
+<p>For taxel penetration depths <code class="docutils literal notranslate"><span class="pre">d_i</span> <span class="pre">&lt;</span> <span class="pre">0</span></code>, the model computes a contact normal
+from the penetration-weighted surface normals and projects the filtered PhysX
+contact-force vector onto it. The nonnegative projected load <code class="docutils literal notranslate"><span class="pre">F_n</span></code> is allocated
+as <code class="docutils literal notranslate"><span class="pre">f_i</span> <span class="pre">=</span> <span class="pre">F_n</span> <span class="pre">d_i</span> <span class="pre">/</span> <span class="pre">sum(d_j)</span></code> over the penetrating taxels. Samples outside the
+counter object receive zero.</p>
+<p>This preserves the total physical normal load while distributing it across the
+sampled contact patch. The known-load checker compares that sum with the
+independent filtered contact force, fixture weight, and momentum change.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="../../guides/patterns/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Configure taxel patterns</a>
+    <a href="../geometry/" title="Next document (Alt+Shift+RightArrow)" class="next">Geometry and coordinate frames</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2026, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>

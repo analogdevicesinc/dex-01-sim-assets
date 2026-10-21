@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="The supported baseline is Linux x86_64, Python 3.11, GLIBC 2.35 or newer, Isaac Sim 5.1.0, and the Isaac Lab revision pinned by setup_env.sh. Use an NVIDIA RTX-capable GPU with enough VRAM for Isaac Sim, at least 32 GB host RAM, and at least 50 GB free SSD space for the simulator." name="description" />
+
+    <title>Installation &#8212; DEX-01 Tactile Sensor documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=b1d7a81a" />
+    <link rel="stylesheet" type="text/css" href="../../_static/example-media.css?v=e4883b01" />
+    <script src="../../_static/repository-metadata.js?v=968c5fa1"></script>
+    <script async="async" src="../../_static/app.umd.js?v=048c1170"></script>
+    <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/pull/5/getting-started/installation/" />
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Your first simulation" href="../quickstart/" />
+    <link rel="prev" title="DEX-01 Tactile Sensor" href="../../" />
+
+   
+  
+    <meta name="robots" content="noindex">
+  
+  
+  
+  <meta name="repository" content="dex-01-sim-assets">
+  <meta name="version" content="pull/5">
+  
+    <meta name="page_source_suffix" content=".md">
+  
+  
+  
+
+
+<style>
+  body {
+    
+  }
+
+  body.dark {
+    
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body:not(.light) {
+      
+    }
+  }
+</style>
+<meta name="docs-source-ref" content="047e9210488ae3f60e40ca5225a6ce2c89c237c7">
+
+  </head>
+  
+    <body>
+  
+  <input type="checkbox" id="input-show-toc">
+  <input type="checkbox" id="input-show-localtoc">
+  <input type="checkbox" id="input-show-repotoc">
+
+  
+  <div class="search-area">
+    <form action="" method="get">
+      <input type="text" name="q" aria-labelledby="search-documentation" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="search" placeholder="Search"/>
+      <button class="icon"></button>
+    </form>
+  </div>
+  
+
+  <header>
+    <div id="left">
+      <label id="show-sidebar" class="icon" for="input-show-toc" title="Show/hide index"></label>
+    </div>
+    <div id="right">
+      <span>
+        <a id="logo-org" href="https://developer.analog.com/" aria-label="Analog Devices Inc. landing page"></a>
+        <div class="vertical-divider"></div>
+        
+        <label id="show-repotoc" for="input-show-repotoc" title="Show/hide docs">Documentation</label>
+        
+        <a id="logo" href="../../">
+          <div>DEX-01 Tactile Sensor</div>
+        </a>
+      </span>
+      <span class="reverse">
+        <label id="show-localtoc" class="icon" for="input-show-localtoc" title="Show/hide contents"></label>
+      </span>
+    </div>
+  </header>
+
+
+  <div class="repotoc-tree overlay">
+    <root/>
+
+  </div>
+    <div class="localtoc">
+      <div class="tocwrapper">
+        <div class="header localtoc-header">
+          <a id="scroll-up" href="#top-anchor" title="Back to top"></a>
+        </div>
+        <nav>
+          <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#check-the-host">Check the host</a></li>
+<li><a class="reference internal" href="#install-the-simulation-environment">Install the simulation environment</a></li>
+<li><a class="reference internal" href="#choose-installation-locations">Choose installation locations</a></li>
+<li><a class="reference internal" href="#confirm-the-installation">Confirm the installation</a></li>
+<li><a class="reference internal" href="#view-a-remote-simulation">View a remote simulation</a></li>
+</ul>
+</li>
+</ul>
+
+        </nav>
+      </div>
+    </div>
+
+  
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+    <a id="no-logo" href="../../">
+      DEX-01 Tactile Sensor
+    </a><input id="input-switch-toc" type="checkbox">
+<label id="show-repotoc" for="input-switch-toc">
+All content
+</label>
+<label id="show-toc" for="input-switch-toc">
+Content on this topic
+</label>
+<div class="repotoc-tree">
+  <root/>
+
+</div>
+<div class="toc-tree">
+  <p class="caption" role="heading">
+  <span class="caption-text">Get started</span>
+</p>
+
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart/">Your first simulation</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Examples</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/">Explore the examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/flat-pad/">Flat-pad example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/hand/">Tesollo hand demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/stationary-press/">Press a stationary gear</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Guides</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/read-data/">Read tactile data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/patterns/">Configure taxel patterns</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Concepts and reference</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/model/">Contact-force model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/geometry/">Geometry and coordinate frames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/limitations/">Supported model behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/api/">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/numerical-settings/">Numerical settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/compatibility/">Compatibility</a></li>
+</ul>
+
+<p class="caption" role="heading">
+  <span class="caption-text">Validation and support</span>
+</p>
+
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../licensing/">Licensing and attribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../citation/">Citation</a></li>
+</ul>
+
+
+</div>
+        </div>
+      </div>
+
+  <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper" id="top-anchor">
+          <div class="body-header">
+  <nav class="breadcrumb empty"><ol></ol></nav>
+</div>
+          <div class="body" role="main">
+            
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<section id="check-the-host">
+<h2>Check the host<a class="headerlink" href="#check-the-host" title="Link to this heading"></a></h2>
+<p>The supported baseline is Linux x86_64, Python 3.11, GLIBC 2.35 or newer,
+Isaac Sim 5.1.0, and the Isaac Lab revision pinned by <code class="docutils literal notranslate"><span class="pre">setup_env.sh</span></code>.
+Use an NVIDIA RTX-capable GPU with enough VRAM for Isaac Sim, at least
+32 GB host RAM, and at least 50 GB free SSD space for the simulator.</p>
+<p>For desktop, streaming, or camera rendering, use NVIDIA’s <strong>validated Linux
+driver 580.65.06 (R580)</strong> for Isaac Sim 5.1.0. Check the installed version:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nvidia-smi<span class="w"> </span>--query-gpu<span class="o">=</span>name,driver_version,memory.total<span class="w"> </span>--format<span class="o">=</span>csv
+</pre></div>
+</div>
+<p>See <a class="icon link reference external" href="https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/requirements.html" target="_blank">NVIDIA’s version-specific requirements</a>
+before configuring the host. A newer driver is not automatically compatible
+with this release. In particular, NVIDIA documents an RTX SceneDB startup
+crash with newer driver branches; <a class="reference internal" href="../../troubleshooting/"><span class="std std-doc">troubleshooting</span></a>
+links the upstream diagnosis. A GPU visible to <code class="docutils literal notranslate"><span class="pre">nvidia-smi</span></code> alone does not
+verify camera or viewport rendering.</p>
+<p>Install Git, Git LFS, GCC, G++, Make, and
+<a class="icon link reference external" href="https://docs.astral.sh/uv/getting-started/installation/" target="_blank">uv</a>.
+On Ubuntu, <code class="docutils literal notranslate"><span class="pre">build-essential</span></code> provides GCC, G++, and Make. Install <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code>
+if you intend to record videos.</p>
+</section>
+<section id="install-the-simulation-environment">
+<h2>Install the simulation environment<a class="headerlink" href="#install-the-simulation-environment" title="Link to this heading"></a></h2>
+<p>Run from the repository root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/analogdevicesinc/dex-01-sim-assets.git
+<span class="nb">cd</span><span class="w"> </span>dex-01-sim-assets
+git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>lfs<span class="w"> </span>pull
+./setup_env.sh
+<span class="nb">source</span><span class="w"> </span>../env_isaaclab/bin/activate
+</pre></div>
+</div>
+<p>The setup script installs Python 3.11, Isaac Sim 5.1.0, PyTorch, Isaac Lab’s
+extensions, and this package. It installs CMake 3.x for native dependencies
+such as <code class="docutils literal notranslate"><span class="pre">egl-probe</span></code>. <code class="docutils literal notranslate"><span class="pre">uv</span></code> fetches Python, so your host Python need not be 3.11.</p>
+<p>A fresh Isaac Lab checkout is pinned to
+<code class="docutils literal notranslate"><span class="pre">b0542fe2d45bf91c4e1d9ef6952b9c709c80b4e8</span></code>. Existing checkouts and environments
+are reused. Read the reported versions before reusing them; the script does
+not replace a working installed simulator just because its version differs.
+The first simulator launch can request NVIDIA’s EULA, download extensions,
+and compile shaders.</p>
+</section>
+<section id="choose-installation-locations">
+<h2>Choose installation locations<a class="headerlink" href="#choose-installation-locations" title="Link to this heading"></a></h2>
+<p>Use absolute paths for custom locations:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./setup_env.sh<span class="w"> </span>--venv<span class="w"> </span>/path/to/dex01-env<span class="w"> </span>--isaaclab<span class="w"> </span>/path/to/IsaacLab
+<span class="nb">source</span><span class="w"> </span>/path/to/dex01-env/bin/activate
+</pre></div>
+</div>
+<p>With an existing compatible Isaac Lab installation, fetch the LFS assets and
+install this package into its Python environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/path/to/IsaacLab/isaaclab.sh<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>source/dex01_sim_asset
+</pre></div>
+</div>
+<p>All example commands run from the repository root in that environment.
+Simulator modules must be imported after <code class="docutils literal notranslate"><span class="pre">AppLauncher</span></code> starts Isaac Sim.</p>
+</section>
+<section id="confirm-the-installation">
+<h2>Confirm the installation<a class="headerlink" href="#confirm-the-installation" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
+<span class="s">from importlib.metadata import version</span>
+<span class="s">print("Isaac Sim:", version("isaacsim"))</span>
+<span class="s">print("PyTorch:", version("torch"))</span>
+<span class="s">PY</span>
+git<span class="w"> </span>-C<span class="w"> </span>../IsaacLab<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
+<span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--headless<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--flat-indenter<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-steps<span class="w"> </span><span class="m">240</span>
+</pre></div>
+</div>
+<p>For a custom checkout, replace <code class="docutils literal notranslate"><span class="pre">../IsaacLab</span></code> with the path passed to setup.
+The headless smoke check prints per-finger forces, runs 240 steps, and exits.
+Finger 2 should settle near 0.981 N while the other fingers remain unloaded.
+This local cube fixture does not download the gear asset. Continue with
+<a class="reference internal" href="../quickstart/"><span class="std std-doc">your first visual simulation</span></a> and then
+<a class="reference internal" href="../../validation/"><span class="std std-doc">complete physical-force validation</span></a>.</p>
+</section>
+<section id="view-a-remote-simulation">
+<h2>View a remote simulation<a class="headerlink" href="#view-a-remote-simulation" title="Link to this heading"></a></h2>
+<p>After installing and activating the environment on the simulation host, run
+from the repository root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_on_tesollo_dg5f.py<span class="w"> </span>--livestream<span class="o">=</span><span class="m">2</span>
+</pre></div>
+</div>
+<p>Use the RTX-capable GPU and validated R580 driver described above.
+On your viewing computer, install the
+<a class="icon link reference external" href="https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/manual_livestream_clients.html" target="_blank">Isaac Sim WebRTC Streaming Client</a>.
+Wait for <code class="docutils literal notranslate"><span class="pre">Setup</span> <span class="pre">complete...</span></code>, enter the simulation host’s reachable IP address,
+and connect. TCP 49100 and UDP 47998 must be reachable from that computer.
+Run one streaming simulator at a time on these ports. <code class="docutils literal notranslate"><span class="pre">--livestream=2</span></code> is for
+a private network; NVIDIA’s guide covers public endpoints.</p>
+<p>The streamed viewport includes the hand, tactile frames, and normal loads in
+newtons. Only environment 0 is displayed in multi-environment runs. The same
+overlay is available in <code class="docutils literal notranslate"><span class="pre">simple_example.py</span></code> and <code class="docutils literal notranslate"><span class="pre">verify_dex01_sim.py</span></code>.
+Use <code class="docutils literal notranslate"><span class="pre">--no-tactile-ui</span></code> to hide it or <code class="docutils literal notranslate"><span class="pre">--debug-vis</span></code> for 3D sampling markers.
+Stop with Ctrl+C. Pure headless runs without streaming skip the viewport.
+Continue with <a class="reference internal" href="../quickstart/"><span class="std std-doc">your first simulation</span></a> to interpret the result.</p>
+</section>
+</section>
+
+
+          </div>
+              <div class="related">
+                &nbsp;
+    <a href="../../" title="Previous document (Alt+Shift+LeftArrow)" class="prev">DEX-01 Tactile Sensor</a>
+    <a href="../quickstart/" title="Next document (Alt+Shift+RightArrow)" class="next">Your first simulation</a>
+              </div>
+          
+        </div>
+      </div>
+  </div>
+
+  <label id="cancel-area-show-toc" for="input-show-toc"></label>
+  <label id="cancel-area-show-localtoc" for="input-show-localtoc"></label>
+    <footer>
+      &#169;2026, Analog Devices, Inc.
+      
+      |
+      Made with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+      &amp; <a href="https://github.com/analogdevicesinc/doctools">Doctools</a>
+      
+    </footer>
+  </body>
+</html>
