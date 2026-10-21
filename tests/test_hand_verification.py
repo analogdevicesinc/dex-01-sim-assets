@@ -70,7 +70,7 @@ def report():
         steps_per_finger=200,
         physics_dt_s=1 / 240,
         indenter="flat",
-        taxels_per_finger=[738] * 5,
+        taxels_per_finger=[740] * 5,
         observations=observations,
         thumb=dict(probe_taxel_force_n=1.0, probe_centroid_error_m=0.0001, gear_filtered_force_n=0.0),
     )

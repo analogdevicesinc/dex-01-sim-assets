@@ -2,7 +2,7 @@
 
 An Isaac Lab tactile sensor model with a physically scaled DEX-01 fingertip
 on the Tesollo DG-5F hand. The fingertip is one exterior-only mesh, approximately
-32.70 x 22.41 x 19.00 mm, with a 22.40 x 19.00 mm rear profile. It has 738 contact
+32.70 x 22.41 x 19.00 mm, with a 22.40 x 19.00 mm rear profile. It has 740 contact
 samples mapped into a 32x32 firmware frame.
 
 The model queries the counter object's PhysX signed distance field (SDF) and
@@ -13,7 +13,7 @@ Each sample queries the counter-object SDF. Penetrating samples receive a
 share of the measured net normal contact force according to penetration depth.
 The frame unwraps the fingertip surface; it is not an optical contact image.
 
-A taxel is one contact sample on the fingertip surface. The 738 samples retain
+A taxel is one contact sample on the fingertip surface. The 740 samples retain
 the firmware pixel mapping; unoccupied frame cells contain zero. Summing all
 taxel values gives the sensor’s total normal load.
 

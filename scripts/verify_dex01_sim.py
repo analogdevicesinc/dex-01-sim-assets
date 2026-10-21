@@ -83,7 +83,7 @@ def check_hand_report(path):
     other = data["forces_n"].copy()
     other[np.arange(len(entries)), targets - 1] = 0
     _require(other.max() < UNLOADED_FORCE_TOLERANCE_N, "Unexpected force on a non-target finger")
-    _require(report["taxels_per_finger"] == [738] * 5, "Verification failed: report['taxels_per_finger'] == [738] * 5")
+    _require(report["taxels_per_finger"] == [740] * 5, "Verification failed: report['taxels_per_finger'] == [740] * 5")
     for finger in range(2, 6):
         entries = [
             entry

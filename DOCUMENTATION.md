@@ -68,7 +68,9 @@ records the source revision and output hashes. It does not advance a second phys
 The plotting utility runs the independent hand-report checker before creating
 figures. It takes the report from the validation guide and the released NPZ
 pattern to generate the force and mapping figures. `docs/media/figures.json`
-records input and figure hashes plus the Python, NumPy, and Matplotlib versions.
+records force-figure provenance; `docs/media/taxel-mapping.json` records the
+layout-figure hashes. Use `--mapping-only` to regenerate the layout figure
+without a force report.
 Repeating generation with identical inputs and plotting versions produces
 identical SVG files; axes include the complete impact transient.
 

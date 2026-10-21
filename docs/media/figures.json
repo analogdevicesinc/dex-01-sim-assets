@@ -10,7 +10,6 @@
     "matplotlib": "3.10.3"
   },
   "figures": {
-    "known-load.svg": "edf32bf720f752b4779d96ba725f7c05e219f57a283cd77db1858899a3538053",
-    "taxel-mapping.svg": "ac0603a64b88783c00e99595cd0a5f9e4bc9ee047da578eb2ff4f8c55c111a9e"
+    "known-load.svg": "edf32bf720f752b4779d96ba725f7c05e219f57a283cd77db1858899a3538053"
   }
 }

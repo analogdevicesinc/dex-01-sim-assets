@@ -30,15 +30,76 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+def plot_mapping(repo, output):
+    pattern = repo / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz"
+    with np.load(pattern, allow_pickle=False) as data:
+        poses, pixels = data["poses"], data["taxel2pixel"]
+    if poses.shape != (740, 3, 4) or pixels.shape != (740, 2) or len(np.unique(pixels, axis=0)) != 740:
+        raise ValueError("Expected the complete released 740-taxel layout")
+    points = poses[:, :, 3] * 1000
+    fig = plt.figure(figsize=(10, 4.6))
+    surface = fig.add_subplot(121, projection="3d")
+    surface.scatter(*points.T, c=pixels[:, 0], cmap="viridis", s=5, depthshade=False)
+    surface.set_xlabel("x (mm)")
+    surface.set_ylabel("y (mm)")
+    surface.set_zlabel("z (mm)")
+    surface.set_title("740 samples on the exterior\nSensor pattern coordinates")
+    surface.view_init(elev=25, azim=-65)
+    surface.set_box_aspect(np.ptp(points, axis=0))
+    frame = fig.add_subplot(122)
+    mask = np.zeros((32, 32), dtype=bool)
+    mask[pixels[:, 0], pixels[:, 1]] = True
+    values = np.broadcast_to(np.arange(32)[:, None], (32, 32))
+    cmap = plt.get_cmap("viridis").copy()
+    cmap.set_bad("#d8dfe5")
+    frame.imshow(np.ma.array(values, mask=~mask), cmap=cmap, interpolation="nearest")
+    frame.set_xlabel("Firmware column")
+    frame.set_ylabel("Firmware row")
+    frame.set_title("Same taxel order in a 32 × 32 frame\nGrey = 284 unoccupied pixels")
+    frame.set_xticks([0, 8, 16, 24, 31])
+    frame.set_yticks([0, 8, 16, 24, 31])
+    fig.tight_layout()
+    fig.savefig(output / "taxel-mapping.svg", bbox_inches="tight", facecolor="white", metadata={"Date": None})
+    plt.close(fig)
+    path = output / "taxel-mapping.svg"
+    path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines()) + "\n")
+    (output / "taxel-mapping.json").write_text(
+        json.dumps(
+            {
+                "contact_pattern_sha256": hashlib.sha256(pattern.read_bytes()).hexdigest(),
+                "figure_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "num_taxels": len(pixels),
+                "unoccupied_pixels": int((~mask).sum()),
+                "generator": "scripts/docs/plot_validation.py --mapping-only",
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+    return pattern
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--hand-report", type=Path, required=True)
+    parser.add_argument("--hand-report", type=Path)
+    parser.add_argument("--mapping-only", action="store_true", help="Regenerate the current geometry figure only.")
     parser.add_argument("--output", type=Path, default=Path("docs/media"))
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     repo = Path(__file__).resolve().parents[2]
+    plt.rcParams.update({
+        "font.family": "DejaVu Sans",
+        "font.size": 11,
+        "svg.fonttype": "none",
+        "svg.hashsalt": "dex01-documentation",
+    })
+    if args.mapping_only:
+        plot_mapping(repo, args.output)
+        return
+    if args.hand_report is None:
+        parser.error("--hand-report is required unless --mapping-only is selected")
     report = json.loads(args.hand_report.read_text())
-    if report.get("indenter") != "flat" or report["taxels_per_finger"] != [738] * 5:
+    if report.get("indenter") != "flat" or report["taxels_per_finger"] != [740] * 5:
         parser.error("Expected the checked five-finger flat-load report")
     inputs = {
         "sensor_code_sha256": repo / "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py",
@@ -56,12 +117,6 @@ def main():
         [sys.executable, str(checker), "--check-hand-report", str(args.hand_report.resolve())],
         check=True,
     )
-    plt.rcParams.update({
-        "font.family": "DejaVu Sans",
-        "font.size": 11,
-        "svg.fonttype": "none",
-        "svg.hashsalt": "dex01-documentation",
-    })
     expected = 0.1 * 9.81
     cycle_steps = report["steps_per_finger"]
     fig, axes = plt.subplots(2, 4, figsize=(12, 6.5), sharey="row")
@@ -102,36 +157,7 @@ def main():
     fig.tight_layout()
     fig.savefig(args.output / "known-load.svg", bbox_inches="tight", facecolor="white", metadata={"Date": None})
     plt.close(fig)
-    pattern = repo / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz"
-    with np.load(pattern, allow_pickle=False) as data:
-        poses, pixels = data["poses"], data["taxel2pixel"]
-    if poses.shape != (738, 3, 4) or pixels.shape != (738, 2) or len(np.unique(pixels, axis=0)) != 738:
-        raise ValueError("Expected the complete released 738-taxel layout")
-    points = poses[:, :, 3] * 1000
-    fig = plt.figure(figsize=(10, 4.6))
-    surface = fig.add_subplot(121, projection="3d")
-    surface.scatter(*points.T, c=pixels[:, 0], cmap="viridis", s=5, depthshade=False)
-    surface.set_xlabel("x (mm)")
-    surface.set_ylabel("y (mm)")
-    surface.set_zlabel("z (mm)")
-    surface.set_title("738 samples on the exterior\nSensor pattern coordinates")
-    surface.view_init(elev=25, azim=-65)
-    surface.set_box_aspect(np.ptp(points, axis=0))
-    frame = fig.add_subplot(122)
-    mask = np.zeros((32, 32), dtype=bool)
-    mask[pixels[:, 0], pixels[:, 1]] = True
-    values = np.broadcast_to(np.arange(32)[:, None], (32, 32))
-    cmap = plt.get_cmap("viridis").copy()
-    cmap.set_bad("#d8dfe5")
-    frame.imshow(np.ma.array(values, mask=~mask), cmap=cmap, interpolation="nearest")
-    frame.set_xlabel("Firmware column")
-    frame.set_ylabel("Firmware row")
-    frame.set_title("Same taxel order in a 32 × 32 frame\nGrey = 286 unoccupied pixels")
-    frame.set_xticks([0, 8, 16, 24, 31])
-    frame.set_yticks([0, 8, 16, 24, 31])
-    fig.tight_layout()
-    fig.savefig(args.output / "taxel-mapping.svg", bbox_inches="tight", facecolor="white", metadata={"Date": None})
-    plt.close(fig)
+    pattern = plot_mapping(repo, args.output)
     for name in ("known-load.svg", "taxel-mapping.svg"):
         path = args.output / name
         path.write_text("\n".join(line.rstrip() for line in path.read_text().splitlines()) + "\n")
@@ -147,8 +173,7 @@ def main():
             "matplotlib": version("matplotlib"),
         },
         "figures": {
-            name: hashlib.sha256((args.output / name).read_bytes()).hexdigest()
-            for name in ("known-load.svg", "taxel-mapping.svg")
+            name: hashlib.sha256((args.output / name).read_bytes()).hexdigest() for name in ("known-load.svg",)
         },
     }
     (args.output / "figures.json").write_text(json.dumps(provenance, indent=2) + "\n")
