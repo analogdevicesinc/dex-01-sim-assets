@@ -8,7 +8,7 @@ loop. The following fragment assumes the scene has `finger2_sensor`:
 import torch
 
 sensor = scene["finger2_sensor"]
-forces_n = sensor.data.normal_forces[0]  # 738 values
+forces_n = sensor.data.normal_forces[0]  # 740 values
 frame_n = sensor.get_tactile_image()[0]  # 32 x 32 firmware frame
 rows, columns = sensor.taxel2pixel.T
 assert torch.equal(frame_n[rows, columns], forces_n)
@@ -26,6 +26,6 @@ For a batched scene, replace `[0]` with the environment index you need.
 those values into firmware pixels. Summation in taxel space and frame space
 returns the same load. Do not interpolate the frame when checking mapping.
 
-The supplied DEX-01 frame has 738 occupied pixels and 286 unoccupied pixels.
+The supplied DEX-01 frame has 740 occupied pixels and 284 unoccupied pixels.
 A zero at an occupied pixel means no normal load at that sample. Use
 `taxel2pixel` to distinguish occupied zero-force pixels from unused cells.

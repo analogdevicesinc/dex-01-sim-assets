@@ -46,7 +46,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="d03836448114fe7abe41ffd3478f4f06f8662b4d">
+<meta name="docs-source-ref" content="0f9295513a257fa1f95b7488687346e07ab8123c">
 
   </head>
   
@@ -198,7 +198,7 @@ loop. The following fragment assumes the scene has <code class="docutils literal
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
 <span class="n">sensor</span> <span class="o">=</span> <span class="n">scene</span><span class="p">[</span><span class="s2">"finger2_sensor"</span><span class="p">]</span>
-<span class="n">forces_n</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">normal_forces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 738 values</span>
+<span class="n">forces_n</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">normal_forces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 740 values</span>
 <span class="n">frame_n</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">get_tactile_image</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 32 x 32 firmware frame</span>
 <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">taxel2pixel</span><span class="o">.</span><span class="n">T</span>
 <span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">frame_n</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">],</span> <span class="n">forces_n</span><span class="p">)</span>
@@ -213,7 +213,7 @@ otherwise; <code class="docutils literal notranslate"><span class="pre">depth_do
 <code class="docutils literal notranslate"><span class="pre">normal_forces</span></code> contains one value per taxel; <code class="docutils literal notranslate"><span class="pre">get_tactile_image()</span></code> rearranges
 those values into firmware pixels. Summation in taxel space and frame space
 returns the same load. Do not interpolate the frame when checking mapping.</p>
-<p>The supplied DEX-01 frame has 738 occupied pixels and 286 unoccupied pixels.
+<p>The supplied DEX-01 frame has 740 occupied pixels and 284 unoccupied pixels.
 A zero at an occupied pixel means no normal load at that sample. Use
 <code class="docutils literal notranslate"><span class="pre">taxel2pixel</span></code> to distinguish occupied zero-force pixels from unused cells.</p>
 </section>
