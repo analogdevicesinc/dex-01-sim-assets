@@ -79,6 +79,10 @@ for the version dropdown. It labels the highest stable release “latest stable,
 entry, since the root is a redirect. Do not hand-edit the generated menu.
 The sitemap contains development and release pages, and excludes PR previews.
 
+Pages deployments use the assembled `gh-pages` commit as their build identity,
+so main and tag publications from the same source commit remain distinct.
+Artifact names include the run attempt so deployment reruns select one artifact.
+
 Publishing and cleanup share a concurrency group. Every publication and cleanup
 reads the current open PR list, removes stale previews, and deploys the complete
 site. A preview build queued after closing cannot restore that PR's directory.
