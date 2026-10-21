@@ -97,6 +97,7 @@ jobs:
         with:
           python-version: "3.11"
       - uses: ./workflow/.github/actions/documentation-site
+        id: site
         with:
           version: ${{ github.event_name == 'pull_request' && format('pull/{0}', github.event.number) || github.ref_name }}
           historical: ${{ github.ref == 'refs/heads/main' }}
@@ -104,8 +105,14 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: site-artifact
+          name: github-pages-${{ github.run_attempt }}
       - name: Deploy GitHub Pages
         id: pages
+        env:
+          # Main and a release tag can share a source SHA but publish different sites.
+          GITHUB_SHA: ${{ steps.site.outputs.site_sha }}
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
         uses: actions/deploy-pages@v4
       - name: Link the published documentation
         env:

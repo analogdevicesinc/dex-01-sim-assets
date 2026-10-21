@@ -22,6 +22,10 @@ inputs:
   historical:
     description: Backfill the historical prerelease artifact.
     default: "false"
+outputs:
+  site_sha:
+    description: Commit of the complete assembled site to deploy.
+    value: ${{ steps.save.outputs.site_sha }}
 runs:
   using: composite
   steps:
@@ -79,6 +83,7 @@ runs:
           jq -s . > "$RUNNER_TEMP/docs-open-prs.json"
         python workflow/scripts/docs/publish_site.py --site published --open-prs "$RUNNER_TEMP/docs-open-prs.json"
     - name: Save the complete published site
+      id: save
       shell: bash
       working-directory: published
       env:
@@ -91,6 +96,7 @@ runs:
           git commit -m "docs: publish ${DOC_VERSION:-preview cleanup}"
           git push origin HEAD:gh-pages
         fi
+        echo "site_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
     - name: Export the site without Git metadata
       shell: bash
       working-directory: published
