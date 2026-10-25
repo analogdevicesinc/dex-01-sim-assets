@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="The custom finger combines the adapter, carrier and sensing exterior into one connected, watertight mesh. It omits the PCB. Each jaw carries a 32 × 32 grid on its 37 × 16 mm rectangular contact face." name="description" />
+<meta content="The Robotiq 2F-85 closes its two rectangular tactile fingers around a free rigid block, holds contact, and opens again. Each finger produces a 32 × 32 tactile frame. Gravity and damping are disabled on the block so its movement reflects the gripper’s contact forces." name="description" />
 
-    <title>Rectangular DEX-01 on the Robotiq 2F-85 &#8212; DEX-01 Tactile Sensor documentation</title>
+    <title>Grasp, hold, and release &#8212; DEX-01 Tactile Sensor documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
     <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=b1d7a81a" />
     <link rel="stylesheet" type="text/css" href="../../_static/example-media.css?v=e4883b01" />
@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" />
     <link rel="next" title="Attach a sensor" href="../../guides/attachment/" />
-    <link rel="prev" title="Press a stationary gear" href="../stationary-press/" />
+    <link rel="prev" title="Robotiq 2F-85" href="../embodiments/robotiq-2f85/" />
 
    
   
@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="591bebe5188a3e022656146c81566c38ff3edf33">
+<meta name="docs-source-ref" content="e791db9d41047ba142cdc77d65e32e39a7ec3b81">
 
   </head>
   
@@ -100,12 +100,9 @@
         </div>
         <nav>
           <ul>
-<li><a class="reference internal" href="#">Rectangular DEX-01 on the Robotiq 2F-85</a><ul>
-<li><a class="reference internal" href="#run-the-integration">Run the integration</a></li>
-<li><a class="reference internal" href="#resolve-the-official-asset-library">Resolve the official asset library</a></li>
-<li><a class="reference internal" href="#geometry-and-indexing">Geometry and indexing</a></li>
-<li><a class="reference internal" href="#use-the-assets-in-another-scene">Use the assets in another scene</a></li>
-<li><a class="reference internal" href="#rebuild-and-validate">Rebuild and validate</a></li>
+<li><a class="reference internal" href="#">Grasp, hold, and release</a><ul>
+<li><a class="reference internal" href="#run-the-example">Run the example</a></li>
+<li><a class="reference internal" href="#read-the-tactile-output">Read the tactile output</a></li>
 </ul>
 </li>
 </ul>
@@ -145,11 +142,20 @@ Content on this topic
 </p>
 
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../stationary-press/">Press a stationary gear</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Rectangular DEX-01 on the Robotiq 2F-85</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../">Overview</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="../embodiments/flat-pad/">Flat pad</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="../embodiments/tesollo-hand/">Tesollo hand</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stationary-press/">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3" checked=""/><div class="collapse"><a class="reference internal" href="../embodiments/robotiq-2f85/">Robotiq 2F-85</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 
 <p class="caption" role="heading">
@@ -158,6 +164,7 @@ Content on this topic
 
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guides/read-data/">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guides/patterns/">Configure taxel patterns</a></li>
 </ul>
@@ -196,161 +203,56 @@ Content on this topic
       <div class="documentwrapper">
         <div class="bodywrapper" id="top-anchor">
           <div class="body-header">
-  <nav class="breadcrumb empty"><ol></ol></nav>
+  <nav class="breadcrumb"><ol><li><a href="../embodiments/robotiq-2f85/">Robotiq 2F-85</a></li></ol></nav>
 </div>
           <div class="body" role="main">
             
-  <section id="rectangular-dex-01-on-the-robotiq-2f-85">
-<h1>Rectangular DEX-01 on the Robotiq 2F-85<a class="headerlink" href="#rectangular-dex-01-on-the-robotiq-2f-85" title="Link to this heading"></a></h1>
-<p>The custom finger combines the adapter, carrier and sensing exterior into
-<strong>one connected, watertight mesh</strong>. It omits the PCB. Each jaw carries a
-<strong>32 × 32</strong> grid on its 37 × 16 mm rectangular contact face.</p>
+  <section id="grasp-hold-and-release">
+<h1>Grasp, hold, and release<a class="headerlink" href="#grasp-hold-and-release" title="Link to this heading"></a></h1>
+<p>The Robotiq 2F-85 closes its two rectangular tactile fingers around a free
+rigid block, holds contact, and opens again. Each finger produces a 32 × 32
+tactile frame. Gravity and damping are disabled on the block so its movement
+reflects the gripper’s contact forces.</p>
 <figure class="example-video">
 <video controls playsinline loop preload="none" width="960" height="800"
        poster="../../_static/videos/robotiq.webp"
-       aria-label="Robotiq fingers grasp a free rigid block with gravity disabled, sustain contact, and open; synchronized tactile images show loading and release.">
+       aria-label="A six-second grasp, hold, and release cycle at simulation-time speed, with both tactile frames and a contact close-up.">
   <source src="../../_static/videos/robotiq.webm" type="video/webm">
   <source src="../../_static/videos/robotiq.mp4" type="video/mp4">
   <track kind="captions" src="../../_static/videos/robotiq.vtt" srclang="en" label="Phases">
   <a href="../../_static/videos/robotiq.mp4">Download the example video</a>
 </video>
-<figcaption>A six-second captured grasp, hold, and release cycle at simulation-time speed. The block is a free rigid body with gravity disabled. Both tactile images show measured normal force in newtons; the inset shows the actual contact geometry.</figcaption>
+<figcaption>A six-second grasp, hold, and release cycle at simulation-time speed, with both tactile frames and a contact close-up.</figcaption>
 </figure>
 <div class="phase-gallery">
 <figure><img src="../../_static/videos/robotiq-before.webp" alt="Open gripper with zero readings on both pads"><figcaption><strong>Before contact</strong><span>The block is between the open fingers.</span></figcaption></figure>
 <figure><img src="../../_static/videos/robotiq-contact.webp" alt="Both fingers grasping the block, with active left and right tactile images"><figcaption><strong>Hold</strong><span>Both pads report contact.</span></figcaption></figure>
 <figure><img src="../../_static/videos/robotiq-after.webp" alt="Reopened gripper with both tactile images back at zero"><figcaption><strong>Release</strong><span>Both pads unload.</span></figcaption></figure>
 </div>
-<p>The 180 frames were captured from Isaac Sim 5.1 physics and rendered using
-native Isaac Sim 6.1 RTX cameras. The renderer checks every body pose and mesh
-vertex against the capture, keeps its timeline stopped, and uses the recorded
-force arrays without interpolation. See <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/591bebe5188a3e022656146c81566c38ff3edf33/docs/media/README.md#robotiq-grasp-hold-and-release" target="_blank">provenance</a>.</p>
-<p>The gripper asset references Isaac Sim 5.1’s official
-<code class="docutils literal notranslate"><span class="pre">Isaac/Robots/Robotiq/2F-85/Robotiq_2F_85_edit.usd</span></code>, using its <code class="docutils literal notranslate"><span class="pre">Physx_Mimic</span></code>
-variant. It replaces only the stock fingertip geometry on each inner-finger
-link. The original moving linkage and its joints remain in the referenced
-asset. NVIDIA geometry is downloaded by Isaac Sim, not redistributed here.</p>
-<section id="run-the-integration">
-<h2>Run the integration<a class="headerlink" href="#run-the-integration" title="Link to this heading"></a></h2>
-<p>After <a class="reference internal" href="../../getting-started/installation/"><span class="std std-doc">installation</span></a>, run:</p>
+<section id="run-the-example">
+<h2>Run the example<a class="headerlink" href="#run-the-example" title="Link to this heading"></a></h2>
+<p>From the repository root in the <a class="reference internal" href="../../getting-started/installation/"><span class="std std-doc">installed environment</span></a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/dex01_on_robotiq_2f85.py
 </pre></div>
 </div>
-<p>The fixed-base gripper closes on a free 0.1 kg, 10 × 30 × 18 mm block, holds
-contact, and opens again. Gravity and damping are disabled on the block to
-isolate the contact dynamics. It moves freely in response to contact forces.
-The viewport shows separate left/right tactile
-frames in newtons. The example runs one six-second cycle at 240 Hz.
-The block is a contact fixture, not a weight-calibration load.</p>
-<p>For a headless run and independent report check:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/dex01_on_robotiq_2f85.py<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--headless<span class="w"> </span>--num-envs<span class="w"> </span><span class="m">2</span><span class="w"> </span>--no-tactile-ui<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--verification-report<span class="w"> </span>/tmp/robotiq-contact.json
-python<span class="w"> </span>scripts/dex01_on_robotiq_2f85.py<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--check-report<span class="w"> </span>/tmp/robotiq-contact.json
-</pre></div>
-</div>
-<p>The checker requires sustained contact on both pads in every environment,
-zero load after release, gripper motion, a stationary base, and agreement
-between active taxel loads, their 32 × 32 images, and filtered PhysX normal
-contact forces. Contact generated before any discrete taxel penetrates the
-counter object is reported separately. Unresolved contact is not permitted
-during the sustained hold. It also checks bilateral hold-force difference
-below 0.1 N and independently compares the block’s measured momentum change
-with the sum of normal and friction impulses (1 µN·s tolerance).</p>
+<p>The example runs one six-second cycle at 240 Hz. Its fixed-base gripper acts
+on a 0.1 kg, 10 × 30 × 18 mm block. Isaac Sim loads the official gripper from
+its configured asset library; see the <a class="reference internal" href="../../guides/robotiq/"><span class="std std-doc">Robotiq integration guide</span></a>
+for a local library or an alternative asset root.</p>
 </section>
-<section id="resolve-the-official-asset-library">
-<h2>Resolve the official asset library<a class="headerlink" href="#resolve-the-official-asset-library" title="Link to this heading"></a></h2>
-<p>The example resolves the library with Isaac Sim’s standard
-<code class="docutils literal notranslate"><span class="pre">isaacsim.storage.native.get_assets_root_path()</span></code> API and appends
-<code class="docutils literal notranslate"><span class="pre">Isaac/Robots/Robotiq/2F-85/Robotiq_2F_85_edit.usd</span></code>. It follows the configured
-<code class="docutils literal notranslate"><span class="pre">/persistent/isaac/asset_root/default</span></code> setting, so a changed server or local
-asset pack does not require editing the gripper integration.</p>
-<p>For one invocation, <code class="docutils literal notranslate"><span class="pre">--asset-root</span> <span class="pre">/path/to/Assets/Isaac/5.1</span></code> selects another
-library root. <code class="docutils literal notranslate"><span class="pre">--gripper-usd</span> <span class="pre">/path/to/Robotiq_2F_85_edit.usd</span></code> selects an exact
-file instead. Keep its relative <code class="docutils literal notranslate"><span class="pre">configuration</span></code>, <code class="docutils literal notranslate"><span class="pre">payloads</span></code>, <code class="docutils literal notranslate"><span class="pre">parts</span></code> and
-<code class="docutils literal notranslate"><span class="pre">materials</span></code> dependencies.</p>
-<p>The reusable USD uses the standard <code class="docutils literal notranslate"><span class="pre">ISAAC_ASSET_ROOT</span></code> expression variable,
-with the versioned NVIDIA 5.1 library as its default. A containing USD stage can
-override that variable without changing the asset or its reference path:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stage</span><span class="o">.</span><span class="n">GetRootLayer</span><span class="p">()</span><span class="o">.</span><span class="n">expressionVariables</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"ISAAC_ASSET_ROOT"</span><span class="p">:</span> <span class="s2">"/path/to/Assets/Isaac/5.1"</span><span class="p">,</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>The builder also accepts <code class="docutils literal notranslate"><span class="pre">--asset-root</span></code> or <code class="docutils literal notranslate"><span class="pre">--gripper-usd</span></code>. USD expressions do
-not read application settings themselves; the runnable example explicitly
-connects the native asset-root API to the generated layer. The relative gripper
-path and articulation contract remain specific to the tested asset revision.
-See <a class="icon link reference external" href="https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/install_faq.html" target="_blank">NVIDIA’s asset-root configuration</a>
-and <a class="icon link reference external" href="https://openusd.org/release/user_guides/variable_expressions.html" target="_blank">OpenUSD variable expressions</a>.</p>
-</section>
-<section id="geometry-and-indexing">
-<h2>Geometry and indexing<a class="headerlink" href="#geometry-and-indexing" title="Link to this heading"></a></h2>
-<p>View either contact face with its fingertip pointing up:</p>
-<ul class="simple">
-<li><p>Row 0 is nearest the tip; rows increase toward the base.</p></li>
-<li><p>Column 0 is on the viewer’s left; columns increase toward the right.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">(0,0)</span></code> is the tip-left taxel. There is no separate linear ID.</p></li>
-</ul>
-<p>This is the physical convention of the existing humanoid fingertip. The
-rectangular NPZ stores <code class="docutils literal notranslate"><span class="pre">positions_m</span></code> and <code class="docutils literal notranslate"><span class="pre">normals</span></code>, both shaped
-<code class="docutils literal notranslate"><span class="pre">(32,32,3)</span></code>, for the simulation’s sampling grid.</p>
-<p>The grid contains 1,024 spatial sensing sites registered to the finished
-contact face at 1:1 scale.</p>
-<p>The finger’s local origin is the center of its 5.3 mm mounting bore on the
-bottom mating plane. Local X runs across its width, Y toward the contact face,
-and Z toward its tip. The contact face retains the CAD’s 5° inclination.
-Positions are in metres and quaternions use <code class="docutils literal notranslate"><span class="pre">(w,x,y,z)</span></code>.</p>
-<p>The 16 mm sensor is centered across the 25 mm carrier. Hashes and coordinate
-conventions for the approved mesh and taxel grid are recorded in
-<code class="docutils literal notranslate"><span class="pre">assets/robots/robotiq_2f85/reference.json</span></code>.</p>
-<p>The thicker adapters require a <strong>35.9° closing limit</strong>, below the stock 47°
-limit. The authored parallel-jaw kinematics retain a conservative minimum
-0.58 mm separation between opposing finger envelopes at this stop. The demo
-uses the same limit. Assess clearance again if changing the geometry or mounting.</p>
-</section>
-<section id="use-the-assets-in-another-scene">
-<h2>Use the assets in another scene<a class="headerlink" href="#use-the-assets-in-another-scene" title="Link to this heading"></a></h2>
-<p>Spawn <code class="docutils literal notranslate"><span class="pre">assets/robots/robotiq_2f85/robotiq_2f85_dex01.usda</span></code> as an articulation.
-It contains a fixed joint anchoring its base. The standalone finger is
-<code class="docutils literal notranslate"><span class="pre">assets/robots/robotiq_2f85/finger.usda</span></code>; its single <code class="docutils literal notranslate"><span class="pre">geometry</span></code> mesh supplies
-both appearance and SDF collision geometry, with separate material subsets
-for the structure and sensing surface.</p>
-<p>Use <code class="docutils literal notranslate"><span class="pre">RectangularDex01PatternCfg</span></code> and point the sensors at the existing
-<code class="docutils literal notranslate"><span class="pre">Robotiq_2F_85/left_inner_finger</span></code> and <code class="docutils literal notranslate"><span class="pre">right_inner_finger</span></code> rigid-body links.
-The example’s <code class="docutils literal notranslate"><span class="pre">sensor()</span></code> configuration applies the same mount transform as
-the finger geometry. <code class="docutils literal notranslate"><span class="pre">mesh_prim_path</span></code> must identify one SDF counter object per
-sensor, as described in <a class="reference internal" href="../../guides/attachment/"><span class="std std-doc">attachment</span></a>.</p>
-<p>The finger mass, assembled jaw mass, contact stiffness/damping and actuator
-gains are simulation assumptions. The supplied free-block check validates
-contact and indexing; it does not identify hardware dynamics or sensor material
-properties. The model reports normal force only.</p>
-</section>
-<section id="rebuild-and-validate">
-<h2>Rebuild and validate<a class="headerlink" href="#rebuild-and-validate" title="Link to this heading"></a></h2>
-<p>Rebuild the USD assets from the approved exterior OBJ and taxel grid:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/build_robotiq_asset.py
-python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>tests/test_robotiq_assets.py<span class="w"> </span>tests/test_taxel_patterns.py<span class="w"> </span>-q
-</pre></div>
-</div>
-<p>USD rebuilding requires <code class="docutils literal notranslate"><span class="pre">usd-core</span></code> or the initialized Isaac Sim environment.
-Outside Isaac Sim, USD may warn that it cannot resolve the NVIDIA HTTPS
-reference; the integration layer is still authored. To inspect the composed
-stage with ordinary USD tools, rebuild into a temporary directory using
-<code class="docutils literal notranslate"><span class="pre">--gripper-usd</span></code> and an unchanged local mirror.</p>
-<p>Run the live check above after changing sensing, mounting or geometry.
-To reproduce the documentation media, run the capture in the physics environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/docs/capture_examples.py<span class="w"> </span>--example<span class="w"> </span>robotiq<span class="w"> </span>--output<span class="w"> </span>/tmp/robotiq-capture
-</pre></div>
-</div>
-<p>Then use the configured renderer environment from the
-<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/591bebe5188a3e022656146c81566c38ff3edf33/DOCUMENTATION.md#reproduce-example-videos" target="_blank">documentation guide</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/docs/render_examples.py<span class="w"> </span>--capture<span class="w"> </span>/tmp/robotiq-capture<span class="w"> </span>--output<span class="w"> </span>/tmp/robotiq-render
-</pre></div>
-</div>
-<p>See <a class="icon link reference external" href="https://docs.isaacsim.omniverse.nvidia.com/5.1.0/robot_setup_tutorials/rig_closed_loop_structures.html" target="_blank">NVIDIA’s closed-loop gripper tutorial</a>
-for the official gripper’s layered asset and articulation design.</p>
+<section id="read-the-tactile-output">
+<h2>Read the tactile output<a class="headerlink" href="#read-the-tactile-output" title="Link to this heading"></a></h2>
+<p>Both frames start unloaded, develop a contact footprint as the jaws close,
+and return to zero after release. The labels show each finger’s total normal
+force in newtons. During hold, the two loads should be close; the block can
+move in response to any imbalance.</p>
+<p>View each contact face with its fingertip up: rows run tip to base and columns
+left to right. All 1,024 pixels correspond to sensing sites. See
+<a class="reference internal" href="../#read-the-tactile-display"><span class="std std-ref">display colors and units</span></a>.</p>
+<p>Because gravity is disabled, the readings represent the grasping load rather
+than the block’s weight. Use the <a class="reference internal" href="../../validation/#robotiq-grasp-hold-and-release"><span class="std std-ref">grasp validation</span></a>
+for independent force and momentum checks. For mounting, asset reuse, and
+rebuilding, see the <a class="reference internal" href="../../guides/robotiq/"><span class="std std-doc">integration guide</span></a>.</p>
 </section>
 </section>
 
@@ -358,7 +260,7 @@ for the official gripper’s layered asset and articulation design.</p>
           </div>
               <div class="related">
                 &nbsp;
-    <a href="../stationary-press/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Press a stationary gear</a>
+    <a href="../embodiments/robotiq-2f85/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Robotiq 2F-85</a>
     <a href="../../guides/attachment/" title="Next document (Alt+Shift+RightArrow)" class="next">Attach a sensor</a>
               </div>
           

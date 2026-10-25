@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" />
     <link rel="next" title="Configure taxel patterns" href="../patterns/" />
-    <link rel="prev" title="Attach a sensor" href="../attachment/" />
+    <link rel="prev" title="Integrate the Robotiq 2F-85" href="../robotiq/" />
 
    
   
@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="591bebe5188a3e022656146c81566c38ff3edf33">
+<meta name="docs-source-ref" content="e791db9d41047ba142cdc77d65e32e39a7ec3b81">
 
   </head>
   
@@ -138,11 +138,20 @@ Content on this topic
 </p>
 
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/stationary-press/">Press a stationary gear</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/robotiq/">Rectangular DEX-01 on the Robotiq 2F-85</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/">Overview</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="../../examples/embodiments/flat-pad/">Flat pad</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="../../examples/embodiments/tesollo-hand/">Tesollo hand</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/stationary-press/">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="../../examples/embodiments/robotiq-2f85/">Robotiq 2F-85</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/robotiq/">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 
 <p class="caption" role="heading">
@@ -151,6 +160,7 @@ Content on this topic
 
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../patterns/">Configure taxel patterns</a></li>
 </ul>
@@ -202,7 +212,7 @@ loop. The following fragment assumes the scene has <code class="docutils literal
 
 <span class="n">sensor</span> <span class="o">=</span> <span class="n">scene</span><span class="p">[</span><span class="s2">"finger2_sensor"</span><span class="p">]</span>
 <span class="n">forces_n</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">normal_forces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 740 values</span>
-<span class="n">frame_n</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">get_tactile_image</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 32 x 32 firmware frame</span>
+<span class="n">frame_n</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">get_tactile_image</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 32 x 32 tactile frame</span>
 <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">sensor</span><span class="o">.</span><span class="n">taxel2pixel</span><span class="o">.</span><span class="n">T</span>
 <span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">frame_n</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">],</span> <span class="n">forces_n</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Load (N):"</span><span class="p">,</span> <span class="n">forces_n</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
@@ -214,9 +224,10 @@ otherwise; <code class="docutils literal notranslate"><span class="pre">depth_do
 <p>See the <a class="reference internal" href="../../reference/api/"><span class="std std-doc">API reference</span></a> for shapes and units.</p>
 <p>For a batched scene, replace <code class="docutils literal notranslate"><span class="pre">[0]</span></code> with the environment index you need.
 <code class="docutils literal notranslate"><span class="pre">normal_forces</span></code> contains one value per taxel; <code class="docutils literal notranslate"><span class="pre">get_tactile_image()</span></code> rearranges
-those values into firmware pixels. Summation in taxel space and frame space
+those values into image pixels. Summation in taxel space and frame space
 returns the same load. Do not interpolate the frame when checking mapping.</p>
-<p>The supplied DEX-01 frame has 740 occupied pixels and 284 unoccupied pixels.
+<p>The humanoid fingertip frame has 740 occupied pixels and 284 unoccupied pixels.
+The rectangular finger uses all 1,024 pixels of its 32 × 32 frame.
 A zero at an occupied pixel means no normal load at that sample. Use
 <code class="docutils literal notranslate"><span class="pre">taxel2pixel</span></code> to distinguish occupied zero-force pixels from unused cells.</p>
 </section>
@@ -225,7 +236,7 @@ A zero at an occupied pixel means no normal load at that sample. Use
           </div>
               <div class="related">
                 &nbsp;
-    <a href="../attachment/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Attach a sensor</a>
+    <a href="../robotiq/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Integrate the Robotiq 2F-85</a>
     <a href="../patterns/" title="Next document (Alt+Shift+RightArrow)" class="next">Configure taxel patterns</a>
               </div>
           

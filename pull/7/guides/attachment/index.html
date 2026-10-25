@@ -15,8 +15,8 @@
     <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/pull/7/guides/attachment/" />
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" />
-    <link rel="next" title="Read tactile data" href="../read-data/" />
-    <link rel="prev" title="Rectangular DEX-01 on the Robotiq 2F-85" href="../../examples/robotiq/" />
+    <link rel="next" title="Integrate the Robotiq 2F-85" href="../robotiq/" />
+    <link rel="prev" title="Grasp, hold, and release" href="../../examples/robotiq/" />
 
    
   
@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="591bebe5188a3e022656146c81566c38ff3edf33">
+<meta name="docs-source-ref" content="e791db9d41047ba142cdc77d65e32e39a7ec3b81">
 
   </head>
   
@@ -142,11 +142,20 @@ Content on this topic
 </p>
 
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/stationary-press/">Press a stationary gear</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/robotiq/">Rectangular DEX-01 on the Robotiq 2F-85</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/">Overview</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="../../examples/embodiments/flat-pad/">Flat pad</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="../../examples/embodiments/tesollo-hand/">Tesollo hand</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/stationary-press/">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="../../examples/embodiments/robotiq-2f85/">Robotiq 2F-85</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/robotiq/">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 
 <p class="caption" role="heading">
@@ -155,6 +164,7 @@ Content on this topic
 
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../read-data/">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../patterns/">Configure taxel patterns</a></li>
 </ul>
@@ -227,7 +237,7 @@ must already exist under the paths shown. Spawn <code class="docutils literal no
 <code class="docutils literal notranslate"><span class="pre">variants={&quot;fingertip&quot;:</span> <span class="pre">&quot;dex01&quot;}</span></code>. For the local flat indenter, select
 <code class="docutils literal notranslate"><span class="pre">mesh_prim_path=&quot;/World/envs/env_.*/Asset&quot;</span></code> instead of the nested gear link.</p>
 <p>The complete runnable scene is in the
-<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/591bebe5188a3e022656146c81566c38ff3edf33/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a>.
+<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/e791db9d41047ba142cdc77d65e32e39a7ec3b81/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a>.
 Its <code class="docutils literal notranslate"><span class="pre">finger_sensor()</span></code> helper is the canonical configuration for all five fingers.</p>
 </section>
 <section id="prepare-collision-geometry">
@@ -235,8 +245,8 @@ Its <code class="docutils literal notranslate"><span class="pre">finger_sensor()
 <p>Both sensor body and counter object need contact sensors enabled. The sensor
 body must use compliant contact; the counter object requires an SDF collision
 mesh. Use the matching mounting offset and a small timestep. The
-<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/591bebe5188a3e022656146c81566c38ff3edf33/scripts/verify_dex01_sim.py" target="_blank">verification example</a> contains a complete scene
-with a local sphere; the <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/591bebe5188a3e022656146c81566c38ff3edf33/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a> shows robot
+<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/e791db9d41047ba142cdc77d65e32e39a7ec3b81/scripts/verify_dex01_sim.py" target="_blank">verification example</a> contains a complete scene
+with a local sphere; the <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/e791db9d41047ba142cdc77d65e32e39a7ec3b81/scripts/dex01_on_tesollo_dg5f.py" target="_blank">hand demo</a> shows robot
 attachment. The released OBJ is the editable exterior source; regenerate its
 USD with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">scripts/build_dex01_asset.py</span></code> after updating the source hash
 in <code class="docutils literal notranslate"><span class="pre">reference.json</span></code>.</p>
@@ -257,8 +267,8 @@ leaf name. <code class="docutils literal notranslate"><span class="pre">mesh_pri
           </div>
               <div class="related">
                 &nbsp;
-    <a href="../../examples/robotiq/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Rectangular DEX-01 on the Robotiq 2F-85</a>
-    <a href="../read-data/" title="Next document (Alt+Shift+RightArrow)" class="next">Read tactile data</a>
+    <a href="../../examples/robotiq/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Grasp, hold, and release</a>
+    <a href="../robotiq/" title="Next document (Alt+Shift+RightArrow)" class="next">Integrate the Robotiq 2F-85</a>
               </div>
           
         </div>

@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="Choose the scene that matches what you want to learn. Each page includes a expected behavior, the command to run it, and how to interpret its tactile output. Each example includes a video and static states." name="description" />
+<meta content="Choose an embodiment, then a contact scenario. Each scenario includes a video, a command to run it, and guidance for reading its tactile output." name="description" />
 
-    <title>Explore the examples &#8212; DEX-01 Tactile Sensor documentation</title>
+    <title>Overview &#8212; DEX-01 Tactile Sensor documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
     <link rel="stylesheet" type="text/css" href="../_static/app.min.css?v=b1d7a81a" />
     <link rel="stylesheet" type="text/css" href="../_static/example-media.css?v=e4883b01" />
@@ -15,7 +15,7 @@
     <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/pull/7/examples/" />
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
-    <link rel="next" title="Flat-pad example" href="flat-pad/" />
+    <link rel="next" title="Flat pad" href="embodiments/flat-pad/" />
     <link rel="prev" title="Your first simulation" href="../getting-started/quickstart/" />
 
    
@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="591bebe5188a3e022656146c81566c38ff3edf33">
+<meta name="docs-source-ref" content="e791db9d41047ba142cdc77d65e32e39a7ec3b81">
 
   </head>
   
@@ -100,7 +100,11 @@
         </div>
         <nav>
           <ul>
-<li><a class="reference internal" href="#">Explore the examples</a></li>
+<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#before-running-a-scenario">Before running a scenario</a></li>
+<li><a class="reference internal" href="#read-the-tactile-display">Read the tactile display</a></li>
+</ul>
+</li>
 </ul>
 
         </nav>
@@ -138,11 +142,20 @@ Content on this topic
 </p>
 
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stationary-press/">Press a stationary gear</a></li>
-<li class="toctree-l1"><a class="reference internal" href="robotiq/">Rectangular DEX-01 on the Robotiq 2F-85</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="embodiments/flat-pad/">Flat pad</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="embodiments/tesollo-hand/">Tesollo hand</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stationary-press/">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="embodiments/robotiq-2f85/">Robotiq 2F-85</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="robotiq/">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 
 <p class="caption" role="heading">
@@ -151,6 +164,7 @@ Content on this topic
 
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/read-data/">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/patterns/">Configure taxel patterns</a></li>
 </ul>
@@ -193,51 +207,39 @@ Content on this topic
 </div>
           <div class="body" role="main">
             
-  <section id="explore-the-examples">
-<h1>Explore the examples<a class="headerlink" href="#explore-the-examples" title="Link to this heading"></a></h1>
-<p>Choose the scene that matches what you want to learn. Each page includes a
-expected behavior, the command to run it, and how to interpret its tactile
-output. Each example includes a video and static states.</p>
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h1>
+<p>Choose an embodiment, then a contact scenario. Each scenario includes a video,
+a command to run it, and guidance for reading its tactile output.</p>
 <div class="example-gallery">
-<a href="flat-pad/"><img src="../_static/videos/flat-pad.webp" alt="Gear contacting a flat tactile grid"><strong>Start with a flat pad</strong><span>See a contact footprint form as a falling gear settles.</span></a>
-<a href="hand/"><img src="../_static/videos/hand.webp" alt="Tesollo hand and synchronized finger force frames"><strong>Explore all five fingertips</strong><span>Follow sequential contacts and compare loaded and unloaded fingers.</span></a>
-<a href="stationary-press/"><img src="../_static/videos/stationary-press.webp" alt="Finger 2 pressing against a stationary gear"><strong>Watch articulated pressing</strong><span>Connect joint movement with contact, force, and release.</span></a>
-<a href="robotiq/"><img src="../_static/videos/robotiq.webp" alt="Robotiq gripper holding a block with two tactile images"><strong>Grasp with the Robotiq 2F-85</strong><span>Watch both rectangular pads load and release.</span></a>
+<a href="embodiments/flat-pad/"><img src="../_static/videos/flat-pad.webp" alt="Gear contacting a flat tactile grid"><strong>Flat pad</strong><span>Falling-object contact on a planar sampling grid.</span></a>
+<a href="embodiments/tesollo-hand/"><img src="../_static/videos/hand.webp" alt="Tesollo hand with per-finger tactile frames"><strong>Tesollo hand</strong><span>Sequential fingertip contact and stationary-object pressing.</span></a>
+<a href="embodiments/robotiq-2f85/"><img src="../_static/videos/robotiq.webp" alt="Robotiq gripper with two tactile frames"><strong>Robotiq 2F-85</strong><span>Grasp, hold, and release with two rectangular tactile fingers.</span></a>
 </div>
-<div class="table-wrapper colwidths-auto docutils container">
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Example</p></th>
-<th class="head"><p>Main idea</p></th>
-<th class="head"><p>Expected output</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><a class="reference internal" href="flat-pad/"><span class="std std-doc">Flat pad</span></a></p></td>
-<td><p>Grid sensing and a gravity load</p></td>
-<td><p>32 × 32 frame; gear load near 4.905 N</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="hand/"><span class="std std-doc">Tesollo hand</span></a></p></td>
-<td><p>Curved fingertip contact</p></td>
-<td><p>Loaded finger’s frame active; other frames zero</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="stationary-press/"><span class="std std-doc">Stationary press</span></a></p></td>
-<td><p>Articulation creates contact</p></td>
-<td><p>Fixed wrist/object; finger motion; hold and release</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="robotiq/"><span class="std std-doc">Robotiq 2F-85</span></a></p></td>
-<td><p>Two rectangular tactile fingers on the official gripper</p></td>
-<td><p>Two 32 × 32 frames; grasp, hold and release</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>The videos use actual captured Isaac Sim 5.1 poses and tactile arrays,
-rendered separately with native RTX cameras. Slow playback is labeled in the
-clip. The force frames preserve their exact pixel mapping and share one scale
-within each clip; grey indicates unused cells.
-Hand videos include a second native camera view of the contact so the small
-gear remains legible while the overview shows all five fingertips.</p>
+<section id="before-running-a-scenario">
+<h2>Before running a scenario<a class="headerlink" href="#before-running-a-scenario" title="Link to this heading"></a></h2>
+<p>Complete <a class="reference internal" href="../getting-started/installation/"><span class="std std-doc">installation</span></a>, including Git LFS
+assets, and run commands from the repository root in that environment. The
+examples load NVIDIA assets and need access to the configured asset library.
+The first command on each page opens a local viewport; for remote viewing,
+follow the <a class="reference internal" href="../getting-started/installation/#view-a-remote-simulation"><span class="std std-ref">streaming setup</span></a>.</p>
+</section>
+<section id="read-the-tactile-display">
+<h2>Read the tactile display<a class="headerlink" href="#read-the-tactile-display" title="Link to this heading"></a></h2>
+<p>Each colored cell reports normal force per taxel in newtons. The label above
+a frame gives its total normal load. Blue means zero load; cyan, yellow, and
+red indicate increasing force. Grey marks pixels without a sensing site.
+Use the displayed scale when comparing colors: the live viewport adapts its
+scale to the load, while each recorded clip uses one fixed scale.</p>
+<p>The flat pad’s heatmap is a top view. The hand’s frames unwrap curved
+fingertips, and the gripper’s frames represent its two rectangular contact
+faces. See <a class="reference internal" href="../guides/read-data/"><span class="std std-doc">reading tactile data</span></a> for array access and
+<a class="reference internal" href="../guides/patterns/"><span class="std std-doc">taxel patterns</span></a> for mapping conventions.</p>
+<p>The videos replay captured Isaac Sim poses and tactile arrays at the labeled
+playback speed. The camera view and tactile frame correspond to the same
+simulation step. <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/e791db9d41047ba142cdc77d65e32e39a7ec3b81/docs/media/README.md" target="_blank">Recording provenance</a>
+contains the capture and rendering details.</p>
+</section>
 </section>
 
 
@@ -245,7 +247,7 @@ gear remains legible while the overview shows all five fingertips.</p>
               <div class="related">
                 &nbsp;
     <a href="../getting-started/quickstart/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Your first simulation</a>
-    <a href="flat-pad/" title="Next document (Alt+Shift+RightArrow)" class="next">Flat-pad example</a>
+    <a href="embodiments/flat-pad/" title="Next document (Alt+Shift+RightArrow)" class="next">Flat pad</a>
               </div>
           
         </div>

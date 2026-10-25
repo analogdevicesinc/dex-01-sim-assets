@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="See how joint motion creates and releases tactile contact. Finger 2 bends against the fixed gear while the wrist and object stay in place." name="description" />
+<meta content="Finger 2 of the Tesollo hand bends toward a fixed gear, holds contact, then retracts. The wrist and gear remain stationary, so the changing tactile footprint follows the finger’s motion." name="description" />
 
-    <title>Press a stationary gear &#8212; DEX-01 Tactile Sensor documentation</title>
+    <title>Stationary-object pressing &#8212; DEX-01 Tactile Sensor documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8e8a900e" />
     <link rel="stylesheet" type="text/css" href="../../_static/app.min.css?v=b1d7a81a" />
     <link rel="stylesheet" type="text/css" href="../../_static/example-media.css?v=e4883b01" />
@@ -15,8 +15,8 @@
     <link rel="canonical" href="https://analogdevicesinc.github.io/dex-01-sim-assets/pull/7/examples/stationary-press/" />
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" />
-    <link rel="next" title="Rectangular DEX-01 on the Robotiq 2F-85" href="../robotiq/" />
-    <link rel="prev" title="Tesollo hand demo" href="../hand/" />
+    <link rel="next" title="Robotiq 2F-85" href="../embodiments/robotiq-2f85/" />
+    <link rel="prev" title="Sequential fingertip contact" href="../hand/" />
 
    
   
@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="591bebe5188a3e022656146c81566c38ff3edf33">
+<meta name="docs-source-ref" content="e791db9d41047ba142cdc77d65e32e39a7ec3b81">
 
   </head>
   
@@ -100,8 +100,9 @@
         </div>
         <nav>
           <ul>
-<li><a class="reference internal" href="#">Press a stationary gear</a><ul>
+<li><a class="reference internal" href="#">Stationary-object pressing</a><ul>
 <li><a class="reference internal" href="#run-the-example">Run the example</a></li>
+<li><a class="reference internal" href="#read-the-tactile-output">Read the tactile output</a></li>
 </ul>
 </li>
 </ul>
@@ -141,11 +142,20 @@ Content on this topic
 </p>
 
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Press a stationary gear</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../robotiq/">Rectangular DEX-01 on the Robotiq 2F-85</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../">Overview</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="../embodiments/flat-pad/">Flat pad</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2" checked=""/><div class="collapse"><a class="reference internal" href="../embodiments/tesollo-hand/">Tesollo hand</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="../embodiments/robotiq-2f85/">Robotiq 2F-85</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../robotiq/">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 
 <p class="caption" role="heading">
@@ -154,6 +164,7 @@ Content on this topic
 
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guides/read-data/">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guides/patterns/">Configure taxel patterns</a></li>
 </ul>
@@ -192,75 +203,55 @@ Content on this topic
       <div class="documentwrapper">
         <div class="bodywrapper" id="top-anchor">
           <div class="body-header">
-  <nav class="breadcrumb empty"><ol></ol></nav>
+  <nav class="breadcrumb"><ol><li><a href="../embodiments/tesollo-hand/">Tesollo hand</a></li></ol></nav>
 </div>
           <div class="body" role="main">
             
-  <section id="press-a-stationary-gear">
-<h1>Press a stationary gear<a class="headerlink" href="#press-a-stationary-gear" title="Link to this heading"></a></h1>
-<p>See how joint motion creates and releases tactile contact. Finger 2 bends
-against the fixed gear while the wrist and object stay in place.</p>
+  <section id="stationary-object-pressing">
+<h1>Stationary-object pressing<a class="headerlink" href="#stationary-object-pressing" title="Link to this heading"></a></h1>
+<p>Finger 2 of the Tesollo hand bends toward a fixed gear, holds contact, then
+retracts. The wrist and gear remain stationary, so the changing tactile
+footprint follows the finger’s motion.</p>
 <figure class="example-video">
 <video controls playsinline loop preload="none" width="960" height="800"
        poster="../../_static/videos/stationary-press.webp"
-       aria-label="One captured press cycle at 2× slower playback: unloaded, approach, hold, retract, and release. Only finger 2 becomes loaded.">
+       aria-label="Finger 2 approaches, holds contact, and retracts. Playback is 2× slower than simulation time.">
   <source src="../../_static/videos/stationary-press.webm" type="video/webm">
   <source src="../../_static/videos/stationary-press.mp4" type="video/mp4">
   <track kind="captions" src="../../_static/videos/stationary-press.vtt" srclang="en" label="Phases">
   <a href="../../_static/videos/stationary-press.mp4">Download the example video</a>
 </video>
-<figcaption>One captured press cycle at 2× slower playback: unloaded, approach, hold, retract, and release. Only finger 2 becomes loaded.</figcaption>
+<figcaption>Finger 2 approaches, holds contact, and retracts. Playback is 2× slower than simulation time.</figcaption>
 </figure>
 <div class="phase-gallery">
 <figure><img src="../../_static/videos/stationary-press-before.webp" alt="Straight finger with zero load"><figcaption><strong>Unloaded</strong><span>Wrist and gear remain fixed.</span></figcaption></figure>
 <figure><img src="../../_static/videos/stationary-press-contact.webp" alt="Finger 2 pressing the stationary gear"><figcaption><strong>Hold contact</strong><span>The fingertip moves and its frame becomes active.</span></figcaption></figure>
 <figure><img src="../../_static/videos/stationary-press-after.webp" alt="Finger extended with zero load"><figcaption><strong>Release</strong><span>The finger extends and force returns to zero.</span></figcaption></figure>
 </div>
-<p>The camera inset makes the 8.25 mm gear contact visible without enlarging the
-object in the simulation. During hold, only finger 2’s frame is active; after
-release all five frames return to zero.</p>
-<p>The finger aligns its planar pad with the gear’s underside before loading.
-During hold, joint targets maintain that orientation while advancing the pad
-along the surface normal. The contact footprint spans the underside around
-the gear’s central hole.</p>
 <section id="run-the-example">
 <h2>Run the example<a class="headerlink" href="#run-the-example" title="Link to this heading"></a></h2>
-<p>Prerequisites: activate the <a class="reference internal" href="../../getting-started/installation/"><span class="std std-doc">installed environment</span></a>.
-The command below uses remote streaming; omit <code class="docutils literal notranslate"><span class="pre">--livestream=2</span></code> on a local desktop.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_stationary_press.py<span class="w"> </span>--livestream<span class="o">=</span><span class="m">2</span>
+<p>From the repository root in the <a class="reference internal" href="../../getting-started/installation/"><span class="std std-doc">installed environment</span></a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/dex01_stationary_press.py
 </pre></div>
 </div>
-<p>The wrist remains fixed. Finger 2’s MCP, PIP and DIP flexion joints are driven
-with actuator position targets to bend the fingertip toward the stationary gear,
-hold contact, then extend back to rest. The original fixed-base hand is used;
-there is no sliding fixture. Setup samples a settled articulated endpoint and
-selects only coplanar taxels, excluding the rounded transition. The gear’s
-underside must fit within that planar patch.
-Runtime motion uses joint targets, not joint-state or root-pose teleportation.</p>
-<p>The GUI shows the fixed wrist, visible finger articulation, measured loads in
-newtons and firmware contact footprints. The force is read from PhysX and
-redistributed across penetrating taxels. Joint gains and endpoint fractions are
-simulation demo settings, not DG-5F hardware specifications.</p>
-<p>Run three cycles and independently verify wrist/object invariance, actual
-joint movement, fingertip travel, face alignment, coverage, mapping and release:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_stationary_press.py<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--livestream<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--max-steps<span class="w"> </span><span class="m">900</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--verification-report<span class="w"> </span>/tmp/dex01-articulated.json
-python<span class="w"> </span>scripts/dex01_stationary_press.py<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--check-report<span class="w"> </span>/tmp/dex01-articulated.json
-</pre></div>
-</div>
-<p>The planar-contact checker requires at least 90% of the taxels under the
-actual triangulated underside to carry load, with load in all four quadrants.
-It also checks face-normal mismatch below 0.05° and no underside edge more
-than 2 µm above the pad plane. These are numerical acceptance tolerances;
-an edge-contact strip fails even if its total force is nonzero.</p>
-<p><code class="docutils literal notranslate"><span class="pre">--press-time-scale</span></code> controls the physical joint trajectory timing. The default
-cycle is 2.5 simulation seconds; observed duration depends on host performance. The target
-force is a contact-seeking threshold, not guaranteed force tracking. A small
-gear’s individual teeth may not resolve in the sparse fingertip contact patch.
-The existing flat-pad example is suited to viewing broader object footprints.</p>
+<p>The default cycle lasts 2.5 simulation seconds and repeats until closed.
+<code class="docutils literal notranslate"><span class="pre">--press-time-scale</span></code> changes the trajectory duration; elapsed wall-clock time
+also depends on host performance. For remote viewing, follow the
+<a class="reference internal" href="../../getting-started/installation/#view-a-remote-simulation"><span class="std std-ref">streaming setup</span></a>.</p>
+</section>
+<section id="read-the-tactile-output">
+<h2>Read the tactile output<a class="headerlink" href="#read-the-tactile-output" title="Link to this heading"></a></h2>
+<p>Finger 2’s frame becomes active during approach and hold, then returns to
+zero after retraction. The other four frames remain unloaded. The contact
+close-up shows the fingertip’s planar patch meeting the gear’s underside;
+the loaded samples surround the central hole.</p>
+<p>The displayed load is the measured normal contact force. The controller’s
+force setting is a contact-seeking threshold, so it does not guarantee a
+constant force during hold. Individual gear teeth may be too small to resolve
+on this fingertip grid. See <a class="reference internal" href="../#read-the-tactile-display"><span class="std std-ref">display colors and units</span></a>.</p>
+<p>Use the <a class="reference internal" href="../../validation/#articulated-pressing"><span class="std std-ref">articulated-press validation</span></a>
+to check motion, alignment, contact coverage, and release. For a stationary
+hand with a repositioned object, see <a class="reference internal" href="../hand/"><span class="std std-doc">sequential fingertip contact</span></a>.</p>
 </section>
 </section>
 
@@ -268,8 +259,8 @@ The existing flat-pad example is suited to viewing broader object footprints.</p
           </div>
               <div class="related">
                 &nbsp;
-    <a href="../hand/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Tesollo hand demo</a>
-    <a href="../robotiq/" title="Next document (Alt+Shift+RightArrow)" class="next">Rectangular DEX-01 on the Robotiq 2F-85</a>
+    <a href="../hand/" title="Previous document (Alt+Shift+LeftArrow)" class="prev">Sequential fingertip contact</a>
+    <a href="../embodiments/robotiq-2f85/" title="Next document (Alt+Shift+RightArrow)" class="next">Robotiq 2F-85</a>
               </div>
           
         </div>

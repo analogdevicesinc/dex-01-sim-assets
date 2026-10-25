@@ -1,26 +1,36 @@
-# Explore the examples
+# Overview
 
-Choose the scene that matches what you want to learn. Each page includes a
-expected behavior, the command to run it, and how to interpret its tactile
-output. Each example includes a video and static states.
+Choose an embodiment, then a contact scenario. Each scenario includes a video,
+a command to run it, and guidance for reading its tactile output.
 
 <div class="example-gallery">
-<a href="flat-pad/"><img src="../_static/videos/flat-pad.webp" alt="Gear contacting a flat tactile grid"><strong>Start with a flat pad</strong><span>See a contact footprint form as a falling gear settles.</span></a>
-<a href="hand/"><img src="../_static/videos/hand.webp" alt="Tesollo hand and synchronized finger force frames"><strong>Explore all five fingertips</strong><span>Follow sequential contacts and compare loaded and unloaded fingers.</span></a>
-<a href="stationary-press/"><img src="../_static/videos/stationary-press.webp" alt="Finger 2 pressing against a stationary gear"><strong>Watch articulated pressing</strong><span>Connect joint movement with contact, force, and release.</span></a>
-<a href="robotiq/"><img src="../_static/videos/robotiq.webp" alt="Robotiq gripper holding a block with two tactile images"><strong>Grasp with the Robotiq 2F-85</strong><span>Watch both rectangular pads load and release.</span></a>
+<a href="embodiments/flat-pad/"><img src="../_static/videos/flat-pad.webp" alt="Gear contacting a flat tactile grid"><strong>Flat pad</strong><span>Falling-object contact on a planar sampling grid.</span></a>
+<a href="embodiments/tesollo-hand/"><img src="../_static/videos/hand.webp" alt="Tesollo hand with per-finger tactile frames"><strong>Tesollo hand</strong><span>Sequential fingertip contact and stationary-object pressing.</span></a>
+<a href="embodiments/robotiq-2f85/"><img src="../_static/videos/robotiq.webp" alt="Robotiq gripper with two tactile frames"><strong>Robotiq 2F-85</strong><span>Grasp, hold, and release with two rectangular tactile fingers.</span></a>
 </div>
 
-| Example | Main idea | Expected output |
-|---|---|---|
-| [Flat pad](flat-pad.md) | Grid sensing and a gravity load | 32 × 32 frame; gear load near 4.905 N |
-| [Tesollo hand](hand.md) | Curved fingertip contact | Loaded finger's frame active; other frames zero |
-| [Stationary press](stationary-press.md) | Articulation creates contact | Fixed wrist/object; finger motion; hold and release |
-| [Robotiq 2F-85](robotiq.md) | Two rectangular tactile fingers on the official gripper | Two 32 × 32 frames; grasp, hold and release |
+## Before running a scenario
 
-The videos use actual captured Isaac Sim 5.1 poses and tactile arrays,
-rendered separately with native RTX cameras. Slow playback is labeled in the
-clip. The force frames preserve their exact pixel mapping and share one scale
-within each clip; grey indicates unused cells.
-Hand videos include a second native camera view of the contact so the small
-gear remains legible while the overview shows all five fingertips.
+Complete [installation](../getting-started/installation.md), including Git LFS
+assets, and run commands from the repository root in that environment. The
+examples load NVIDIA assets and need access to the configured asset library.
+The first command on each page opens a local viewport; for remote viewing,
+follow the [streaming setup](../getting-started/installation.md#view-a-remote-simulation).
+
+## Read the tactile display
+
+Each colored cell reports normal force per taxel in newtons. The label above
+a frame gives its total normal load. Blue means zero load; cyan, yellow, and
+red indicate increasing force. Grey marks pixels without a sensing site.
+Use the displayed scale when comparing colors: the live viewport adapts its
+scale to the load, while each recorded clip uses one fixed scale.
+
+The flat pad's heatmap is a top view. The hand's frames unwrap curved
+fingertips, and the gripper's frames represent its two rectangular contact
+faces. See [reading tactile data](../guides/read-data.md) for array access and
+[taxel patterns](../guides/patterns.md) for mapping conventions.
+
+The videos replay captured Isaac Sim poses and tactile arrays at the labeled
+playback speed. The camera view and tactile frame correspond to the same
+simulation step. [Recording provenance](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/docs/media/README.md)
+contains the capture and rendering details.

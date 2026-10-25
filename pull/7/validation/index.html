@@ -48,7 +48,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="591bebe5188a3e022656146c81566c38ff3edf33">
+<meta name="docs-source-ref" content="e791db9d41047ba142cdc77d65e32e39a7ec3b81">
 
   </head>
   
@@ -103,6 +103,8 @@
 <li><a class="reference internal" href="#">Validation</a><ul>
 <li><a class="reference internal" href="#verified-fixture-results">Verified fixture results</a></li>
 <li><a class="reference internal" href="#inspect-the-assembled-geometry">Inspect the assembled geometry</a></li>
+<li><a class="reference internal" href="#articulated-pressing">Articulated pressing</a></li>
+<li><a class="reference internal" href="#robotiq-grasp-hold-and-release">Robotiq grasp, hold, and release</a></li>
 </ul>
 </li>
 </ul>
@@ -142,11 +144,20 @@ Content on this topic
 </p>
 
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/stationary-press/">Press a stationary gear</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/robotiq/">Rectangular DEX-01 on the Robotiq 2F-85</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/">Overview</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="../examples/embodiments/flat-pad/">Flat pad</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="../examples/embodiments/tesollo-hand/">Tesollo hand</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/stationary-press/">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="../examples/embodiments/robotiq-2f85/">Robotiq 2F-85</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/robotiq/">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 
 <p class="caption" role="heading">
@@ -155,6 +166,7 @@ Content on this topic
 
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/read-data/">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/patterns/">Configure taxel patterns</a></li>
 </ul>
@@ -296,6 +308,51 @@ a force or invariance report.</p>
 <p>Re-run the commands above when geometry or sensing changes. Keep the JSON
 reports and simulator logs with review evidence. Documentation build checks
 validate the site, while these commands validate the simulation.</p>
+</section>
+<section id="articulated-pressing">
+<h2>Articulated pressing<a class="headerlink" href="#articulated-pressing" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="../examples/stationary-press/"><span class="std std-doc">Tesollo pressing scenario</span></a> moves finger 2
+against a fixed gear. Run three cycles without a viewport and check the report:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w"> </span>python<span class="w"> </span>scripts/dex01_stationary_press.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--headless<span class="w"> </span>--max-steps<span class="w"> </span><span class="m">900</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--verification-report<span class="w"> </span>/tmp/dex01-articulated.json
+python<span class="w"> </span>scripts/dex01_stationary_press.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--check-report<span class="w"> </span>/tmp/dex01-articulated.json
+</pre></div>
+</div>
+<p>The checker verifies wrist/object invariance, joint movement, fingertip travel,
+face alignment, contact coverage, mapping, and release. At least 90% of samples
+under the triangulated gear underside must carry load, with load in all four
+quadrants. Face-normal mismatch must stay below 0.05°, and no underside edge
+may sit more than 2 µm above the pad plane. These tolerances test broad planar
+contact; a nonzero total force alone is insufficient.</p>
+<p>The setup selects coplanar taxels within the fingertip’s planar patch. The
+gear’s underside must fit inside that patch. Joint targets maintain the pad’s
+orientation while advancing it toward the gear. Controller gains and endpoint
+fractions are simulation settings; this check does not calibrate hardware
+force tracking.</p>
+</section>
+<section id="robotiq-grasp-hold-and-release">
+<h2>Robotiq grasp, hold, and release<a class="headerlink" href="#robotiq-grasp-hold-and-release" title="Link to this heading"></a></h2>
+<p>Run the <a class="reference internal" href="../examples/robotiq/"><span class="std std-doc">grasp scenario</span></a> in two environments and check
+its report independently:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>scripts/dex01_on_robotiq_2f85.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--headless<span class="w"> </span>--num-envs<span class="w"> </span><span class="m">2</span><span class="w"> </span>--no-tactile-ui<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--verification-report<span class="w"> </span>/tmp/robotiq-contact.json
+python<span class="w"> </span>scripts/dex01_on_robotiq_2f85.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--check-report<span class="w"> </span>/tmp/robotiq-contact.json
+</pre></div>
+</div>
+<p>Both pads must sustain contact in every environment and unload after opening.
+The checker also requires finger motion, a stationary base, and agreement
+between taxel loads, tactile images, and filtered PhysX normal forces.
+Contacts generated before a discrete taxel penetrates the block are reported
+separately; unresolved contact is not permitted during the sustained hold.</p>
+<p>The left/right hold-force difference must remain below 0.1 N. An independent
+momentum check compares the free block’s measured momentum change with the
+sum of normal and friction impulses, using a 1 µN·s tolerance. Gravity and
+damping are disabled on the block, so this fixture checks grasp contact
+dynamics rather than a known weight.</p>
 </section>
 </section>
 
