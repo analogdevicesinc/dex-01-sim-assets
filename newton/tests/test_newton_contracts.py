@@ -67,14 +67,14 @@ def test_report_checker_rejects_missing_ticks_and_fake_geometry():
         "mode": "hand",
         "indenter": "flat",
         "physics_dt_s": 1 / 240,
-        "taxels_per_sensor": [738] * 5,
+        "taxels_per_sensor": [740] * 5,
         "taxel2pixel": pixels.tolist(),
         "observations": [{
             "step": 1,
             "elapsed_wall_s": 0.1,
             "forces_n": [0] * 5,
             "frame_n": np.zeros((32, 32)).tolist(),
-            "taxel_forces_n": [0] * 738,
+            "taxel_forces_n": [0] * 740,
             "target_finger": 2,
             "normal_force_w_n": [0, 0, 0],
             "penetration_normal_w": [0, 0, 0],
@@ -239,7 +239,7 @@ def valid_press_report():
     ]
     loaded = np.zeros((32, 32))
     loaded[tuple(pixels[0])] = 2.0
-    loaded_taxels = [2.0] + [0.0] * 737
+    loaded_taxels = [2.0] + [0.0] * (len(pixels) - 1)
     zero_frame = np.zeros((32, 32)).tolist()
     entries = []
     for step in range(1800):
@@ -253,7 +253,7 @@ def valid_press_report():
             "elapsed_wall_s": (step + 1) / 240,
             "forces_n": [0, force, 0, 0, 0],
             "target_finger": 2,
-            "taxel_forces_n": loaded_taxels if force else [0.0] * 738,
+            "taxel_forces_n": loaded_taxels if force else [0.0] * 740,
             "frame_n": loaded.tolist() if force else zero_frame,
             "normal_force_w_n": [0, 0, -force],
             "penetration_normal_w": [0, 0, 1] if force else [0, 0, 0],
@@ -270,7 +270,7 @@ def valid_press_report():
         "indenter": "gear",
         "failure": None,
         "physics_dt_s": 1 / 240,
-        "taxels_per_sensor": [738] * 5,
+        "taxels_per_sensor": [740] * 5,
         "taxel2pixel": pixels.tolist(),
         "requested_steps": 1800,
         "completed_steps": 1800,
@@ -339,7 +339,7 @@ def test_press_cannot_claim_contact_from_an_unvalidated_finger(valid_press_repor
     for entry in valid_press_report["observations"]:
         entry.update(
             target_finger=1,
-            taxel_forces_n=[0.0] * 738,
+            taxel_forces_n=[0.0] * 740,
             frame_n=np.zeros((32, 32)).tolist(),
             normal_force_w_n=[0, 0, 0],
             penetration_normal_w=[0, 0, 0],
@@ -387,7 +387,7 @@ def test_press_validates_additional_cycles_not_only_first_three(valid_press_repo
     for entry in fourth:
         entry.update(
             forces_n=[0.0] * 5,
-            taxel_forces_n=[0.0] * 738,
+            taxel_forces_n=[0.0] * 740,
             frame_n=np.zeros((32, 32)).tolist(),
             normal_force_w_n=[0, 0, 0],
             penetration_normal_w=[0, 0, 0],

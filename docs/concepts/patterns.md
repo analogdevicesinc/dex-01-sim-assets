@@ -61,7 +61,7 @@ indices appropriate to the frame dimensions your consumer expects.
 
 Import configurations from `dex01_sim_common.taxel_patterns` inside the chosen
 simulation environment. `Dex01PatternCfg` reads the shared `dex01_contact.npz`;
-it contains 738 projected exterior samples. The reference
+it contains 740 projected exterior samples. The reference
 `dex01_pattern.npz` retains the corrected original layout for traceability.
 Both files have identical taxel order and firmware mapping.
 

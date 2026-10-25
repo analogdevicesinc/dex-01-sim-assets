@@ -28,7 +28,9 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def load_script(name):
-    path = ROOT / ("physx/scripts/docs" if name == "export_scene.py" else "scripts/docs") / name
+    path = (
+        ROOT / ("physx/scripts/docs" if name in {"export_scene.py", "capture_examples.py"} else "scripts/docs") / name
+    )
     spec = importlib.util.spec_from_file_location("_docs_" + path.stem, path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -155,3 +157,19 @@ def test_camera_supervisor_requires_verified_images(tmp_path, monkeypatch, failu
         with pytest.raises(RuntimeError):
             renderer.render_checked(tmp_path / "state", output, capture)
         assert not output.exists()
+
+
+def test_capture_input_hashes_follow_relocated_runtime_and_shared_layout():
+    capture = load_script("capture_examples.py")
+    hashes = capture.simulation_source_hashes(ROOT)
+    required = {
+        "physx/scripts/dex01_on_tesollo_dg5f.py",
+        "physx/scripts/dex01_articulated_press.py",
+        "physx/scripts/object_geometry.py",
+        "physx/source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py",
+        "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_contact.npz",
+        "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_pattern.npz",
+        "scripts/docs/motion_geometry.py",
+    }
+    assert required <= hashes.keys()
+    assert all(hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == value for name, value in hashes.items())

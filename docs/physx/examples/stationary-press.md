@@ -1,33 +1,24 @@
 # Press a stationary gear
 
-The video and existing example commands on this page use **PhysX**.
-The Newton section describes the corresponding workflow and its differences.
-
 See how joint motion creates and releases tactile contact. Finger 2 bends
 against the fixed gear while the wrist and object stay in place.
 
-```{warning}
-The bundled PhysX hand and press media require regeneration after a scale-export
-correction. They are not Newton recordings. See the
-[media provenance notice](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/docs/../media/README.md).
-```
-
 <figure class="example-video">
 <video controls playsinline loop preload="none" width="960" height="800"
-       poster="../../_static/videos/stationary-press.webp"
+       poster="../../../_static/videos/stationary-press.webp"
        aria-label="One captured press cycle at 2× slower playback: unloaded, approach, hold, retract, and release. Only finger 2 becomes loaded.">
-  <source src="../../_static/videos/stationary-press.webm" type="video/webm">
-  <source src="../../_static/videos/stationary-press.mp4" type="video/mp4">
-  <track kind="captions" src="../../_static/videos/stationary-press.vtt" srclang="en" label="Phases">
-  <a href="../../_static/videos/stationary-press.mp4">Download the example video</a>
+  <source src="../../../_static/videos/stationary-press.webm" type="video/webm">
+  <source src="../../../_static/videos/stationary-press.mp4" type="video/mp4">
+  <track kind="captions" src="../../../_static/videos/stationary-press.vtt" srclang="en" label="Phases">
+  <a href="../../../_static/videos/stationary-press.mp4">Download the example video</a>
 </video>
 <figcaption>One captured press cycle at 2× slower playback: unloaded, approach, hold, retract, and release. Only finger 2 becomes loaded.</figcaption>
 </figure>
 
 <div class="phase-gallery">
-<figure><img src="../../_static/videos/stationary-press-before.webp" alt="Straight finger with zero load"><figcaption><strong>Unloaded</strong><span>Wrist and gear remain fixed.</span></figcaption></figure>
-<figure><img src="../../_static/videos/stationary-press-contact.webp" alt="Finger 2 pressing the stationary gear"><figcaption><strong>Hold contact</strong><span>The fingertip moves and its frame becomes active.</span></figcaption></figure>
-<figure><img src="../../_static/videos/stationary-press-after.webp" alt="Finger extended with zero load"><figcaption><strong>Release</strong><span>The finger extends and force returns to zero.</span></figcaption></figure>
+<figure><img src="../../../_static/videos/stationary-press-before.webp" alt="Straight finger with zero load"><figcaption><strong>Unloaded</strong><span>Wrist and gear remain fixed.</span></figcaption></figure>
+<figure><img src="../../../_static/videos/stationary-press-contact.webp" alt="Finger 2 pressing the stationary gear"><figcaption><strong>Hold contact</strong><span>The fingertip moves and its frame becomes active.</span></figcaption></figure>
+<figure><img src="../../../_static/videos/stationary-press-after.webp" alt="Finger extended with zero load"><figcaption><strong>Release</strong><span>The finger extends and force returns to zero.</span></figcaption></figure>
 </div>
 
 The camera inset makes the 8.25 mm gear contact visible without enlarging the
@@ -84,25 +75,3 @@ cycle is 2.5 simulation seconds; observed duration depends on host performance. 
 force is a contact-seeking threshold, not guaranteed force tracking. A small
 gear's individual teeth may not resolve in the sparse fingertip contact patch.
 The existing flat-pad example is suited to viewing broader object footprints.
-
-## Newton stationary press
-
-From the pinned Newton Lab checkout:
-
-```bash
-uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --mode press --max-steps 1800 --report /tmp/newton-press.json
-uv run --frozen python /path/to/dex-01-sim-assets/scripts/dex01_newton.py --check-report /tmp/newton-press.json
-```
-
-The wrist and gear are fixed. Finger 2 uses actuator position commands to
-approach, hold and retract over three 2.5 s cycles. Newton uses 1/240 s and
-16 solver substeps; the PhysX `--press-time-scale` option and 900-step command
-above do not apply. Endpoint sampling sets the fixture before the run; runtime
-articulation comes from joint commands. The generated gear is scaled to 12 mm
-across its largest in-plane extent, rather than the PhysX video's 8.25 mm.
-
-The report checks every physics tick, fixed wrist/object poses, actual joint
-and fingertip motion, force/frame agreement, sustained contact and release.
-Add `--capture /tmp/newton-press-capture` for an audited third-cycle export.
-Use the Kit installation and `--viz kit --livestream 2` for remote viewing.
-GPU validation remains pending; the clip above is not a Newton result.

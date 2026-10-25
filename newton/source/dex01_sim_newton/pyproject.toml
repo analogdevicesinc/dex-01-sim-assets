@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dex01-sim-newton"
-version = "0.1.0a1"
+version = "0.1.1a1"
 description = "DEX-01 sensor for Newton / Isaac Lab 3.0 Early Access"
 requires-python = ">=3.12,<3.13"
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE", "LICENSE_Tesollo"]
 authors = [{name = "Analog Devices, Inc."}]
-dependencies = ["dex01-sim-common==0.1.0a1"]
+dependencies = ["dex01-sim-common==0.1.1a1"]
 
 [tool.setuptools.packages.find]
 include = ["dex01_sim_newton", "dex01_sim_newton.*"]

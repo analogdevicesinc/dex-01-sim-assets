@@ -41,5 +41,5 @@ local taxel spacing; this is not a force-control or hardware-calibration test.
 
 Add `--capture /tmp/newton-press-capture` to export the third complete cycle
 after the report passes. See [recording](../recording.md) and
-[numerical settings](../numerical-settings.md). See [validation results](../validation.md#verified-newton-fixtures) for the
-exact runtime and source evidence. Validate any changed geometry or solver settings again.
+[numerical settings](../numerical-settings.md). See [validation](../validation.md#interpret-the-evidence) for the scope of
+these checks. Validate changed geometry or solver settings again.

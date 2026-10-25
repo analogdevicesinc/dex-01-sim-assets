@@ -8,7 +8,7 @@ source hashes and runtime versions.
 
 | Example | Task | Layout and fixture |
 |---|---|---|
-| [Single fingertip](fingertip.md) | Inspect contact and sweep all samples | Curved DEX-01, 738 taxels and a mesh sphere |
+| [Single fingertip](fingertip.md) | Inspect contact and sweep all samples | Curved DEX-01, 740 taxels and a mesh sphere |
 | [Tesollo hand](hand.md) | Follow known loads across fingers | Five firmware frames with a 0.1 kg flat fixture |
 | [Stationary press](stationary-press.md) | Joint-driven contact and release | Fixed wrist and gear; three 2.5 s cycles |
 

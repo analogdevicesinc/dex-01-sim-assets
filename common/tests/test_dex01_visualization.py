@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def load_visualizers():
     matplotlib = pytest.importorskip("matplotlib")
     matplotlib.use("Agg")
-    path = ROOT / "source/dex01_sim_asset/dex01_sim_asset/vis_utils/visualizers.py"
+    path = ROOT / "common/source/dex01_sim_common/dex01_sim_common/vis_utils/visualizers.py"
     spec = importlib.util.spec_from_file_location("_recorded_visualizers", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

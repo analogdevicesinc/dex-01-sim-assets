@@ -20,7 +20,7 @@
 </div>
 
 Place a known flat fixture over fingers 2–5 and follow which firmware frame
-becomes active. All five fingertips use shared geometry and 738 taxels.
+becomes active. All five fingertips use shared geometry and 740 taxels.
 
 From `newton/` in the activated environment:
 

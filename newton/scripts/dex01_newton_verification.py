@@ -29,15 +29,15 @@ def check_report(report):
     entries = report["observations"]
     if report.get("backend") != "newton" or not entries:
         raise ValueError("Missing Newton observations")
-    if report["taxels_per_sensor"] != [738] * 5:
+    if report["taxels_per_sensor"] != [740] * 5:
         raise ValueError("Unexpected taxel count")
     pixels = np.array(report["taxel2pixel"])
     if (
-        pixels.shape != (738, 2)
+        pixels.shape != (740, 2)
         or not np.issubdtype(pixels.dtype, np.integer)
         or (pixels < 0).any()
         or (pixels >= 32).any()
-        or len(np.unique(pixels, axis=0)) != 738
+        or len(np.unique(pixels, axis=0)) != 740
     ):
         raise ValueError("Invalid firmware mapping")
     wall = np.asarray([e["elapsed_wall_s"] for e in entries])
@@ -92,7 +92,7 @@ def check_frames(report, entries, pixels):
         frame = np.array(e["frame_n"])
         taxels = np.array(e["taxel_forces_n"])
         if (
-            taxels.shape != (738,)
+            taxels.shape != (740,)
             or not np.isfinite(taxels).all()
             or (taxels < 0).any()
             or not np.isfinite(frame).all()

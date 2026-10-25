@@ -67,9 +67,10 @@ def test_wheel_contains_only_its_package_and_canonical_licenses(wheels, environm
         assert modules and all(name.startswith(namespace + "/") for name in modules)
         metadata_file = next(name for name in wheel.namelist() if name.endswith("/METADATA"))
         metadata = Parser().parsestr(wheel.read(metadata_file).decode())
+        assert metadata["Version"] == "0.1.1a1"
         dependencies = metadata.get_all("Requires-Dist", [])
         if environment != "common":
-            assert dependencies == ["dex01-sim-common==0.1.0a1"]
+            assert dependencies == ["dex01-sim-common==0.1.1a1"]
             assert not any(name.endswith(".npz") for name in wheel.namelist())
         for filename in ("LICENSE", "NOTICE", "LICENSE_Tesollo"):
             archived = next(name for name in wheel.namelist() if name.endswith("/licenses/" + filename))

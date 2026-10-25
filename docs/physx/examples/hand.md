@@ -4,10 +4,8 @@ Watch the object contact fingers 2–5 in turn. The active tactile frame follows
 the loaded finger while the remaining fingers stay unloaded.
 
 ```{warning}
-These bundled PhysX hand/press renders require regeneration after a correction
-to scale-preserving export. Their older gear render was larger than the simulated
-object. See the [media provenance notice](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/docs/media/README.md).
-```
+The bundled hand and press media retain their original capture inputs.
+Rerun captures to validate changes to the layout or physical geometry.
 
 <figure class="example-video">
 <video controls playsinline loop preload="none" width="960" height="800"

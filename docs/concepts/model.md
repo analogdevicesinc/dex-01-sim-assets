@@ -1,6 +1,6 @@
 # Contact-force model
 
-Each DEX-01 fingertip has 738 contact samples on one exterior-only mesh,
+Each DEX-01 fingertip has 740 contact samples on one exterior-only mesh,
 mapped into a 32 × 32 firmware frame. Both environments model normal contact
 load; they do not produce calibrated hardware measurements.
 

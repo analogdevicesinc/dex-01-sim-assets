@@ -48,8 +48,9 @@ when subsequent edits affect their results. Report any unavailable checks.
 
 ## Versioning and documentation
 
-- [extension.toml](physx/source/dex01_sim_asset/config/extension.toml) is the package/docs
-  version source. Increment the patch version for behavioral or asset bugfixes,
+- Backend package metadata and the [shared package metadata](common/source/dex01_sim_common/pyproject.toml)
+  define release versions; documentation reads the shared package version.
+  Keep the backend versions and their exact common dependency aligned. Increment the patch version for behavioral or asset bugfixes,
   retaining the prerelease stage. Instructions-only changes need no product bump.
 - Product documentation and docstrings explain current behavior, usage,
   configuration, requirements, and limitations that affect users. After a fix,

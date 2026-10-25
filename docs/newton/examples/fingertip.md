@@ -1,7 +1,7 @@
 # Newton: single fingertip
 
 Use a standalone curved DEX-01 sensor to inspect sampling and localization.
-It has the same 738 samples and firmware mapping as each mounted fingertip;
+It has the same 740 samples and firmware mapping as each mounted fingertip;
 it is not a flat 32 × 32 grid.
 
 From `newton/` in the activated environment:
@@ -12,7 +12,7 @@ python scripts/verify_dex01_newton.py --sweep-all --report /tmp/newton-sweep.jso
 ```
 
 The sweep places the actual mesh sphere at separation, touching and two
-indentation depths at all 738 taxels. It checks analytic sphere depth,
+indentation depths at all 740 taxels. It checks analytic sphere depth,
 normal-load conservation and two-environment isolation. A default bounded
 verification without `--sweep-all` samples five representative locations.
 

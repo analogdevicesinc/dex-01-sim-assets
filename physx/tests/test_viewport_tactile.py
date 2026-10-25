@@ -250,7 +250,7 @@ def test_planar_patch_excludes_the_rounded_transition():
     import torch
     from scipy.spatial.transform import Rotation
 
-    module = load_module(ROOT / "scripts/dex01_articulated_press.py")
+    module = load_module(ROOT / "physx/scripts/dex01_articulated_press.py")
     reference = json.loads((ROOT / "assets/sensors/dex01/reference.json").read_text())
     with np.load(ROOT / reference["contact_pattern_path"]) as pattern:
         poses = pattern["poses"]
@@ -268,7 +268,7 @@ def test_planar_patch_excludes_the_rounded_transition():
 def test_cartesian_press_preserves_orientation():
     import torch
 
-    module = load_module(ROOT / "scripts/dex01_articulated_press.py")
+    module = load_module(ROOT / "physx/scripts/dex01_articulated_press.py")
     jacobian = torch.tensor([[1.0, 0, 0], [0, 0, 0], [0, 1.0, 0], [0, 0, 0], [1.0, 1.0, 1.0], [0, 0, 0]])
     shift = torch.tensor([0.0, 0.0, 0.0001])
     correction = module.cartesian_joint_correction(jacobian, torch.tensor([0.02, 0, 0.01]), shift, torch.zeros(3))
@@ -336,7 +336,7 @@ def test_endpoint_sampling_waits_for_the_attached_sensor():
 
     import torch
 
-    module = load_module(ROOT / "scripts/dex01_articulated_press.py")
+    module = load_module(ROOT / "physx/scripts/dex01_articulated_press.py")
     sensor = SimpleNamespace(data=SimpleNamespace(taxel_points_w=torch.zeros(1, 1, 3)))
     targets = torch.zeros(1, 3)
     robot = SimpleNamespace(data=SimpleNamespace(joint_pos=targets.clone()))
@@ -358,7 +358,7 @@ def test_demo_supervisor_rejects_silent_zero_exit(tmp_path, monkeypatch):
     import json
     import subprocess
 
-    module = load_module(ROOT / "scripts/dex01_articulated_press.py")
+    module = load_module(ROOT / "physx/scripts/dex01_articulated_press.py")
     destination = tmp_path / "report.json"
     destination.write_text('{"observations": [{}]}')
     monkeypatch.setattr(module.subprocess, "run", lambda *a, **k: subprocess.CompletedProcess(a, 0))

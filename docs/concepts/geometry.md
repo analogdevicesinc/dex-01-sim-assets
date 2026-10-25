@@ -1,6 +1,6 @@
 # Geometry and coordinate frames
 
-The exterior mesh, 738 contact poses, firmware mapping and mounting metadata
+The exterior mesh, 740 contact poses, firmware mapping and mounting metadata
 on this page are shared by PhysX and Newton. Public taxel orientations and
 reference mounting quaternions use WXYZ. Newton's link-state and collider-pose
 callbacks use XYZW; convert at that interface, not in the stored pattern.

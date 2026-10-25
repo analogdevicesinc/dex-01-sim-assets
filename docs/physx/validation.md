@@ -4,7 +4,7 @@ Run these commands from `physx/` in its activated environment.
 Complete [installation](installation.md) first.
 
 These commands launch Isaac Sim unless they only check an existing report.
-Complete [installation](getting-started/installation.md) first.
+Complete [installation](installation.md) first.
 
 In the activated setup environment:
 

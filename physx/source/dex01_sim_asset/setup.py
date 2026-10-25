@@ -34,7 +34,7 @@ setup(
     license=EXTENSION_TOML_DATA["package"]["license"],
     license_files=["LICENSE", "NOTICE", "LICENSE_Tesollo"],
     install_requires=[
-        "dex01-sim-common==0.1.0a1",
+        "dex01-sim-common==0.1.1a1",
     ],
     include_package_data=True,
     python_requires=">=3.11,<3.12",

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dex01-sim-common"
-version = "0.1.0a1"
+version = "0.1.1a1"
 description = "Shared DEX-01 sensor utilities"
 requires-python = ">=3.11"
 license = "Apache-2.0"

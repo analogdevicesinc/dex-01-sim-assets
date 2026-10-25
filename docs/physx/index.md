@@ -8,9 +8,8 @@ Start with [installation](installation.md), run the [first simulation](quickstar
 then [attach](attachment.md) a sensor and [validate](validation.md) your scene.
 The [shared data reference](../reference/data.md) explains the resulting arrays.
 
-The recorded PhysX load and contact results have explicit source revisions.
-Bundled hand and press videos carry a scale-export regeneration warning;
-see their example pages and the validation evidence before relying on them.
+Bundled videos retain their capture provenance. Rerun physical fixtures and
+captures when changing layouts or geometry.
 
 ```{toctree}
 :maxdepth: 2

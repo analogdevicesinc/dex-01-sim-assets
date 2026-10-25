@@ -20,7 +20,7 @@ before reading data.
 
 Both sensors expose `num_taxels`, `taxel2pixel` and `get_tactile_image()`.
 The frame shape is `(E, height, width)`, derived from the layout's pixel indices.
-The supplied DEX-01 has 738 occupied cells in a 32 × 32 frame; 286 cells have no
+The supplied DEX-01 has 740 occupied cells in a 32 × 32 frame; 284 cells have no
 taxel. Zero in an occupied cell means no load at that sample.
 
 ## Read one environment

@@ -262,7 +262,7 @@ def run_simulator(sim, scene):
     asset = scene["asset"]
     sensors = [scene[f"finger{i}_sensor"] for i in range(1, 6)]
     sensor_source = Path(sys.modules[type(sensors[0]).__module__].__file__).resolve()
-    expected_source = REPO_ROOT / "source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py"
+    expected_source = REPO_ROOT / "physx/source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py"
     if sensor_source != expected_source:
         raise RuntimeError(f"The demo imported a sensor from another checkout: {sensor_source}")
     support = torch.tensor(

@@ -105,7 +105,7 @@ def verify(args):
         points = sensor.data.taxel_points_w[0].clone()
         normals = sensor.data.taxel_normals_w[0].clone()
         selected = (
-            range(738)
+            range(sensor.num_taxels)
             if args.sweep_all
             else [
                 int(torch.where((pixels == pixels.new_tensor(pixel)).all(-1))[0][0])

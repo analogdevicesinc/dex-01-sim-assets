@@ -41,7 +41,7 @@ def sensor():
     pixels = np.load(ROOT / "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_contact.npz")[
         "taxel2pixel"
     ]
-    forces = torch.zeros(1, 738)
+    forces = torch.zeros(1, 740)
     forces[0, 0] = 1
     frame = torch.zeros(1, 32, 32)
     frame[0, pixels[0, 0], pixels[0, 1]] = 1

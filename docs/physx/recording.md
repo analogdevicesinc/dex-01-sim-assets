@@ -35,6 +35,6 @@ mesh vertex at each pose. Output includes MP4/WebM, phase captions, posters,
 before/contact/after stills and provenance. Slow playback is labeled, and each
 clip has one force scale. Keep the original capture and render manifests.
 
-The older bundled hand and press videos require regeneration after the scale
-export correction. See their example warnings and the
-[recorded media provenance](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/docs/media/README.md).
+Bundled videos retain their original capture inputs and layout in the
+[media provenance](https://github.com/analogdevicesinc/dex-01-sim-assets/blob/main/docs/media/README.md). Regenerate captures after changing
+layouts or geometry before using them as current evidence.

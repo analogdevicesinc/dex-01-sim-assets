@@ -119,8 +119,13 @@ def export_state(scene, output, repo, steps):
     import numpy as np
     import omni.usd
     from capture_examples import simulation_source_hashes
-    from motion_geometry import apply_body_poses, capture_geometry, verify_geometry
     from pxr import Usd, UsdGeom
+
+    from scripts.docs.motion_geometry import (
+        apply_body_poses,
+        capture_geometry,
+        verify_geometry,
+    )
 
     physics_version = version("isaacsim")
     if physics_version != "5.1.0.0":

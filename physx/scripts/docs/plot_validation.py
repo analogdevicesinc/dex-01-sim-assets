@@ -107,7 +107,9 @@ def main():
         "sensor_code_sha256": repo / "physx/source/dex01_sim_asset/dex01_sim_asset/tactile_sensor.py",
         "demo_sha256": repo / "physx/scripts/dex01_on_tesollo_dg5f.py",
         "pattern_sha256": repo / "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_pattern.npz",
-        "contact_pattern_sha256": repo / "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_contact.npz",
+        "contact_pattern_sha256": (
+            repo / "common/source/dex01_sim_common/dex01_sim_common/taxel_patterns/dex01_contact.npz"
+        ),
         "asset_sha256": repo / "assets/robots/tesollo/dex01.usda",
         "hand_asset_sha256": repo / "assets/robots/tesollo/dg5f_right.usda",
     }

@@ -32,7 +32,7 @@ def test_reused_environment_version_is_checked_before_installing(tmp_path, versi
     marker = tmp_path / "installer-was-called"
     python = bin_dir / "python"
     python.write_text(
-        '#!/bin/sh\ncase "$*" in\n*sys.version_info*) exit 0;;\n*importlib.metadata*) echo '
+        '#!/bin/sh\ncase "$*" in\n-|"") exit 0;;\n*sys.version_info*) exit 0;;\n*importlib.metadata*) echo '
         + shlex.quote(version)
         + ";;\n*) exit 99;;\nesac\n"
     )
