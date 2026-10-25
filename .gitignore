@@ -37,3 +37,8 @@ docs/_build/
 
 # Optional isolated documentation renderer
 .venv-render/
+
+# Private native design inputs are processed outside the repository.
+*.[sS][tT][eE][pP]
+*.[sS][tT][pP]
+*.[dD][xX][fF]

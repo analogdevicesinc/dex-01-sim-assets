@@ -35,6 +35,41 @@ def load_script(name):
     return module
 
 
+def test_robotiq_published_media_matches_verified_capture():
+    """The page must ship its actual clip/stills and matching provenance."""
+    from PIL import Image
+
+    root = ROOT / "docs/_static/videos"
+    evidence = json.loads((ROOT / "docs/media/examples.json").read_text())["robotiq"]
+    assert evidence["frame_count"] == 180
+    assert evidence["duration_s"] == 6.0
+    assert evidence["contact_closeup_camera"]
+    assert not evidence["physical_timeline_advanced_by_renderer"]
+    assert not evidence["force_frames_interpolated"]
+    assert evidence["maximum_rendered_vertex_error_m"] < 1e-6
+    assert evidence["capture"]["grasp_report_verified"]
+    assert evidence["grasp_report_summary"]["maximum_hold_force_difference_n"] < 0.1
+    assert evidence["grasp_report_summary"]["maximum_momentum_residual_n_s"] < 1e-6
+    for name, sha in evidence["files"].items():
+        path = root / name
+        assert path.is_file() and path.stat().st_size < 2_000_000
+        assert hashlib.sha256(path.read_bytes()).hexdigest() == sha
+    for phase in ["before", "contact", "after"]:
+        assert Image.open(root / f"robotiq-{phase}.webp").size == (960, 800)
+    captions = (root / "robotiq.vtt").read_text()
+    assert captions.startswith("WEBVTT") and "Hold" in captions and "Released" in captions
+    page = (ROOT / "docs/examples/robotiq.md").read_text()
+    for name in [
+        "robotiq.mp4",
+        "robotiq.webm",
+        "robotiq.vtt",
+        "robotiq-before.webp",
+        "robotiq-contact.webp",
+        "robotiq-after.webp",
+    ]:
+        assert name in page
+
+
 @pytest.mark.parametrize("failure_mode", ["missing", "exception", "corrupt", "misaligned", "process"])
 def test_capture_rejects_failed_worker_even_if_kit_exits_zero(tmp_path, monkeypatch, failure_mode):
     exporter = load_script("export_scene.py")

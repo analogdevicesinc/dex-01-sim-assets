@@ -122,3 +122,37 @@ def custom_pattern(
     taxel2pixel = torch.from_numpy(taxel2pixel.astype(np.int64)).to(device)
 
     return taxel_pos, taxel_axes, taxel2pixel
+
+
+def rectangular_dex01_pattern(
+    cfg: taxel_patterns_cfg.RectangularDex01PatternCfg, device: str
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Load the rectangular DEX-01 grid, indexed by physical row and column.
+
+    Rows run tip to base; columns run left to right when looking at the contact
+    face with the fingertip up. The file stores positions and normals as
+    ``(32, 32, 3)`` arrays. Only the existing sensor buffer interface is flattened.
+    """
+    with np.load(cfg.filename, allow_pickle=False) as data:
+        positions, normals = data["positions_m"], data["normals"]
+    if positions.shape != (32, 32, 3) or normals.shape != positions.shape:
+        raise ValueError("Rectangular DEX-01 positions and normals must have shape (32, 32, 3)")
+    if not np.isfinite(positions).all() or not np.isfinite(normals).all():
+        raise ValueError("Rectangular DEX-01 geometry must be finite")
+    if not np.allclose(np.linalg.norm(normals, axis=-1), 1.0, atol=1e-6):
+        raise ValueError("Rectangular DEX-01 normals must be unit length")
+    # Local +x follows increasing columns. +y points toward the tip and +z out.
+    tangent = np.diff(positions, axis=1)
+    tangent = np.concatenate([tangent, tangent[:, -1:]], axis=1)
+    tangent -= np.sum(tangent * normals, axis=-1, keepdims=True) * normals
+    lengths = np.linalg.norm(tangent, axis=-1, keepdims=True)
+    if (lengths < 1e-9).any():
+        raise ValueError("Rectangular DEX-01 columns must have distinct tangential positions")
+    tangent /= lengths
+    axes = np.stack([tangent, np.cross(normals, tangent), normals], axis=-1)
+    pixels = np.stack(np.indices((32, 32)), axis=-1)
+    return (
+        torch.as_tensor(positions.reshape(-1, 3), dtype=torch.float32, device=device),
+        torch.as_tensor(axes.reshape(-1, 3, 3), dtype=torch.float32, device=device),
+        torch.as_tensor(pixels.reshape(-1, 2), dtype=torch.int64, device=device),
+    )

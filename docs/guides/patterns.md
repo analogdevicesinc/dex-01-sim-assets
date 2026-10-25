@@ -26,6 +26,12 @@ Grey pixels are unoccupied. These are layout coordinates, not force readings.
 | `GridPatternCfg` | `resolution` and `size` in metres; `ordering` is `xy` by default or `yx` |
 | `CustomPatternCfg` | NPZ `filename` and `resolution` in metres |
 | `Dex01PatternCfg` | Supplied exterior NPZ and resolution `(0.00072, 0.00088)` m |
+| `RectangularDex01PatternCfg` | Supplied rectangular grid: `positions_m` and `normals`, both `(32,32,3)` |
+
+For the [Robotiq finger](../examples/robotiq.md), the file is indexed directly
+by row and column. Rows run tip to base and columns left to right when viewing
+the contact face with the tip up. The pattern loader adapts these arrays to
+the existing sensor buffers without introducing separate IDs.
 
 The pattern generator returns positions `(T, 3)`, axes `(T, 3, 3)`, and pixel
 indices `(T, 2)`. Use the matching mounting transform when selecting the

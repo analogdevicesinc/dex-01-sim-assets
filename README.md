@@ -1,8 +1,8 @@
 # DEX-01 Tactile Sensor
 
 **Tactile contact simulation for NVIDIA Isaac Lab.** A physically scaled DEX-01
-fingertip on the Tesollo DG-5F hand, with normal-force sensing mapped into
-the sensor's firmware frame.
+fingertip on the Tesollo DG-5F hand and a rectangular tactile finger on the
+official Robotiq 2F-85 gripper, with normal-force sensing in 32 × 32 images.
 
 ![PhysX hand simulation with all five mounted DEX-01 fingertips and tactile frames](docs/media/dex01-demo.webp)
 
@@ -22,11 +22,13 @@ force in newtons. [Figure provenance](docs/media/README.md).*
 
 ## What you can do
 
-- Read **740 contact samples** as a **32 × 32 firmware-mapped force frame**.
+- Read **740 humanoid-fingertip samples** or **1,024 rectangular samples** as a **32 × 32 force frame**.
 - Explore contact on a Tesollo hand or a flat pad, with live tactile heatmaps,
   remote WebRTC viewing, and camera recordings.
 - Check normal-force balance with a known **0.981 N** load and run geometry,
   contact, and mapping verification.
+- Run the [Robotiq 2F-85 integration](docs/examples/robotiq.md) with two tactile
+  fingers, using the official Isaac Sim articulation.
 
 The model queries the counter object's PhysX signed distance field and
 redistributes measured normal contact load across penetrating samples,

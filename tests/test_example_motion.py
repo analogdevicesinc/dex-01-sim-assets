@@ -133,6 +133,81 @@ def test_stationary_press_rejects_moving_wrist():
         renderer.validate_motion(manifest, arrays)
 
 
+def robotiq_capture():
+    manifest, arrays = grid_capture()
+    manifest.update(
+        example="robotiq",
+        frame_count=5,
+        labels=["Left", "Right"],
+        body_paths=[
+            "/World/envs/env_0/Robot/Robotiq_2F_85/base_link",
+            "/World/envs/env_0/Block",
+            "/World/envs/env_0/Robot/Robotiq_2F_85/left_inner_finger",
+            "/World/envs/env_0/Robot/Robotiq_2F_85/right_inner_finger",
+        ],
+        phases=["open", "closing", "hold", "opening", "released"],
+        grasp_report_verified=True,
+    )
+    arrays["poses"] = np.zeros((5, 4, 7))
+    arrays["poses"][..., 6] = 1
+    arrays["poses"][2, 2, 1] = 0.01
+    arrays["poses"][2, 3, 1] = -0.01
+    arrays["simulation_time_s"] = np.arange(5) / 60
+    arrays["frames"] = np.zeros((5, 2, 32, 32))
+    arrays["frames"][2, :, 12, 15] = 2.0
+    return manifest, arrays
+
+
+def test_robotiq_capture_preserves_both_contact_images_and_motion():
+    manifest, arrays = robotiq_capture()
+    renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize(
+    "fault",
+    ["missing_phase", "unloaded_pad", "loaded_release", "moving_base", "stationary_jaw", "missing_report", "imbalance"],
+)
+def test_robotiq_capture_rejects_misleading_evidence(fault):
+    manifest, arrays = robotiq_capture()
+    if fault == "missing_phase":
+        manifest["phases"][0] = "closing"
+    elif fault == "unloaded_pad":
+        arrays["frames"][2, 1] = 0
+    elif fault == "loaded_release":
+        arrays["frames"][-1, 0, 12, 15] = 1
+    elif fault == "moving_base":
+        arrays["poses"][1, 0, 0] = 0.01
+    elif fault == "stationary_jaw":
+        arrays["poses"][:, 2, :3] = 0
+    elif fault == "imbalance":
+        arrays["frames"][2, 0, 12, 15] = 2.6
+    else:
+        manifest["grasp_report_verified"] = False
+    with pytest.raises(ValueError):
+        renderer.validate_motion(manifest, arrays)
+
+
+def test_robotiq_composite_places_left_and_right_frames_separately():
+    manifest, arrays = robotiq_capture()
+    manifest["force_scale_n"] = 2.0
+    frames = arrays["frames"][2].copy()
+    frames[1] = 0
+    output = np.asarray(
+        renderer.composite(
+            np.full((540, 960, 3), 100, dtype=np.uint8),
+            frames,
+            arrays["taxel2pixel"],
+            manifest,
+            2,
+            0.04,
+            1,
+        )
+    )
+    left = output[607:745, 220:358]
+    right = output[607:745, 520:658]
+    assert not np.array_equal(left, right)
+
+
 def test_old_capture_without_geometry_is_rejected(tmp_path, monkeypatch):
     (tmp_path / "capture.json").write_text(json.dumps({"files": {}}))
     monkeypatch.setattr(

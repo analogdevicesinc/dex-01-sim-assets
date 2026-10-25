@@ -124,6 +124,8 @@ python scripts/docs/capture_examples.py \
   --example hand --output /tmp/dex01-examples/hand
 python scripts/docs/capture_examples.py \
   --example stationary-press --output /tmp/dex01-examples/stationary-press
+python scripts/docs/capture_examples.py \
+  --example robotiq --output /tmp/dex01-examples/robotiq
 ```
 
 These utilities record the live rigid-body poses and tactile arrays after each
@@ -143,7 +145,11 @@ In the isolated renderer environment, install the video encoder and render:
   --output /tmp/dex01-example-media/stationary-press
 ```
 
-Repeat the render command for `flat-pad` and `hand`. It outputs native-camera
+Repeat the render command for `flat-pad`, `hand`, and `robotiq`. The Robotiq
+media was rendered with Isaac Sim **6.1.0.0 / Python 3.12**; its physics capture
+still uses **5.1.0.0**. Use the recorded version when reproducing a clip, and
+complete the renderer's NVIDIA license prompt before running it non-interactively.
+The renderer outputs native-camera
 videos in WebM and MP4, posters, before/contact/after images, phase captions,
 and a hash manifest. The renderer checks each body pose and scale, and compares
 every mesh vertex with the original physical geometry at every frame (1 µm
@@ -151,7 +157,9 @@ tolerance). A capture without geometry evidence must be recaptured. Hand clips
 include a second native camera close-up of the gear. The renderer never advances
 physics. Pose and force interpolation are disabled.
 Slow playback is labeled: flat-pad 3× slower, press 2× slower, hand at simulation
-speed. Each clip uses one force scale and unchanged taxel-to-pixel mapping.
+speed. The Robotiq grasp/hold/release cycle also plays at simulation-time speed
+and includes both tactile images plus a contact-camera inset. Each clip uses
+one force scale and unchanged taxel-to-pixel mapping.
 
 Copy videos, captions, posters, and phase images into `docs/_static/videos/`,
 and update `docs/media/examples.json` with both capture
