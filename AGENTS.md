@@ -84,4 +84,14 @@ when subsequent edits affect their results. Report any unavailable checks.
   evidence, not files added to the PR's repository diff. Commit a visual only
   when it is part of the product documentation or another maintained asset.
   Do not commit per-task review notes, audit bundles, or run logs.
+- On completing a feature or PR, always provide a concise walkthrough for
+  human review without waiting for a separate request. Explain the problem,
+  what changed and why, important architecture or behavior, validation at the
+  tested revision, and any remaining gaps. Distinguish delivered changes from
+  follow-up work; a diff link or file list alone is not a walkthrough.
+- Include diagrams, annotated captures, before/after comparisons, or interactive
+  visualizations when they help reviewers assess the change. Use actual assets
+  and measured results; label schematic views and historical evidence clearly.
+  Keep review-only visuals and summaries in the completion response or PR
+  discussion/attachments, following the evidence-placement rules above.
 - Verify the pushed revision and actual CI results before reporting completion.
