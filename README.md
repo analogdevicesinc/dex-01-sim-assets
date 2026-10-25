@@ -27,7 +27,7 @@ force in newtons. [Figure provenance](docs/media/README.md).*
   remote WebRTC viewing, and camera recordings.
 - Check normal-force balance with a known **0.981 N** load and run geometry,
   contact, and mapping verification.
-- Run the [Robotiq 2F-85 integration](docs/examples/robotiq.md) with two tactile
+- Run the [Robotiq 2F-85 grasp example](docs/examples/robotiq.md) with two tactile
   fingers, using the official Isaac Sim articulation.
 
 The model queries the counter object's PhysX signed distance field and

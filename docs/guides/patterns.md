@@ -1,7 +1,8 @@
 # Configure taxel patterns
 
-Use `GridPatternCfg` for a flat pad, `CustomPatternCfg` for arbitrary NPZ poses,
-or `Dex01PatternCfg` for the DEX-01 exterior. Custom NPZ files contain `poses` of
+Use `GridPatternCfg` for a flat pad, `Dex01PatternCfg` for the humanoid
+fingertip, or `RectangularDex01PatternCfg` for the rectangular finger.
+Use `CustomPatternCfg` for arbitrary NPZ poses. Custom NPZ files contain `poses` of
 shape `(N,3,4)`, with the third axis as the surface normal, and integer
 `taxel2pixel` pairs `(row,column)`. `dex01_pattern.npz` stores the source
 layout; `Dex01PatternCfg` supplies exterior contact sampling poses.
@@ -12,10 +13,10 @@ a layout or mounting transform. Pattern configuration requires an initialized
 Isaac Sim application.
 
 ```{figure} ../media/taxel-mapping.svg
-:alt: The 740 contact samples on the curved fingertip and their matching occupied locations in the 32 by 32 firmware frame.
+:alt: The 740 contact samples on the curved fingertip and their matching occupied locations in the 32 by 32 tactile frame.
 :width: 100%
 
-The same firmware rows color the exterior samples and frame locations.
+The same taxel rows color the exterior samples and frame locations.
 Grey pixels are unoccupied. These are layout coordinates, not force readings.
 ```
 
@@ -28,7 +29,7 @@ Grey pixels are unoccupied. These are layout coordinates, not force readings.
 | `Dex01PatternCfg` | Supplied exterior NPZ and resolution `(0.00072, 0.00088)` m |
 | `RectangularDex01PatternCfg` | Supplied rectangular grid: `positions_m` and `normals`, both `(32,32,3)` |
 
-For the [Robotiq finger](../examples/robotiq.md), the file is indexed directly
+For the [Robotiq finger](robotiq.md), the file is indexed directly
 by row and column. Rows run tip to base and columns left to right when viewing
 the contact face with the tip up. The pattern loader adapts these arrays to
 the existing sensor buffers without introducing separate IDs.

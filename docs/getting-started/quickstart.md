@@ -13,7 +13,7 @@ shows the hand, per-finger normal loads in newtons, and 32 × 32 tactile frames.
 Stop with Ctrl+C. The first launch can download extensions and compile shaders.
 
 For remote viewing use the [remote viewing setup](installation.md#view-a-remote-simulation).
-Learn how to interpret the frames in the [hand example](../examples/hand.md),
+Learn how to interpret the frames in the [sequential-contact example](../examples/hand.md),
 or check a reproducible load with the [validation guide](../validation.md).
 
 ## First result without a display

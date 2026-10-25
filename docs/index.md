@@ -37,14 +37,13 @@ getting-started/quickstart
 ```
 
 ```{toctree}
-:maxdepth: 1
+:maxdepth: 2
 :caption: Examples
 
 examples/index
-examples/flat-pad
-examples/hand
-examples/stationary-press
-examples/robotiq
+examples/embodiments/flat-pad
+examples/embodiments/tesollo-hand
+examples/embodiments/robotiq-2f85
 ```
 
 ```{toctree}
@@ -52,6 +51,7 @@ examples/robotiq
 :caption: Guides
 
 guides/attachment
+guides/robotiq
 guides/read-data
 guides/patterns
 ```

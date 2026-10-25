@@ -2,6 +2,9 @@
 
 ## 0.1.2-a.1 — Unreleased
 
+- Group examples by embodiment, with scenario walkthroughs beneath each.
+  Separate running and reading the examples from asset integration and detailed
+  validation instructions.
 - Keep confidential native design inputs outside the repository. Public asset
   rebuilding uses only approved simulation artifacts, with source-file checks
   enforced by pre-commit and CI.
