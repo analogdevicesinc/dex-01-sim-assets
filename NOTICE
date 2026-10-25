@@ -96,8 +96,33 @@ and
 source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_contact.npz
 are ADI-authored and covered by LICENSE.
 
+The following rectangular finger assets are also ADI-authored and covered
+by LICENSE (Apache-2.0):
+
+  assets/robots/robotiq_2f85/finger.obj
+  assets/robots/robotiq_2f85/finger.mtl
+  assets/robots/robotiq_2f85/finger.usda
+  assets/robots/robotiq_2f85/robotiq_2f85_dex01.usda
+  assets/robots/robotiq_2f85/reference.json
+  source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_rectangular.npz
+
+This covers the custom finger, its sampling grid, and the integration layer;
+it does not relicense the third-party gripper referenced by that layer.
+
 Assets fetched at runtime
 -------------------------
 The demos load Factory/factory_gear_medium.usd from the Isaac Sim asset
-server through ISAACLAB_NUCLEUS_DIR. This asset is not redistributed in
-this repository and is obtained under NVIDIA's terms.
+server through ISAACLAB_NUCLEUS_DIR. The Robotiq example resolves
+Isaac/Robots/Robotiq/2F-85/Robotiq_2F_85_edit.usd from the configured
+Isaac Sim asset library. The gripper model is attributed to Robotiq and
+provided through NVIDIA's Isaac Sim asset library.
+
+These third-party models and their dependent meshes, materials, and textures
+are obtained separately and are not redistributed in this repository. They
+retain their applicable NVIDIA and third-party terms; the repository's
+Apache-2.0 license does not apply to those external assets.
+
+Asset catalog and licensing references:
+https://docs.isaacsim.omniverse.nvidia.com/5.1.0/assets/usd_assets_robots.html
+https://docs.isaacsim.omniverse.nvidia.com/5.1.0/common/licenses-isaac-sim.html
+https://docs.isaacsim.omniverse.nvidia.com/5.1.0/common/license-isaac-sim-additional.html

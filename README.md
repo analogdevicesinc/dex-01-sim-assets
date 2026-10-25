@@ -71,8 +71,9 @@ sign-offs. Documentation authoring is covered in the
 
 ADI-authored material uses [Apache-2.0](LICENSE). Isaac Lab adaptations and
 Tesollo geometry retain BSD-3-Clause terms in [NOTICE](NOTICE) and
-[LICENSE_Tesollo](LICENSE_Tesollo). Demos fetch the gear from NVIDIA's asset
-server under NVIDIA's terms; it is not redistributed here.
+[LICENSE_Tesollo](LICENSE_Tesollo). Demos fetch the gear and Robotiq gripper
+from NVIDIA's Isaac Sim asset library. These external assets retain their
+applicable terms and are not redistributed here; see [NOTICE](NOTICE).
 
 ## Citation
 

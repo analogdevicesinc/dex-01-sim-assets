@@ -2,6 +2,8 @@
 
 ## 0.1.2-a.1 — Unreleased
 
+- Document the ADI-authored rectangular finger assets and the separately
+  obtained NVIDIA/Robotiq model in the repository and packaged notices.
 - Group examples by embodiment, with scenario walkthroughs beneath each.
   Separate running and reading the examples from asset integration and detailed
   validation instructions.
