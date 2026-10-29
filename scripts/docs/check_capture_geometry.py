@@ -41,11 +41,10 @@ def check_capture(capture, tolerance_m=1e-6):
     expected_shape = (*arrays["frames"].shape[:2], len(arrays["taxel2pixel"]), 3)
     if points.shape != expected_shape or not np.isfinite(points).all():
         raise ValueError("Missing or invalid world-space taxel positions")
-    candidates = [
-        (i, m) for i, m in enumerate(manifest["meshes"]) if "/Asset/" in m["path"] and m["path"].endswith("/collisions")
-    ]
+    root, leaf = ("/Block/", "/mesh") if manifest["example"] == "robotiq" else ("/Asset/", "/collisions")
+    candidates = [(i, m) for i, m in enumerate(manifest["meshes"]) if root in m["path"] and m["path"].endswith(leaf)]
     if len(candidates) != 1:
-        raise ValueError("Expected exactly one gear collision mesh")
+        raise ValueError("Expected exactly one counter-object collision mesh")
     mesh_index, entry = candidates[0]
     with np.load(capture / "geometry.npz", allow_pickle=False) as geometry:
         if not np.all(geometry[f"counts_{mesh_index}"] == 3):
@@ -82,15 +81,19 @@ def check_capture(capture, tolerance_m=1e-6):
         raise ValueError("Capture has no loaded taxels")
     if outside > tolerance_m:
         raise ValueError(f"Loaded taxel lies outside collision mesh by {outside:.9g} m")
-    return {
+    result = {
         "example": manifest["example"],
         "capture_sha256": hashlib.sha256((capture / "capture.json").read_bytes()).hexdigest(),
         "checker_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "loaded_taxel_samples": count,
         "outside_mesh_max_distance_m": outside,
         "tolerance_m": tolerance_m,
-        "gear_width_m": float(np.ptp(mesh.vertices[:, 1])) / 1000.0,
     }
+    if manifest["example"] == "robotiq":
+        result["counter_dimensions_m"] = (np.ptp(mesh.vertices, axis=0) / 1000.0).tolist()
+    else:
+        result["gear_width_m"] = float(np.ptp(mesh.vertices[:, 1])) / 1000.0
+    return result
 
 
 def main():

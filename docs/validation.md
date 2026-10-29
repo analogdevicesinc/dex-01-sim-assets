@@ -95,3 +95,54 @@ a force or invariance report.
 Re-run the commands above when geometry or sensing changes. Keep the JSON
 reports and simulator logs with review evidence. Documentation build checks
 validate the site, while these commands validate the simulation.
+
+## Articulated pressing
+
+The [Tesollo pressing scenario](examples/stationary-press.md) moves finger 2
+against a fixed gear. Run three cycles without a viewport and check the report:
+
+```bash
+MPLBACKEND=Agg python scripts/dex01_stationary_press.py \
+  --headless --max-steps 900 \
+  --verification-report /tmp/dex01-articulated.json
+python scripts/dex01_stationary_press.py \
+  --check-report /tmp/dex01-articulated.json
+```
+
+The checker verifies wrist/object invariance, joint movement, fingertip travel,
+face alignment, contact coverage, mapping, and release. At least 90% of samples
+under the triangulated gear underside must carry load, with load in all four
+quadrants. Face-normal mismatch must stay below 0.05°, and no underside edge
+may sit more than 2 µm above the pad plane. These tolerances test broad planar
+contact; a nonzero total force alone is insufficient.
+
+The setup selects coplanar taxels within the fingertip's planar patch. The
+gear's underside must fit inside that patch. Joint targets maintain the pad's
+orientation while advancing it toward the gear. Controller gains and endpoint
+fractions are simulation settings; this check does not calibrate hardware
+force tracking.
+
+## Robotiq grasp, hold, and release
+
+Run the [grasp scenario](examples/robotiq.md) in two environments and check
+its report independently:
+
+```bash
+python scripts/dex01_on_robotiq_2f85.py \
+  --headless --num-envs 2 --no-tactile-ui \
+  --verification-report /tmp/robotiq-contact.json
+python scripts/dex01_on_robotiq_2f85.py \
+  --check-report /tmp/robotiq-contact.json
+```
+
+Both pads must sustain contact in every environment and unload after opening.
+The checker also requires finger motion, a stationary base, and agreement
+between taxel loads, tactile images, and filtered PhysX normal forces.
+Contacts generated before a discrete taxel penetrates the block are reported
+separately; unresolved contact is not permitted during the sustained hold.
+
+The left/right hold-force difference must remain below 0.1 N. An independent
+momentum check compares the free block's measured momentum change with the
+sum of normal and friction impulses, using a 1 µN·s tolerance. Gravity and
+damping are disabled on the block, so this fixture checks grasp contact
+dynamics rather than a known weight.

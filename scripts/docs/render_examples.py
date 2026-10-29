@@ -46,7 +46,7 @@ def validate_motion(manifest, arrays):
     if pixels.shape != (740 if len(manifest["labels"]) == 5 else 1024, 2):
         raise ValueError("Captured taxel layout differs from the example")
     if not np.issubdtype(pixels.dtype, np.integer) or (pixels < 0).any() or (pixels >= 32).any():
-        raise ValueError("Invalid firmware pixel indices")
+        raise ValueError("Invalid taxel pixel indices")
     mask = np.zeros((32, 32), dtype=bool)
     mask[pixels[:, 0], pixels[:, 1]] = True
     if mask.sum() != len(pixels) or frames.shape[2:] != (32, 32) or (frames[:, :, ~mask] != 0).any():
@@ -58,6 +58,59 @@ def validate_motion(manifest, arrays):
             index = manifest["body_paths"].index(name)
             if np.ptp(poses[:, index], axis=0).max() > 1e-5:
                 raise ValueError("The wrist or stationary gear moves during the captured press")
+    if manifest["example"] == "robotiq":
+        phases = np.array(manifest["phases"])
+        if set(phases) != {"open", "closing", "hold", "opening", "released"}:
+            raise ValueError("Expected a complete gripper grasp/hold/release cycle")
+        loads = frames.sum(axis=(2, 3))
+        if (loads[phases == "hold"] <= 0.1).any() or (loads[phases == "released"] > 1e-4).any():
+            raise ValueError("Both gripper pads must load during hold and unload after release")
+        if np.abs(loads[phases == "hold", 0] - loads[phases == "hold", 1]).max() > 0.1:
+            raise ValueError("Captured gripper hold forces are imbalanced")
+        for path in ["/World/envs/env_0/Robot/Robotiq_2F_85/base_link"]:
+            index = manifest["body_paths"].index(path)
+            if np.ptp(poses[:, index], axis=0).max() > 1e-5:
+                raise ValueError("The gripper base moves during capture")
+        for side in ["left", "right"]:
+            path = f"/World/envs/env_0/Robot/Robotiq_2F_85/{side}_inner_finger"
+            index = manifest["body_paths"].index(path)
+            if np.ptp(poses[:, index, :3], axis=0).max() < 0.001:
+                raise ValueError("The captured gripper fingers do not move")
+        if not manifest.get("grasp_report_verified"):
+            raise ValueError("Missing independently checked gripper contact report")
+
+
+def rectangular_grid_size(points, pixels, shape):
+    """Width/length of pitch-sized cells, measured in the captured surface plane."""
+    import numpy as np
+
+    grid = np.empty((*shape, 3))
+    grid[pixels[:, 0], pixels[:, 1]] = points
+    row_steps = np.diff(grid, axis=0)
+    column_steps = np.diff(grid, axis=1)
+    if not np.isfinite(grid).all():
+        raise ValueError("Nonfinite taxel positions")
+    for steps in [row_steps, column_steps]:
+        if not np.allclose(steps, steps[0, 0], rtol=1e-4, atol=1e-7):
+            raise ValueError("Physical heatmap requires a regular rectangular grid")
+    length = np.linalg.norm(row_steps, axis=-1).mean() * shape[0]
+    width = np.linalg.norm(column_steps, axis=-1).mean() * shape[1]
+    if min(width, length) <= 0:
+        raise ValueError("Taxel grid must have positive width and length")
+    return [float(width), float(length)]
+
+
+def captured_grid_size(arrays):
+    """Require matching physical scales for both recorded finger grids."""
+    import numpy as np
+
+    sizes = [
+        rectangular_grid_size(points, arrays["taxel2pixel"], arrays["frames"].shape[2:])
+        for points in arrays["taxel_points_w"][0]
+    ]
+    if not np.allclose(sizes, sizes[0], rtol=1e-4, atol=1e-7):
+        raise ValueError("The two finger grids must share a physical display scale")
+    return np.mean(sizes, axis=0).tolist()
 
 
 def main():
@@ -147,6 +200,8 @@ def render(capture, output, manifest, app):
         frames = arrays["frames"]
         pixels = arrays["taxel2pixel"]
         times = arrays["simulation_time_s"]
+        if manifest["example"] == "robotiq":
+            manifest["grid_size_m"] = captured_grid_size(arrays)
     with np.load(capture / "geometry.npz", allow_pickle=False) as arrays:
         geometry = dict(arrays)
     if manifest["example"] == "flat-pad":
@@ -171,7 +226,12 @@ def render(capture, output, manifest, app):
     shader.CreateInput("diffuseColor", Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(0.10, 0.12, 0.14))
     shader.CreateInput("roughness", Sdf.ValueTypeNames.Float).Set(0.85)
     material.CreateSurfaceOutput().ConnectToSource(shader.ConnectableAPI(), "surface")
-    ground = stage.GetPrimAtPath("/World/defaultGroundPlane/Environment/Geometry")
+    ground_path = (
+        "/World/Ground/Environment/Geometry"
+        if manifest["example"] == "robotiq"
+        else "/World/defaultGroundPlane/Environment/Geometry"
+    )
+    ground = stage.GetPrimAtPath(ground_path)
     if ground.IsValid():
         UsdShade.MaterialBindingAPI.Apply(ground).Bind(material)
     light = UsdLux.DistantLight.Define(stage, "/World/DocsKey")
@@ -189,6 +249,8 @@ def render(capture, output, manifest, app):
         eye, target = Gf.Vec3d(0.22, -0.25, 0.28), Gf.Vec3d(0, 0, 0.01)
     elif manifest["example"] == "stationary-press":
         eye, target = Gf.Vec3d(-0.23, -0.38, 0.30), Gf.Vec3d(0.035, 0.026, 0.075)
+    elif manifest["example"] == "robotiq":
+        eye, target = Gf.Vec3d(-0.28, -0.32, 0.26), Gf.Vec3d(0, 0, 0.12)
     else:
         eye, target = Gf.Vec3d(-0.25, -0.28, 0.40), Gf.Vec3d(0.02, 0.035, 0.055)
     UsdGeom.Xformable(camera).AddTransformOp().Set(
@@ -208,10 +270,13 @@ def render(capture, output, manifest, app):
         detail_product = rep.create.render_product(str(detail_camera.GetPath()), (320, 240))
         detail_rgb = rep.AnnotatorRegistry.get_annotator("rgb")
         detail_rgb.attach([detail_product])
-        gear_mesh = next(
+        contact_path, contact_leaf = (
+            ("/Block/", "/mesh") if manifest["example"] == "robotiq" else ("/Asset/", "/visuals")
+        )
+        contact_mesh = next(
             (i, mesh)
             for i, mesh in enumerate(manifest["meshes"])
-            if "/Asset/" in mesh["path"] and mesh["path"].endswith("/visuals")
+            if contact_path in mesh["path"] and mesh["path"].endswith(contact_leaf)
         )
     rep.orchestrator.set_capture_on_play(False)
     import carb.settings
@@ -219,7 +284,7 @@ def render(capture, output, manifest, app):
     carb.settings.get_settings().set("/exts/isaacsim.core.throttling/enable_async", False)
     for _ in range(40):
         app.update()
-    playback_slowdown = {"flat-pad": 3, "stationary-press": 2, "hand": 1}[manifest["example"]]
+    playback_slowdown = {"flat-pad": 3, "stationary-press": 2, "hand": 1, "robotiq": 1}[manifest["example"]]
     fps = manifest["playback_fps"] / playback_slowdown
     writer = imageio_ffmpeg.write_frames(
         str(output / (manifest["example"] + ".mp4")),
@@ -238,14 +303,16 @@ def render(capture, output, manifest, app):
         for index in range(count):
             apply_body_poses(stage, manifest["body_paths"], poses[index], geometry["body_scales"])
             if detail_rgb is not None:
-                mesh_index, mesh_entry = gear_mesh
+                mesh_index, mesh_entry = contact_mesh
                 gear_world = transform_points(
                     np.asarray(UsdGeom.Mesh(stage.GetPrimAtPath(mesh_entry["path"])).GetPointsAttr().Get()),
                     UsdGeom.XformCache().GetLocalToWorldTransform(stage.GetPrimAtPath(mesh_entry["path"])),
                 )
                 center = (gear_world.min(0) + gear_world.max(0)) / 2
                 detail_target = Gf.Vec3d(*map(float, center))
-                detail_offset = np.array([-0.025, -0.035, 0.045])
+                detail_offset = np.array(
+                    [-0.080, -0.030, 0.040] if manifest["example"] == "robotiq" else [-0.025, -0.035, 0.045]
+                )
                 if manifest["example"] == "stationary-press":
                     # View the contact face obliquely in its own frame. A fixed
                     # world offset grazes the bent pad and hides the contact.
@@ -278,7 +345,7 @@ def render(capture, output, manifest, app):
                 print(f"Rendered {manifest['example']} frame {index + 1}/{count}", flush=True)
     finally:
         writer.close()
-    if manifest["example"] == "stationary-press":
+    if manifest["example"] in {"stationary-press", "robotiq"}:
         held = np.flatnonzero(np.array(manifest["phases"]) == "hold")
         poster_index = int(held[len(held) // 2])
     elif manifest["example"] == "flat-pad":
@@ -363,6 +430,16 @@ def render(capture, output, manifest, app):
             "rows_axis": "pad y (width)",
             "resampling": "nearest",
         }
+    elif manifest["example"] == "robotiq":
+        width, length = manifest["grid_size_m"]
+        result["heatmap_display"] = {
+            "grid_size_m": [width, length],
+            "extent_basis": "captured taxel spacing, with half a pitch beyond the outer centers",
+            "width_to_height": width / length,
+            "columns_axis": "finger width (left to right)",
+            "rows_axis": "finger length (tip to base)",
+            "resampling": "nearest",
+        }
     result["files"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in output.iterdir() if p.is_file()}
     (output / (manifest["example"] + ".json")).write_text(json.dumps(result, indent=2) + "\n")
     print(f"Completed {manifest['example']} video: {count} verified physical frames", flush=True)
@@ -393,6 +470,7 @@ def composite(rgb, frames, pixels, manifest, index, time_s, slowdown, detail=Non
         "flat-pad": "Flat pad · falling gear",
         "hand": "Tesollo hand · sequential contacts",
         "stationary-press": "Fixed wrist · articulated press",
+        "robotiq": "Robotiq 2F-85 · grasp, hold, release",
     }[manifest["example"]]
     draw.text((20, 11), title, font=font, fill="#17324d")
     draw.text(
@@ -407,7 +485,7 @@ def composite(rgb, frames, pixels, manifest, index, time_s, slowdown, detail=Non
     )
     size = 138
     for i, frame in enumerate(frames):
-        x = 35 + i * 184 if len(frames) == 5 else 110
+        x = 35 + i * 184 if len(frames) == 5 else 220 + i * 300
         if len(frames) == 1:
             x = 180
         image = Image.fromarray(module.force_frame_rgba(frame, pixels, maximum)).convert("RGB")
@@ -416,8 +494,13 @@ def composite(rgb, frames, pixels, manifest, index, time_s, slowdown, detail=Non
             length, width = manifest["pad_size_m"]
             display_size = (round(size * length / width), size)
             x = 90
+        elif manifest["example"] == "robotiq":
+            width, length = manifest["grid_size_m"]
+            display_size = (round(140 * width / length), 140)
+            x += 45
         canvas.paste(image.resize(display_size, Image.Resampling.NEAREST), (x, 607))
-        draw.text((x, 585), f"{manifest['labels'][i]} · {frame.sum():.3f} N", font=font, fill="#17324d")
+        label_x = x - 45 if manifest["example"] == "robotiq" else x
+        draw.text((label_x, 585), f"{manifest['labels'][i]} · {frame.sum():.3f} N", font=font, fill="#17324d")
     if len(frames) == 1:
         length, width = manifest["pad_size_m"]
         draw.text((400, 607), f"Pad: {length * 1000:g} × {width * 1000:g} mm · top view", font=font, fill="#17324d")
@@ -431,6 +514,12 @@ def composite(rgb, frames, pixels, manifest, index, time_s, slowdown, detail=Non
             font=ImageFont.truetype("DejaVuSans.ttf", 14),
             fill="#17324d",
         )
+        if manifest["example"] == "robotiq":
+            draw.text((690, 610), "Width → columns", font=font, fill="#17324d")
+            draw.text((690, 638), "Length ↓ rows (tip → base)", font=font, fill="#17324d")
+            draw.text((690, 670), "32 × 32 taxels per finger", font=font, fill="#17324d")
+            width, length = manifest["grid_size_m"]
+            draw.text((690, 698), f"Grid: {width * 1000:.1f} × {length * 1000:.1f} mm", font=font, fill="#17324d")
     return canvas
 
 

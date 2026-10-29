@@ -1,14 +1,15 @@
 # DEX-01 Tactile Sensor
 
-Simulate normal contact forces on a DEX-01 fingertip in NVIDIA Isaac Lab,
-with 740 contact samples mapped into the sensor's 32 × 32 firmware frame.
+Simulate normal contact forces on DEX-01 sensors in NVIDIA Isaac Lab: the
+740-sample humanoid fingertip or the 1,024-sample rectangular Robotiq finger.
+Both provide 32 × 32 tactile images.
 
 ```{figure} media/dex01-demo.webp
 :alt: PhysX scene showing all five dark DEX-01 fingertips mounted on a Tesollo hand, with finger 2 loaded and its tactile frame active.
 :width: 100%
 
 A 0.1 kg cube contacts finger 2 on the Tesollo DG-5F hand. Each panel reports
-physical normal force in newtons using the original firmware pixel mapping.
+physical normal force in newtons using the original row/column mapping.
 ```
 
 Browse [the visual examples](examples/index.md) to see contact and articulation
@@ -36,13 +37,13 @@ getting-started/quickstart
 ```
 
 ```{toctree}
-:maxdepth: 1
+:maxdepth: 2
 :caption: Examples
 
 examples/index
-examples/flat-pad
-examples/hand
-examples/stationary-press
+examples/embodiments/flat-pad
+examples/embodiments/tesollo-hand
+examples/embodiments/robotiq-2f85
 ```
 
 ```{toctree}
@@ -50,6 +51,7 @@ examples/stationary-press
 :caption: Guides
 
 guides/attachment
+guides/robotiq
 guides/read-data
 guides/patterns
 ```

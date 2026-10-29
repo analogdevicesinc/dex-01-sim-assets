@@ -39,8 +39,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch taxel pattern and DEX-01 reference geometry from LFS
-        run: git lfs pull --include="source/**/*.npz,assets/sensors/dex01/*.obj,assets/robots/tesollo/*.usda"
+      - name: Reject private native design inputs
+        run: python3 scripts/check_public_assets.py
+      - name: Fetch taxel patterns and approved geometry from LFS
+        run: git lfs pull --include="source/**/*.npz,assets/sensors/dex01/*.obj,assets/robots/tesollo/*.usda,assets/robots/robotiq_2f85/*.obj,assets/robots/robotiq_2f85/*.usda"
+      - name: Check materialized asset contents
+        run: python3 scripts/check_public_assets.py
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
