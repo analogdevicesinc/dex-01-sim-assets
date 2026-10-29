@@ -47,6 +47,10 @@ View each contact face with its fingertip up: rows run tip to base and columns
 left to right. All 1,024 pixels correspond to sensing sites. See
 [display colors and units](index.md#read-the-tactile-display).
 
+The recorded heatmaps preserve the physical taxel spacing, with width
+horizontal and length vertical. They show the sampling grid, excluding the
+unsampled border of the contact face.
+
 Because gravity is disabled, the readings represent the grasping load rather
 than the block's weight. Use the [grasp validation](../validation.md#robotiq-grasp-hold-and-release)
 for independent force and momentum checks. For mounting, asset reuse, and

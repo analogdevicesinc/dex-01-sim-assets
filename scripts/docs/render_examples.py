@@ -80,6 +80,39 @@ def validate_motion(manifest, arrays):
             raise ValueError("Missing independently checked gripper contact report")
 
 
+def rectangular_grid_size(points, pixels, shape):
+    """Width/length of pitch-sized cells, measured in the captured surface plane."""
+    import numpy as np
+
+    grid = np.empty((*shape, 3))
+    grid[pixels[:, 0], pixels[:, 1]] = points
+    row_steps = np.diff(grid, axis=0)
+    column_steps = np.diff(grid, axis=1)
+    if not np.isfinite(grid).all():
+        raise ValueError("Nonfinite taxel positions")
+    for steps in [row_steps, column_steps]:
+        if not np.allclose(steps, steps[0, 0], rtol=1e-4, atol=1e-7):
+            raise ValueError("Physical heatmap requires a regular rectangular grid")
+    length = np.linalg.norm(row_steps, axis=-1).mean() * shape[0]
+    width = np.linalg.norm(column_steps, axis=-1).mean() * shape[1]
+    if min(width, length) <= 0:
+        raise ValueError("Taxel grid must have positive width and length")
+    return [float(width), float(length)]
+
+
+def captured_grid_size(arrays):
+    """Require matching physical scales for both recorded finger grids."""
+    import numpy as np
+
+    sizes = [
+        rectangular_grid_size(points, arrays["taxel2pixel"], arrays["frames"].shape[2:])
+        for points in arrays["taxel_points_w"][0]
+    ]
+    if not np.allclose(sizes, sizes[0], rtol=1e-4, atol=1e-7):
+        raise ValueError("The two finger grids must share a physical display scale")
+    return np.mean(sizes, axis=0).tolist()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--capture", type=Path, required=True)
@@ -167,6 +200,8 @@ def render(capture, output, manifest, app):
         frames = arrays["frames"]
         pixels = arrays["taxel2pixel"]
         times = arrays["simulation_time_s"]
+        if manifest["example"] == "robotiq":
+            manifest["grid_size_m"] = captured_grid_size(arrays)
     with np.load(capture / "geometry.npz", allow_pickle=False) as arrays:
         geometry = dict(arrays)
     if manifest["example"] == "flat-pad":
@@ -395,6 +430,16 @@ def render(capture, output, manifest, app):
             "rows_axis": "pad y (width)",
             "resampling": "nearest",
         }
+    elif manifest["example"] == "robotiq":
+        width, length = manifest["grid_size_m"]
+        result["heatmap_display"] = {
+            "grid_size_m": [width, length],
+            "extent_basis": "captured taxel spacing, with half a pitch beyond the outer centers",
+            "width_to_height": width / length,
+            "columns_axis": "finger width (left to right)",
+            "rows_axis": "finger length (tip to base)",
+            "resampling": "nearest",
+        }
     result["files"] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in output.iterdir() if p.is_file()}
     (output / (manifest["example"] + ".json")).write_text(json.dumps(result, indent=2) + "\n")
     print(f"Completed {manifest['example']} video: {count} verified physical frames", flush=True)
@@ -449,8 +494,13 @@ def composite(rgb, frames, pixels, manifest, index, time_s, slowdown, detail=Non
             length, width = manifest["pad_size_m"]
             display_size = (round(size * length / width), size)
             x = 90
+        elif manifest["example"] == "robotiq":
+            width, length = manifest["grid_size_m"]
+            display_size = (round(140 * width / length), 140)
+            x += 45
         canvas.paste(image.resize(display_size, Image.Resampling.NEAREST), (x, 607))
-        draw.text((x, 585), f"{manifest['labels'][i]} · {frame.sum():.3f} N", font=font, fill="#17324d")
+        label_x = x - 45 if manifest["example"] == "robotiq" else x
+        draw.text((label_x, 585), f"{manifest['labels'][i]} · {frame.sum():.3f} N", font=font, fill="#17324d")
     if len(frames) == 1:
         length, width = manifest["pad_size_m"]
         draw.text((400, 607), f"Pad: {length * 1000:g} × {width * 1000:g} mm · top view", font=font, fill="#17324d")
@@ -465,9 +515,11 @@ def composite(rgb, frames, pixels, manifest, index, time_s, slowdown, detail=Non
             fill="#17324d",
         )
         if manifest["example"] == "robotiq":
-            draw.text((690, 610), "32 × 32 per finger", font=font, fill="#17324d")
-            draw.text((690, 640), "Rows: tip → base", font=font, fill="#17324d")
-            draw.text((690, 670), "Columns: left → right", font=font, fill="#17324d")
+            draw.text((690, 610), "Width → columns", font=font, fill="#17324d")
+            draw.text((690, 638), "Length ↓ rows (tip → base)", font=font, fill="#17324d")
+            draw.text((690, 670), "32 × 32 taxels per finger", font=font, fill="#17324d")
+            width, length = manifest["grid_size_m"]
+            draw.text((690, 698), f"Grid: {width * 1000:.1f} × {length * 1000:.1f} mm", font=font, fill="#17324d")
     return canvas
 
 

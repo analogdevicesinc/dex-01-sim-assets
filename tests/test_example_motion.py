@@ -190,6 +190,7 @@ def test_robotiq_capture_rejects_misleading_evidence(fault):
 def test_robotiq_composite_places_left_and_right_frames_separately():
     manifest, arrays = robotiq_capture()
     manifest["force_scale_n"] = 2.0
+    manifest["grid_size_m"] = [0.0144, 0.0336]
     frames = arrays["frames"][2].copy()
     frames[1] = 0
     output = np.asarray(
@@ -203,9 +204,26 @@ def test_robotiq_composite_places_left_and_right_frames_separately():
             1,
         )
     )
-    left = output[607:745, 220:358]
-    right = output[607:745, 520:658]
+    left = output[607:747, 265:325]
+    right = output[607:747, 565:625]
     assert not np.array_equal(left, right)
+    # The rectangular grid is taller than it is wide; square raster cells
+    # would distort the physical footprint even though both axes have 32 samples.
+    assert np.all(output[607:747, 325] == 255)
+    active = np.argwhere(left[..., 0] > 200)
+    assert active[:, 0].min() == pytest.approx(12 * 140 / 32, abs=1)
+    assert active[:, 1].min() == pytest.approx(15 * 60 / 32, abs=1)
+
+
+def test_rectangular_display_size_uses_surface_distances_and_pixel_mapping():
+    rows, columns = np.indices((4, 6))
+    grid = np.stack((columns * 0.002, rows * 0.005, np.zeros_like(rows)), axis=-1)
+    angle = np.deg2rad(35)
+    rotation = np.array([[1, 0, 0], [0, np.cos(angle), -np.sin(angle)], [0, np.sin(angle), np.cos(angle)]])
+    points = grid.reshape(-1, 3) @ rotation.T + [0.1, 0.2, 0.3]
+    pixels = np.stack((rows, columns), axis=-1).reshape(-1, 2)
+    order = np.arange(len(points))[::-1]
+    assert renderer.rectangular_grid_size(points[order], pixels[order], (4, 6)) == pytest.approx([0.012, 0.020])
 
 
 def test_old_capture_without_geometry_is_rejected(tmp_path, monkeypatch):

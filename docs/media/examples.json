@@ -1668,21 +1668,32 @@
     "contact_closeup_camera": true,
     "geometry_script_sha256": "fa45c37aaef388c18c04d409fa0ba8ecc8934e9471f43e739b3a8c4b753b4253",
     "shared_force_scale_n": 0.10999999940395355,
-    "renderer_script_sha256": "7a4784fa9897b05617c56b5a4b4cd80f93e8acbe45d4d9214b6a581d6c0263bd",
+    "renderer_script_sha256": "6ef7d3e955dab9b95427f4129f768ed33fffbc99bc73cf7fd19a4c66a254a268",
     "poster_frame": 105,
     "files": {
-      "robotiq.webp": "4ab4612b39df96cba71cc50b0c9936c83ff57b6b0d7513ff936616215bc6a632",
-      "robotiq-before.webp": "bc241cb736976d9020ba21aaa334a22ddd4d5798a5c4efca58cbab3ebc2b1e7f",
-      "robotiq-after.webp": "0fffc9060ec7624edc84a6c557f0d7e35b51bc16ab07b4fdde05eceefd9878b2",
-      "robotiq-contact.webp": "4ab4612b39df96cba71cc50b0c9936c83ff57b6b0d7513ff936616215bc6a632",
-      "robotiq.mp4": "d6288b61ba2a6d4d7c94a8de5644b3ea1e83371fffa22cb5ccce49be05aead64",
+      "robotiq.webp": "f8148ffd81ba0744df9e3ad250635b305ab944f2f604ff8b56489b3494b8c9c7",
+      "robotiq-before.webp": "75a996df62b531e4ec42d406adb53ef5b029cbdc6417b6aa85a5373683d28d0c",
+      "robotiq-after.webp": "44be9e8fbd5301f77a8328e37eb57488c828017aa95f00748ec6f8d971a4ec16",
+      "robotiq-contact.webp": "f8148ffd81ba0744df9e3ad250635b305ab944f2f604ff8b56489b3494b8c9c7",
+      "robotiq.mp4": "c81dd76ada36a2a950defaab19f70a60e08e315063525a1103aaf76ab87497fd",
       "robotiq.vtt": "d57b225fb8bcd385a4659aa05b58c1f474ebfa70ff18e8784b96008d63619663",
-      "robotiq.webm": "ca297389963a20786fde41d60cdce4a72255446e02cf2563c9b83a07b09fb72b"
+      "robotiq.webm": "6b58a9e25956d079a1660c09c09fb4a3b5ba6da5e58a42b0c53daaa098891940"
     },
     "video_size": [
       960,
       800
     ],
+    "heatmap_display": {
+      "grid_size_m": [
+        0.014399999572386982,
+        0.033600011796463145
+      ],
+      "extent_basis": "captured taxel spacing, with half a pitch beyond the outer centers",
+      "width_to_height": 0.4285712653798168,
+      "columns_axis": "finger width (left to right)",
+      "rows_axis": "finger length (tip to base)",
+      "resampling": "nearest"
+    },
     "capture": {
       "example": "robotiq",
       "physics_version": "5.1.0.0",

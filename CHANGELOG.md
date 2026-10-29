@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.1.2-a.1 — Unreleased
+## 0.1.3-a.1 — Unreleased
+
+- Render the Robotiq documentation heatmaps at their physical width-to-length
+  ratio from captured taxel spacing, with explicit width/column and length/row
+  labels. Preserve the recorded forces and contact poses.
 
 - Document the ADI-authored rectangular finger assets and the separately
   obtained NVIDIA/Robotiq model in the repository and packaged notices.

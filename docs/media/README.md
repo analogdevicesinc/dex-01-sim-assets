@@ -105,6 +105,9 @@ free 0.1 kg, 10 × 30 × 18 mm rigid body with gravity and damping disabled.
 Its recorded motion is preserved in the video.
 Separate left/right images show the recorded 32 × 32 normal-force arrays
 with one shared scale, and the inset is a synchronized native contact camera.
+The heatmap aspect ratio comes from distances between captured taxel centers.
+Each displayed cell spans one taxel pitch, giving a 14.4 × 33.6 mm grid extent
+(width × length), rather than the full contact face including its border.
 
 The exporter independently checks bilateral hold loads and block momentum
 against normal and friction impulses before accepting the capture.
