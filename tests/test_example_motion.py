@@ -116,7 +116,9 @@ def test_unused_dex01_pixels_cannot_hide_force():
         renderer.validate_motion(manifest, arrays)
 
 
-def test_stationary_press_rejects_moving_wrist():
+@pytest.mark.parametrize("body_index", [0, 1])
+@pytest.mark.parametrize("motion", ["translation", "rotation"])
+def test_stationary_press_rejects_moving_wrist_or_gear(body_index, motion):
     manifest, arrays = grid_capture()
     with np.load(ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz") as p:
         pixels = p["taxel2pixel"]
@@ -128,7 +130,10 @@ def test_stationary_press_rejects_moving_wrist():
     )
     arrays["frames"] = np.zeros((4, 5, 32, 32))
     arrays["taxel2pixel"] = pixels
-    arrays["poses"][2, 0, 0] = 0.001
+    if motion == "translation":
+        arrays["poses"][2, body_index, 0] = 0.001
+    else:
+        arrays["poses"][2, body_index, 3:] = [0, 0, np.sin(0.001 / 2), np.cos(0.001 / 2)]
     with pytest.raises(ValueError, match="wrist"):
         renderer.validate_motion(manifest, arrays)
 
@@ -161,6 +166,65 @@ def robotiq_capture():
 def test_robotiq_capture_preserves_both_contact_images_and_motion():
     manifest, arrays = robotiq_capture()
     renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize("angle_rad, accepted", [(5e-5, True), (2e-4, False)])
+def test_base_rotation_is_checked_in_radians(angle_rad, accepted):
+    manifest, arrays = robotiq_capture()
+    arrays["poses"] = arrays["poses"].astype(np.float32)
+    arrays["poses"][1, 0, 3:] = [0, 0, np.sin(angle_rad / 2), np.cos(angle_rad / 2)]
+    if accepted:
+        renderer.validate_motion(manifest, arrays)
+    else:
+        with pytest.raises(ValueError, match="base rotates"):
+            renderer.validate_motion(manifest, arrays)
+
+
+def test_base_quaternion_sign_and_normalization_roundoff_are_not_motion():
+    manifest, arrays = robotiq_capture()
+    # Exercise a non-identity orientation in the recorded float32 representation.
+    q = np.array([0.2, -0.3, 0.4, 0.5])
+    q /= np.linalg.norm(q)
+    arrays["poses"] = arrays["poses"].astype(np.float32)
+    arrays["poses"][:, 0, 3:] = q
+    arrays["poses"][1, 0, 3:] *= -1
+    arrays["poses"][2, 0, 3:] *= 1 + 1e-6
+    renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize("displacement_m, accepted", [(5e-6, True), (12e-6, False)])
+def test_base_translation_uses_total_displacement_in_metres(displacement_m, accepted):
+    manifest, arrays = robotiq_capture()
+    # Each coordinate alone is below 10 micrometres, but the diagonal may exceed it.
+    arrays["poses"][1, 0, :3] = displacement_m / np.sqrt(3)
+    if accepted:
+        renderer.validate_motion(manifest, arrays)
+    else:
+        with pytest.raises(ValueError, match="base translates"):
+            renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize("released_n, accepted", [(5e-5, True), (2e-4, False)])
+def test_release_threshold_is_applied_to_total_pad_force(released_n, accepted):
+    manifest, arrays = robotiq_capture()
+    arrays["frames"][-1] = released_n / (32 * 32)
+    if accepted:
+        renderer.validate_motion(manifest, arrays)
+    else:
+        with pytest.raises(ValueError, match="unload"):
+            renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize("travel_m, accepted", [(0.0005, False), (0.002, True)])
+def test_jaw_axis_travel_has_a_separate_minimum(travel_m, accepted):
+    manifest, arrays = robotiq_capture()
+    arrays["poses"][2, 2, 1] = travel_m
+    arrays["poses"][2, 3, 1] = -travel_m
+    if accepted:
+        renderer.validate_motion(manifest, arrays)
+    else:
+        with pytest.raises(ValueError, match="fingers do not move"):
+            renderer.validate_motion(manifest, arrays)
 
 
 @pytest.mark.parametrize(

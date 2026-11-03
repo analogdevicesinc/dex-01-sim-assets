@@ -68,30 +68,17 @@ def test_finger_is_one_closed_mesh_and_artifact_identity():
     assert UsdPhysics.MeshCollisionAPI(meshes[0]).GetApproximationAttr().Get() == "sdf"
 
 
-def test_grid_matches_humanoid_directions_and_sensing_surface():
+def test_rectangular_grid_geometry_and_loader():
+    """Check the Robotiq grid's spacing, surface alignment, normals, and buffers."""
     path = PACKAGE / "taxel_patterns/dex01_rectangular.npz"
     with np.load(path, allow_pickle=False) as data:
         assert set(data.files) == {"positions_m", "normals"}
         positions, normals = data["positions_m"], data["normals"]
     assert positions.shape == normals.shape == (32, 32, 3)
     n = np.array([0, np.cos(np.deg2rad(5)), -np.sin(np.deg2rad(5))])
-    tip = np.array([0, np.sin(np.deg2rad(5)), np.cos(np.deg2rad(5))])
-    right = np.cross(tip, n)
-    dr, dc = np.diff(positions, axis=0), np.diff(positions, axis=1)
-    np.testing.assert_allclose(dr, np.broadcast_to(-tip * 0.00105, dr.shape), atol=1e-10)
-    np.testing.assert_allclose(dc, np.broadcast_to(right * 0.00045, dc.shape), atol=1e-10)
+    np.testing.assert_allclose(np.linalg.norm(np.diff(positions, axis=0), axis=-1), 0.00105, atol=1e-10)
+    np.testing.assert_allclose(np.linalg.norm(np.diff(positions, axis=1), axis=-1), 0.00045, atol=1e-10)
     np.testing.assert_allclose(normals, np.broadcast_to(n, normals.shape), atol=1e-10)
-    # Independent reference: mounted humanoid rows go toward its +X base;
-    # front-face columns go toward +Y (viewer's right with the tip pointing up).
-    with np.load(PACKAGE / "taxel_patterns/dex01_contact.npz") as data:
-        poses, cells = data["poses"], data["taxel2pixel"]
-    reference = json.loads((ROOT / "assets/sensors/dex01/reference.json").read_text())
-    q = Gf.Quatd(*reference["mount_rotation_wxyz"])
-    rot = np.array(Gf.Matrix3d(q)).T
-    points = poses[:, :, 3] @ rot.T + reference["mount_translation_m"]
-    lookup = {tuple(cell): p for cell, p in zip(cells, points)}
-    assert np.all(np.diff([lookup[r, 16][0] for r in range(32)]) > 0)
-    assert np.all(np.diff([lookup[25, c][1] for c in range(10, 22)]) > 0)
     vertices, faces, _, regions = BUILDER.load_mesh(ASSET / "finger.obj")
     mesh = trimesh.Trimesh(vertices, faces, process=False)
     _, distances, nearest = trimesh.proximity.closest_point(mesh, positions.reshape(-1, 3))
@@ -102,6 +89,34 @@ def test_grid_matches_humanoid_directions_and_sensing_surface():
     np.testing.assert_array_equal(pixels.reshape(32, 32, 2), np.stack(np.indices((32, 32)), axis=-1))
     np.testing.assert_allclose(np.linalg.det(axes.numpy()), 1.0, atol=1e-6)
     np.testing.assert_allclose(axes[:, :, 2].reshape(32, 32, 3), normals, atol=1e-6)
+
+
+def test_rectangular_and_humanoid_grids_share_anatomical_indexing():
+    """Both use rows tip-to-base and columns left-to-right, in their own frames."""
+    # Robotiq: the planar contact face is inclined in the finger's local YZ plane.
+    with np.load(PACKAGE / "taxel_patterns/dex01_rectangular.npz", allow_pickle=False) as data:
+        rectangular_positions = data["positions_m"]
+    rectangular_normal = np.array([0, np.cos(np.deg2rad(5)), -np.sin(np.deg2rad(5))])
+    rectangular_tip = np.array([0, np.sin(np.deg2rad(5)), np.cos(np.deg2rad(5))])
+    rectangular_right = np.cross(rectangular_tip, rectangular_normal)
+    row_steps = np.diff(rectangular_positions, axis=0)
+    column_steps = np.diff(rectangular_positions, axis=1)
+    np.testing.assert_allclose(row_steps, np.broadcast_to(-rectangular_tip * 0.00105, row_steps.shape), atol=1e-10)
+    np.testing.assert_allclose(
+        column_steps, np.broadcast_to(rectangular_right * 0.00045, column_steps.shape), atol=1e-10
+    )
+
+    # Humanoid: transform its curved layout into the mounted finger frame.
+    # There, +X points toward the base and +Y is the viewer's right on the front face.
+    with np.load(PACKAGE / "taxel_patterns/dex01_contact.npz", allow_pickle=False) as data:
+        humanoid_poses, humanoid_cells = data["poses"], data["taxel2pixel"]
+    reference = json.loads((ROOT / "assets/sensors/dex01/reference.json").read_text())
+    q = Gf.Quatd(*reference["mount_rotation_wxyz"])
+    rot = np.array(Gf.Matrix3d(q)).T
+    humanoid_points = humanoid_poses[:, :, 3] @ rot.T + reference["mount_translation_m"]
+    lookup = {tuple(cell): point for cell, point in zip(humanoid_cells, humanoid_points)}
+    assert np.all(np.diff([lookup[r, 16][0] for r in range(32)]) > 0)
+    assert np.all(np.diff([lookup[25, c][1] for c in range(10, 22)]) > 0)
 
 
 def test_rectangular_grid_rejects_bad_normals(tmp_path):

@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.1.3-a.1 — Unreleased
+## 0.1.4-a.1 — Unreleased
+
+- Give recorded-example validation thresholds explicit meanings and units.
+  Check stationary bodies using displacement in metres and orientation change
+  in radians, accepting equivalent quaternion signs.
 
 - Render the Robotiq documentation heatmaps at their physical width-to-length
   ratio from captured taxel spacing, with explicit width/column and length/row

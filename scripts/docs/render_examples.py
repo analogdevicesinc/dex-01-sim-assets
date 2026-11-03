@@ -25,6 +25,43 @@ import tempfile
 from importlib.metadata import version
 from pathlib import Path
 
+# Acceptance criteria for the recorded examples, not sensor or solver settings.
+MIN_HOLD_FORCE_N = 0.1
+RELEASE_FORCE_TOLERANCE_N = 1e-4
+HOLD_FORCE_DIFFERENCE_TOLERANCE_N = 0.1
+STATIONARY_TRANSLATION_TOLERANCE_M = 1e-5
+STATIONARY_ROTATION_TOLERANCE_RAD = 1e-4
+MIN_JAW_AXIS_TRAVEL_M = 1e-3
+QUATERNION_NORM_TOLERANCE = 1e-5  # Dimensionless normalization check.
+
+# Close-up camera eye offsets from the counter-object's center, in metres.
+# Hand/Robotiq offsets use world axes; stationary-press rotates its offset
+# with the counter-object below. The Robotiq preset uses a greater camera
+# stand-off to frame the larger block and both fingers.
+CONTACT_CAMERA_OFFSETS_M = {
+    "hand": (-0.025, -0.035, 0.045),
+    "stationary-press": (-0.025, -0.035, 0.045),
+    "robotiq": (-0.080, -0.030, 0.040),
+}
+
+
+def validate_stationary_body(poses, description):
+    """Check displacement and shortest rotation from the first captured pose."""
+    import numpy as np
+
+    # Normalize in float64 so quaternion roundoff does not masquerade as motion.
+    poses = np.asarray(poses, dtype=np.float64)
+    displacement_m = np.linalg.norm(poses[:, :3] - poses[0, :3], axis=-1)
+    quaternions = poses[:, 3:]
+    quaternions = quaternions / np.linalg.norm(quaternions, axis=-1, keepdims=True)
+    # q and -q encode the same orientation.
+    dots = np.abs(quaternions @ quaternions[0]).clip(0.0, 1.0)
+    rotation_rad = 2 * np.arccos(dots)
+    if displacement_m.max() > STATIONARY_TRANSLATION_TOLERANCE_M:
+        raise ValueError(f"{description} translates during capture")
+    if rotation_rad.max() > STATIONARY_ROTATION_TOLERANCE_RAD:
+        raise ValueError(f"{description} rotates during capture")
+
 
 def validate_motion(manifest, arrays):
     """Reject invalid timing, frame mapping, or unverified motion before rendering."""
@@ -38,7 +75,9 @@ def validate_motion(manifest, arrays):
         raise ValueError("Incomplete recorded timeline")
     if not np.isfinite(poses).all() or not np.isfinite(frames).all() or not np.isfinite(times).all():
         raise ValueError("Nonfinite captured data")
-    if (frames < 0).any() or not np.allclose(np.linalg.norm(poses[..., 3:], axis=-1), 1, atol=1e-5):
+    if (frames < 0).any() or not np.allclose(
+        np.linalg.norm(poses[..., 3:], axis=-1), 1, atol=QUATERNION_NORM_TOLERANCE
+    ):
         raise ValueError("Invalid physical forces or body orientations")
     expected_interval = manifest["physics_dt_s"] * manifest["capture_stride"]
     if not np.allclose(np.diff(times), expected_interval, rtol=0, atol=1e-9):
@@ -56,25 +95,25 @@ def validate_motion(manifest, arrays):
             raise ValueError("Expected one complete captured press cycle")
         for name in ["/World/envs/env_0/Robot/rl_dg_mount", "/World/envs/env_0/Asset/factory_gear_medium"]:
             index = manifest["body_paths"].index(name)
-            if np.ptp(poses[:, index], axis=0).max() > 1e-5:
-                raise ValueError("The wrist or stationary gear moves during the captured press")
+            validate_stationary_body(poses[:, index], "The wrist or stationary gear")
     if manifest["example"] == "robotiq":
         phases = np.array(manifest["phases"])
         if set(phases) != {"open", "closing", "hold", "opening", "released"}:
             raise ValueError("Expected a complete gripper grasp/hold/release cycle")
         loads = frames.sum(axis=(2, 3))
-        if (loads[phases == "hold"] <= 0.1).any() or (loads[phases == "released"] > 1e-4).any():
+        if (loads[phases == "hold"] <= MIN_HOLD_FORCE_N).any() or (
+            loads[phases == "released"] > RELEASE_FORCE_TOLERANCE_N
+        ).any():
             raise ValueError("Both gripper pads must load during hold and unload after release")
-        if np.abs(loads[phases == "hold", 0] - loads[phases == "hold", 1]).max() > 0.1:
+        if np.abs(loads[phases == "hold", 0] - loads[phases == "hold", 1]).max() > HOLD_FORCE_DIFFERENCE_TOLERANCE_N:
             raise ValueError("Captured gripper hold forces are imbalanced")
         for path in ["/World/envs/env_0/Robot/Robotiq_2F_85/base_link"]:
             index = manifest["body_paths"].index(path)
-            if np.ptp(poses[:, index], axis=0).max() > 1e-5:
-                raise ValueError("The gripper base moves during capture")
+            validate_stationary_body(poses[:, index], "The gripper base")
         for side in ["left", "right"]:
             path = f"/World/envs/env_0/Robot/Robotiq_2F_85/{side}_inner_finger"
             index = manifest["body_paths"].index(path)
-            if np.ptp(poses[:, index, :3], axis=0).max() < 0.001:
+            if np.ptp(poses[:, index, :3], axis=0).max() < MIN_JAW_AXIS_TRAVEL_M:
                 raise ValueError("The captured gripper fingers do not move")
         if not manifest.get("grasp_report_verified"):
             raise ValueError("Missing independently checked gripper contact report")
@@ -304,21 +343,19 @@ def render(capture, output, manifest, app):
             apply_body_poses(stage, manifest["body_paths"], poses[index], geometry["body_scales"])
             if detail_rgb is not None:
                 mesh_index, mesh_entry = contact_mesh
-                gear_world = transform_points(
+                contact_points_w = transform_points(
                     np.asarray(UsdGeom.Mesh(stage.GetPrimAtPath(mesh_entry["path"])).GetPointsAttr().Get()),
                     UsdGeom.XformCache().GetLocalToWorldTransform(stage.GetPrimAtPath(mesh_entry["path"])),
                 )
-                center = (gear_world.min(0) + gear_world.max(0)) / 2
+                center = (contact_points_w.min(0) + contact_points_w.max(0)) / 2
                 detail_target = Gf.Vec3d(*map(float, center))
-                detail_offset = np.array(
-                    [-0.080, -0.030, 0.040] if manifest["example"] == "robotiq" else [-0.025, -0.035, 0.045]
-                )
+                camera_offset_m = np.array(CONTACT_CAMERA_OFFSETS_M[manifest["example"]])
                 if manifest["example"] == "stationary-press":
                     # View the contact face obliquely in its own frame. A fixed
                     # world offset grazes the bent pad and hides the contact.
                     rotation = np.asarray(pose_matrix(poses[index, mesh_entry["body_index"]]))[:3, :3]
-                    detail_offset = detail_offset @ rotation
-                detail_eye = Gf.Vec3d(*map(float, center + detail_offset))
+                    camera_offset_m = camera_offset_m @ rotation
+                detail_eye = Gf.Vec3d(*map(float, center + camera_offset_m))
                 detail_op.Set(Gf.Matrix4d(1).SetLookAt(detail_eye, detail_target, Gf.Vec3d(0, 0, 1)).GetInverse())
             for _ in range(2):
                 app.update()
