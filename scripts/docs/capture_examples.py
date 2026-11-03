@@ -30,15 +30,17 @@ import sys
 import tempfile
 import traceback
 from pathlib import Path
+from types import SimpleNamespace
 
 PRESETS = {
     "flat-pad": ("simple_example.py", 100, 2, 0),
     "hand": ("dex01_on_tesollo_dg5f.py", 1200, 12, 0),
     "stationary-press": ("dex01_on_tesollo_dg5f.py", 900, 4, 600),
+    "robotiq": ("dex01_on_robotiq_2f85.py", 1440, 8, 0),
 }
 
 
-def simulation_source_hashes(repo):
+def simulation_source_hashes(repo, example=None):
     """Identify the actual simulation inputs, including uncommitted runtime edits."""
     package = repo / "source/dex01_sim_asset/dex01_sim_asset"
     paths = list(package.rglob("*.py")) + list(package.rglob("*.npz"))
@@ -56,6 +58,16 @@ def simulation_source_hashes(repo):
             "assets/sensors/dex01/reference.json",
         )
     ]
+    if example == "robotiq":
+        paths += [
+            repo / name
+            for name in (
+                "scripts/dex01_on_robotiq_2f85.py",
+                "scripts/build_robotiq_asset.py",
+                "assets/robots/robotiq_2f85/finger.usda",
+                "assets/robots/robotiq_2f85/reference.json",
+            )
+        ]
     return {str(path.relative_to(repo)): hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(paths)}
 
 
@@ -100,16 +112,30 @@ def main():
     print(f"Verified {args.example} example capture: {output}", flush=True)
 
 
-def capture(example, output):
-    repo = Path(__file__).resolve().parents[2]
-    demo_name, max_steps, stride, start = PRESETS[example]
-    sys.path.insert(0, str(repo / "scripts"))
-    output.mkdir(parents=True, exist_ok=True)
+def load_example(repo, example, output):
+    """Initialize each example's application before importing simulator modules."""
+    demo_name, max_steps, _, _ = PRESETS[example]
     sys.argv = [str(repo / "scripts" / demo_name), "--headless", "--max-steps", str(max_steps)]
     if example == "stationary-press":
         sys.argv += ["--stationary-press", "--verification-report", str(output / "press-report.json")]
     # Definitions and AppLauncher run, but the demo's standalone block does not.
     module = runpy.run_path(sys.argv[0], run_name="_docs_video_capture")
+    if example == "robotiq":
+        from isaaclab.app import AppLauncher
+
+        launcher = AppLauncher({"headless": True, "device": "cuda:0"})
+        module["simulation_app"] = launcher.app
+    return module
+
+
+def capture(example, output):
+    repo = Path(__file__).resolve().parents[2]
+    demo_name, max_steps, stride, start = PRESETS[example]
+    sys.path.insert(0, str(repo / "scripts"))
+    sys.path.insert(0, str(repo / "source/dex01_sim_asset"))
+    output.mkdir(parents=True, exist_ok=True)
+    module = load_example(repo, example, output)
+    robotiq_report = {"status": "running", "observations": []}
     from importlib.metadata import version
 
     import dex01_sim_asset
@@ -123,7 +149,7 @@ def capture(example, output):
         raise RuntimeError("Documentation example captures require the validated Isaac Sim 5.1.0.0 runtime")
     if Path(dex01_sim_asset.__file__).resolve().parent != repo / "source/dex01_sim_asset/dex01_sim_asset":
         raise RuntimeError("The simulator imported dex01_sim_asset from another checkout")
-    source_hashes = simulation_source_hashes(repo)
+    source_hashes = simulation_source_hashes(repo, example)
     original_update = InteractiveScene.update
     recorded = []
     paths, reference_stage, dt = None, None, None
@@ -134,13 +160,18 @@ def capture(example, output):
         nonlocal paths, reference_stage, dt, pixels, labels, meshes, geometry
         original_update(scene, time_step, *args, **kwargs)
         caller = inspect.currentframe().f_back
-        if caller.f_code.co_name not in {"main", "run_simulator", "run_articulated_press"}:
+        if caller.f_code.co_name not in {"main", "run", "run_simulator", "run_articulated_press"}:
             return
         step = caller.f_locals.get("step")
         if step is None or step < start or step % stride or step >= max_steps:
             return
         dt = time_step
-        sensors = [scene["sensor"]] if example == "flat-pad" else [scene[f"finger{i}_sensor"] for i in range(1, 6)]
+        if example == "flat-pad":
+            sensors = [scene["sensor"]]
+        elif example == "robotiq":
+            sensors = [scene["left_sensor"], scene["right_sensor"]]
+        else:
+            sensors = [scene[f"finger{i}_sensor"] for i in range(1, 6)]
         current = {}
         if example == "flat-pad":
             pad = scene["finger_pad"]
@@ -152,12 +183,16 @@ def capture(example, output):
             for i, name in enumerate(robot.body_names):
                 position = robot.data.body_pos_w[0, i].cpu().numpy()
                 quat = robot.data.body_quat_w[0, i].cpu().numpy()
-                current[f"/World/envs/env_0/Robot/{name}"] = np.concatenate([position, quat[[1, 2, 3, 0]]])
-            view = scene["asset"].root_physx_view
+                prefix = "/World/envs/env_0/Robot/Robotiq_2F_85" if example == "robotiq" else "/World/envs/env_0/Robot"
+                current[f"{prefix}/{name}"] = np.concatenate([position, quat[[1, 2, 3, 0]]])
+            view = scene["block" if example == "robotiq" else "asset"].root_physx_view
             for path, pose in zip(view.prim_paths, view.get_transforms().cpu().numpy()):
                 current[path] = pose
-            for i, sensor in enumerate(sensors, 1):
-                current[f"/World/envs/env_0/Robot/rl_dg_{i}_sensor"] = sensor._view.get_transforms()[0].cpu().numpy()
+            if example != "robotiq":
+                for i, sensor in enumerate(sensors, 1):
+                    current[f"/World/envs/env_0/Robot/rl_dg_{i}_sensor"] = (
+                        sensor._view.get_transforms()[0].cpu().numpy()
+                    )
         frames = []
         totals = []
         for sensor in sensors:
@@ -176,7 +211,9 @@ def capture(example, output):
             paths = list(current)
             meshes, geometry = capture_geometry(reference_stage, paths)
             pixels = sensors[0].taxel2pixel.cpu().numpy()
-            labels = ["Pad"] if example == "flat-pad" else [f"Finger {i}" for i in range(1, 6)]
+            labels = {"flat-pad": ["Pad"], "robotiq": ["Left", "Right"]}.get(
+                example, [f"Finger {i}" for i in range(1, 6)]
+            )
         if set(paths) != set(current):
             raise RuntimeError("Rigid body set changed during capture")
         phase = caller.f_locals.get("phase", "drop / contact")
@@ -194,8 +231,26 @@ def capture(example, output):
 
     InteractiveScene.update = record
     try:
-        module["main"]()
-        if simulation_source_hashes(repo) != source_hashes:
+        if example == "robotiq":
+            config = SimpleNamespace(
+                device="cuda:0",
+                gripper_usd=None,
+                asset_root=None,
+                max_steps=max_steps,
+                num_envs=1,
+                debug_vis=False,
+                no_tactile_ui=True,
+                headless=True,
+                livestream=0,
+            )
+            module["run"](config, module["simulation_app"], robotiq_report)
+            robotiq_report["status"] = "complete"
+            report_path = output / "grasp-report.json"
+            report_path.write_text(json.dumps(robotiq_report, indent=2) + "\n")
+            module["check_report"](report_path)
+        else:
+            module["main"]()
+        if simulation_source_hashes(repo, example) != source_hashes:
             raise RuntimeError("Simulation sources changed during capture; rerun with stable inputs")
         if not recorded:
             raise RuntimeError("No physical example frames captured")
@@ -240,6 +295,9 @@ def capture(example, output):
             "hold_pacing_s": 0.0,
             "files": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in output.iterdir() if p.is_file()},
         }
+        if example == "robotiq":
+            manifest["resolved_gripper_asset"] = robotiq_report["resolved_gripper_asset"]
+            manifest["grasp_report_verified"] = True
         (output / "capture.json").write_text(json.dumps(manifest, indent=2) + "\n")
         print(f"Captured {len(recorded)} {example} frames with exact matching force data", flush=True)
     except BaseException:

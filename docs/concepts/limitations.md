@@ -22,6 +22,12 @@ cancel. It is not a sum of individually measured local contact forces.
 
 ## Dynamics and geometry
 
+Compliant rigid contact is a numerical approximation: its effective stiffness
+depends on the sampled contact manifold. A fixed counter object can support
+unequal reaction forces. The Robotiq grasp example uses a free rigid block and
+checks both bilateral loads and force/momentum balance; this does not identify
+the sensor's physical material properties.
+
 The current interface reports normal forces. Shear and material hysteresis
 require a different model. Contact stiffness, damping, timestep, and actuator
 gains are configured simulation parameters; see [numerical settings](../reference/numerical-settings.md).

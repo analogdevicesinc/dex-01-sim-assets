@@ -116,7 +116,9 @@ def test_unused_dex01_pixels_cannot_hide_force():
         renderer.validate_motion(manifest, arrays)
 
 
-def test_stationary_press_rejects_moving_wrist():
+@pytest.mark.parametrize("body_index", [0, 1])
+@pytest.mark.parametrize("motion", ["translation", "rotation"])
+def test_stationary_press_rejects_moving_wrist_or_gear(body_index, motion):
     manifest, arrays = grid_capture()
     with np.load(ROOT / "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_pattern.npz") as p:
         pixels = p["taxel2pixel"]
@@ -128,9 +130,164 @@ def test_stationary_press_rejects_moving_wrist():
     )
     arrays["frames"] = np.zeros((4, 5, 32, 32))
     arrays["taxel2pixel"] = pixels
-    arrays["poses"][2, 0, 0] = 0.001
+    if motion == "translation":
+        arrays["poses"][2, body_index, 0] = 0.001
+    else:
+        arrays["poses"][2, body_index, 3:] = [0, 0, np.sin(0.001 / 2), np.cos(0.001 / 2)]
     with pytest.raises(ValueError, match="wrist"):
         renderer.validate_motion(manifest, arrays)
+
+
+def robotiq_capture():
+    manifest, arrays = grid_capture()
+    manifest.update(
+        example="robotiq",
+        frame_count=5,
+        labels=["Left", "Right"],
+        body_paths=[
+            "/World/envs/env_0/Robot/Robotiq_2F_85/base_link",
+            "/World/envs/env_0/Block",
+            "/World/envs/env_0/Robot/Robotiq_2F_85/left_inner_finger",
+            "/World/envs/env_0/Robot/Robotiq_2F_85/right_inner_finger",
+        ],
+        phases=["open", "closing", "hold", "opening", "released"],
+        grasp_report_verified=True,
+    )
+    arrays["poses"] = np.zeros((5, 4, 7))
+    arrays["poses"][..., 6] = 1
+    arrays["poses"][2, 2, 1] = 0.01
+    arrays["poses"][2, 3, 1] = -0.01
+    arrays["simulation_time_s"] = np.arange(5) / 60
+    arrays["frames"] = np.zeros((5, 2, 32, 32))
+    arrays["frames"][2, :, 12, 15] = 2.0
+    return manifest, arrays
+
+
+def test_robotiq_capture_preserves_both_contact_images_and_motion():
+    manifest, arrays = robotiq_capture()
+    renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize("angle_rad, accepted", [(5e-5, True), (2e-4, False)])
+def test_base_rotation_is_checked_in_radians(angle_rad, accepted):
+    manifest, arrays = robotiq_capture()
+    arrays["poses"] = arrays["poses"].astype(np.float32)
+    arrays["poses"][1, 0, 3:] = [0, 0, np.sin(angle_rad / 2), np.cos(angle_rad / 2)]
+    if accepted:
+        renderer.validate_motion(manifest, arrays)
+    else:
+        with pytest.raises(ValueError, match="base rotates"):
+            renderer.validate_motion(manifest, arrays)
+
+
+def test_base_quaternion_sign_and_normalization_roundoff_are_not_motion():
+    manifest, arrays = robotiq_capture()
+    # Exercise a non-identity orientation in the recorded float32 representation.
+    q = np.array([0.2, -0.3, 0.4, 0.5])
+    q /= np.linalg.norm(q)
+    arrays["poses"] = arrays["poses"].astype(np.float32)
+    arrays["poses"][:, 0, 3:] = q
+    arrays["poses"][1, 0, 3:] *= -1
+    arrays["poses"][2, 0, 3:] *= 1 + 1e-6
+    renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize("displacement_m, accepted", [(5e-6, True), (12e-6, False)])
+def test_base_translation_uses_total_displacement_in_metres(displacement_m, accepted):
+    manifest, arrays = robotiq_capture()
+    # Each coordinate alone is below 10 micrometres, but the diagonal may exceed it.
+    arrays["poses"][1, 0, :3] = displacement_m / np.sqrt(3)
+    if accepted:
+        renderer.validate_motion(manifest, arrays)
+    else:
+        with pytest.raises(ValueError, match="base translates"):
+            renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize("released_n, accepted", [(5e-5, True), (2e-4, False)])
+def test_release_threshold_is_applied_to_total_pad_force(released_n, accepted):
+    manifest, arrays = robotiq_capture()
+    arrays["frames"][-1] = released_n / (32 * 32)
+    if accepted:
+        renderer.validate_motion(manifest, arrays)
+    else:
+        with pytest.raises(ValueError, match="unload"):
+            renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize("travel_m, accepted", [(0.0005, False), (0.002, True)])
+def test_jaw_axis_travel_has_a_separate_minimum(travel_m, accepted):
+    manifest, arrays = robotiq_capture()
+    arrays["poses"][2, 2, 1] = travel_m
+    arrays["poses"][2, 3, 1] = -travel_m
+    if accepted:
+        renderer.validate_motion(manifest, arrays)
+    else:
+        with pytest.raises(ValueError, match="fingers do not move"):
+            renderer.validate_motion(manifest, arrays)
+
+
+@pytest.mark.parametrize(
+    "fault",
+    ["missing_phase", "unloaded_pad", "loaded_release", "moving_base", "stationary_jaw", "missing_report", "imbalance"],
+)
+def test_robotiq_capture_rejects_misleading_evidence(fault):
+    manifest, arrays = robotiq_capture()
+    if fault == "missing_phase":
+        manifest["phases"][0] = "closing"
+    elif fault == "unloaded_pad":
+        arrays["frames"][2, 1] = 0
+    elif fault == "loaded_release":
+        arrays["frames"][-1, 0, 12, 15] = 1
+    elif fault == "moving_base":
+        arrays["poses"][1, 0, 0] = 0.01
+    elif fault == "stationary_jaw":
+        arrays["poses"][:, 2, :3] = 0
+    elif fault == "imbalance":
+        arrays["frames"][2, 0, 12, 15] = 2.6
+    else:
+        manifest["grasp_report_verified"] = False
+    with pytest.raises(ValueError):
+        renderer.validate_motion(manifest, arrays)
+
+
+def test_robotiq_composite_places_left_and_right_frames_separately():
+    manifest, arrays = robotiq_capture()
+    manifest["force_scale_n"] = 2.0
+    manifest["grid_size_m"] = [0.0144, 0.0336]
+    frames = arrays["frames"][2].copy()
+    frames[1] = 0
+    output = np.asarray(
+        renderer.composite(
+            np.full((540, 960, 3), 100, dtype=np.uint8),
+            frames,
+            arrays["taxel2pixel"],
+            manifest,
+            2,
+            0.04,
+            1,
+        )
+    )
+    left = output[607:747, 265:325]
+    right = output[607:747, 565:625]
+    assert not np.array_equal(left, right)
+    # The rectangular grid is taller than it is wide; square raster cells
+    # would distort the physical footprint even though both axes have 32 samples.
+    assert np.all(output[607:747, 325] == 255)
+    active = np.argwhere(left[..., 0] > 200)
+    assert active[:, 0].min() == pytest.approx(12 * 140 / 32, abs=1)
+    assert active[:, 1].min() == pytest.approx(15 * 60 / 32, abs=1)
+
+
+def test_rectangular_display_size_uses_surface_distances_and_pixel_mapping():
+    rows, columns = np.indices((4, 6))
+    grid = np.stack((columns * 0.002, rows * 0.005, np.zeros_like(rows)), axis=-1)
+    angle = np.deg2rad(35)
+    rotation = np.array([[1, 0, 0], [0, np.cos(angle), -np.sin(angle)], [0, np.sin(angle), np.cos(angle)]])
+    points = grid.reshape(-1, 3) @ rotation.T + [0.1, 0.2, 0.3]
+    pixels = np.stack((rows, columns), axis=-1).reshape(-1, 2)
+    order = np.arange(len(points))[::-1]
+    assert renderer.rectangular_grid_size(points[order], pixels[order], (4, 6)) == pytest.approx([0.012, 0.020])
 
 
 def test_old_capture_without_geometry_is_rejected(tmp_path, monkeypatch):

@@ -1,0 +1,5 @@
+newmtl finger_body
+Kd 0.55 0.59 0.63
+
+newmtl tactile_surface
+Kd 0.973 0.529 0.004

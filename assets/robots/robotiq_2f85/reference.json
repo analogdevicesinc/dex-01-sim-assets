@@ -1,0 +1,39 @@
+{
+  "exterior_path": "assets/robots/robotiq_2f85/finger.obj",
+  "exterior_sha256": "b4c20142b8bd200542dfe3de972201cbef906386909d8cdd435c0d1ef13fef78",
+  "pattern_path": "source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/dex01_rectangular.npz",
+  "pattern_sha256": "2a61c679663290901e8d15d66e2926b5aaa5bbfd4eaf0a99e8f3bdb806854f92",
+  "finger_axes": {
+    "x": "across width",
+    "y": "toward contact face",
+    "z": "toward fingertip"
+  },
+  "grid_shape": [
+    32,
+    32
+  ],
+  "row_direction": "tip to base",
+  "column_direction": "left to right, contact face toward viewer, tip up",
+  "row_pitch_m": 0.00105,
+  "column_pitch_m": 0.00045,
+  "rectangle_dimensions_m": [
+    0.037,
+    0.016
+  ],
+  "units": "metres",
+  "triangles": 22936,
+  "bounds_m": [
+    [
+      -0.0135,
+      -0.0070000000000001,
+      0.0
+    ],
+    [
+      0.0135,
+      0.02459046307831161,
+      0.07187962091446067
+    ]
+  ],
+  "volume_m3": 2.346150258497442e-05,
+  "max_taxel_surface_error_m": 1.5521898148890684e-17
+}

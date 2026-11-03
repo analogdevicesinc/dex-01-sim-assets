@@ -12,7 +12,7 @@ Construct it with `TactileSensorCfg` through your scene configuration.
 | Interface | Result |
 |---|---|
 | `data` | Updated `TactileSensorData` buffers |
-| `num_taxels` | Number of sample points; 740 for the supplied DEX-01 layout |
+| `num_taxels` | Number of sample points; 740 for the humanoid layout, 1,024 for the rectangular layout |
 | `taxel2pixel` | Integer `(row, column)` pairs in taxel order |
 | `get_tactile_image()` | Force frame `(environments, height, width)`; DEX-01 uses 32 × 32 |
 
@@ -73,6 +73,8 @@ PhysX contact force. The pattern decides the image dimensions; DEX-01 is
 
 `GridPatternCfg` creates a flat sampling grid. `CustomPatternCfg` reads NPZ
 poses and pixel mappings. `Dex01PatternCfg` selects the supplied DEX-01 layout.
+`RectangularDex01PatternCfg` loads the Robotiq finger's `(32,32,3)` position
+and normal arrays and preserves their physical row/column indexing.
 See [pattern file format](../guides/patterns.md).
 
 Source definitions remain authoritative; changes to these interfaces must

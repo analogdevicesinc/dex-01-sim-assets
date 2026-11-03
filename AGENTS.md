@@ -9,7 +9,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution and licensing rules,
 - `source/dex01_sim_asset/` contains the sensor package and release metadata.
   `assets/` contains sensor geometry and mounted Tesollo USDs. `scripts/`
   contains builders, examples, verification, and documentation tools.
-- SDK, firmware, and CAD sources inform the simulation assets. Change this
+- Engineering sources inform the simulation assets. Change this
   repository unless the task explicitly includes an upstream modification.
 - Follow the coordinate conventions in [geometry documentation](docs/concepts/geometry.md).
   Preserve physical scale through mounting, articulation, capture, and rendering.
@@ -18,11 +18,32 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution and licensing rules,
   pixel mapping; do not duplicate their counts or frame dimensions here.
 - Follow the schema and validation in
   [taxel_patterns.py](source/dex01_sim_asset/dex01_sim_asset/taxel_patterns/taxel_patterns.py).
-  Check firmware addresses against [asset tests](tests/test_dex01_assets.py).
+  Check taxel indexing against [asset tests](tests/test_dex01_assets.py).
   Preserve mapping order, zero-filled unused cells, and exterior alignment.
 - Preserve force conservation, counter-object filtering, and environment
   isolation. Materialize LFS assets before use and update generated assets
   and their hashes together.
+
+## Confidential source inputs — absolute rule
+
+- Never copy, stage, commit, or publish trade secrets or other internal or
+  confidential source material in this repository, including Git LFS,
+  documentation, test fixtures, generated bundles, and Git-managed stashes or
+  backups. This is an absolute prohibition.
+- Receiving an attachment or permission to inspect a file does not authorize
+  its inclusion or redistribution. Keep private engineering inputs outside the
+  checkout and Git storage; include only explicitly approved, sanitized derived
+  simulation assets.
+- Do not expose private source contents, internal identifiers, or unnecessary
+  source metadata through conversion scripts, asset metadata, examples, or
+  provenance. Removing or renaming a source file does not authorize publication
+  of its details. Public builds and CI must work from the approved artifacts
+  without requiring private inputs.
+- Audit added files and generated outputs before staging. Native STEP/STP/DXF
+  inputs are blocked by the repository's public-asset check. Gitignore or Git LFS
+  is not a confidentiality boundary.
+- If classification or permission to publish is unclear, keep the material out
+  and ask its owner before adding it.
 
 ## Validation
 
