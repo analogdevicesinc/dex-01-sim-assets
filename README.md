@@ -1,8 +1,8 @@
 # DEX-01 Tactile Sensor
 
-**Tactile contact simulation for NVIDIA Isaac Lab.** A physically scaled DEX-01
-fingertip on the Tesollo DG-5F hand, with normal-force sensing mapped into
-the sensor's firmware frame.
+**Tactile contact simulation for NVIDIA Isaac Lab and MuJoCo.** A physically
+scaled DEX-01 fingertip on the Tesollo DG-5F hand, with normal-force sensing
+mapped into the sensor's firmware frame.
 
 ![PhysX hand simulation with all five mounted DEX-01 fingertips and tactile frames](docs/media/dex01-demo.webp)
 
@@ -12,6 +12,7 @@ force in newtons. [Figure provenance](docs/media/README.md).*
 [![CI](https://github.com/analogdevicesinc/dex-01-sim-assets/actions/workflows/ci.yml/badge.svg)](https://github.com/analogdevicesinc/dex-01-sim-assets/actions/workflows/ci.yml)
 [![Documentation](https://github.com/analogdevicesinc/dex-01-sim-assets/actions/workflows/docs.yml/badge.svg)](https://analogdevicesinc.github.io/dex-01-sim-assets/)
 [![Isaac Sim 5.1.0](https://img.shields.io/badge/Isaac_Sim-5.1.0-76b900)](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/)
+[![MuJoCo 3.17](https://img.shields.io/badge/MuJoCo-3.17-2a6db0)](scripts/mujoco/README.md)
 [![License Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
 [**Documentation**](https://analogdevicesinc.github.io/dex-01-sim-assets/) ·
@@ -25,6 +26,8 @@ force in newtons. [Figure provenance](docs/media/README.md).*
 - Read **740 contact samples** as a **32 × 32 firmware-mapped force frame**.
 - Explore contact on a Tesollo hand or a flat pad, with live tactile heatmaps,
   remote WebRTC viewing, and camera recordings.
+- Run the same sensor model and examples in **MuJoCo** on a CPU, without
+  Isaac Sim or an NVIDIA GPU.
 - Check normal-force balance with a known **0.981 N** load and run geometry,
   contact, and mapping verification.
 
@@ -60,6 +63,30 @@ may request NVIDIA's EULA, download extensions, and compile shaders.
 See [installation options](docs/getting-started/installation.md),
 [remote viewing](docs/getting-started/installation.md#view-a-remote-simulation), and
 [known-load validation](docs/validation.md). The gear is not a calibration load.
+
+## Run in MuJoCo
+
+![MuJoCo hand simulation with a 0.1 kg gear on finger 2 and the five tactile frames](docs/media/mujoco-hand.webp)
+
+*The MuJoCo port: a 0.1 kg gear rests on finger 2, which reports 0.981 N; the
+other fingers read zero.*
+
+The `dex01_mujoco` package ports the sensor model and all three examples to
+MuJoCo 3.17. It needs Python 3.11, Git LFS and uv, but no Isaac Sim, Isaac Lab
+or NVIDIA GPU. The hand MJCF is generated from the same USD asset on first use.
+
+```bash
+git lfs pull
+uv venv --python 3.11 ../env_dex01_mujoco
+source ../env_dex01_mujoco/bin/activate
+uv pip install -e source/dex01_mujoco
+python scripts/mujoco/dex01_on_tesollo_dg5f.py
+```
+
+The MuJoCo viewer and a heatmap window open, and the gear rests on fingers 2–5
+in turn. See the [MuJoCo examples](scripts/mujoco/README.md) for the flat-pad
+and stationary-press scenes, headless runs and how the port differs from the
+Isaac Lab model.
 
 ## Contribute and license
 
