@@ -28,6 +28,7 @@ import mujoco
 import mujoco.viewer
 import numpy as np
 from dex01_mujoco import TactileSensor, dex01_mount, dex01_pattern
+from dex01_mujoco.figures import camera, save_figure
 from dex01_mujoco.scenes import gear_body_xml, hand_scene
 from dex01_mujoco.viewer import TactileHeatmaps, draw_taxels
 
@@ -37,6 +38,8 @@ parser.add_argument(
     "--max-steps", type=int, default=0, help="Stop after this many physics steps (0 runs until closed)."
 )
 parser.add_argument("--no-tactile-ui", action="store_true", help="Hide the heatmap window.")
+parser.add_argument("--figure", type=Path, help="Save a still render with the tactile frames to this image.")
+parser.add_argument("--figure-time", type=float, default=1.2, help="Simulation time of the --figure still (s).")
 parser.add_argument("--flat-indenter", action="store_true", help="Use a 6 mm cube instead of the gear.")
 parser.add_argument("--verification-report", type=Path, help="Write per-step forces and settled-load checks as JSON.")
 args = parser.parse_args()
@@ -106,7 +109,7 @@ def main():
         viewer.cam.distance, viewer.cam.elevation, viewer.cam.azimuth = 0.16, -45, 0
 
     observations, settled = [], {f: [] for f in PRESSED_FINGERS}
-    step = 0
+    step, figure_saved = 0, False
     wall_start = time.perf_counter()
     while viewer is None or viewer.is_running():
         cycle_step = step % (steps_per_finger * len(PRESSED_FINGERS))
@@ -120,6 +123,25 @@ def main():
         for sensor in sensors:
             sensor.update(data)
         step += 1
+        if args.figure and not figure_saved and data.time >= args.figure_time:
+            lookat = np.mean([data.xpos[s.sensor_body] for s in sensors], axis=0)
+            label = "6 mm cube" if args.flat_indenter else "gear"
+            print(
+                "Saved",
+                save_figure(
+                    args.figure,
+                    model,
+                    data,
+                    sensors,
+                    [f"Finger {i}" for i in range(1, 6)],
+                    camera(lookat, 0.3, -35, -30),
+                    f"{INDENTER_MASS_KG} kg {label}",
+                    taxel_size=0.00025,
+                ),
+            )
+            figure_saved = True
+            if args.headless:
+                break
 
         totals = [float(s.data.normal_forces.sum()) for s in sensors]
         if cycle_step % steps_per_finger >= 0.8 * steps_per_finger:

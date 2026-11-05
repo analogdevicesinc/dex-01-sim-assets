@@ -53,7 +53,7 @@ OPTION_XML = f"""
 
 ENVIRONMENT_XML = """
     <light pos="0 0 1.5" dir="0 0 -1" diffuse="0.8 0.8 0.8" directional="true"/>
-    <geom name="floor" type="plane" size="1 1 0.05" rgba="0.82 0.84 0.86 1" contype="1" conaffinity="1"/>
+    <geom name="floor" type="plane" size="0 0 0.05" rgba="0.82 0.84 0.86 1" contype="1" conaffinity="1"/>
 """
 
 

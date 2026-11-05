@@ -20,10 +20,12 @@ The settled taxel forces sum to the gear's weight, 0.5 kg x 9.81 m/s^2 = 4.905 N
 
 import argparse
 import time
+from pathlib import Path
 
 import mujoco
 import mujoco.viewer
 from dex01_mujoco import TactileSensor, grid_pattern
+from dex01_mujoco.figures import camera, save_figure
 from dex01_mujoco.scenes import ENVIRONMENT_XML, OPTION_XML, gear_body_xml
 from dex01_mujoco.viewer import TactileHeatmaps, draw_taxels
 
@@ -33,6 +35,8 @@ parser.add_argument(
     "--max-steps", type=int, default=0, help="Stop after this many physics steps (0 runs until closed)."
 )
 parser.add_argument("--no-tactile-ui", action="store_true", help="Hide the heatmap window.")
+parser.add_argument("--figure", type=Path, help="Save a still render with the tactile frames to this image.")
+parser.add_argument("--figure-time", type=float, default=0.8, help="Simulation time of the --figure still (s).")
 args = parser.parse_args()
 
 SENSOR_SIZE = (0.2, 0.1, 0.01)
@@ -83,7 +87,7 @@ def main():
         viewer.cam.lookat[:] = (0, 0, 0.05)
         viewer.cam.distance, viewer.cam.elevation, viewer.cam.azimuth = 0.35, -25, 180
 
-    step = 0
+    step, figure_saved = 0, False
     wall_start = time.perf_counter()
     while viewer is None or viewer.is_running():
         if step and step % reset_steps == 0:
@@ -92,6 +96,25 @@ def main():
         mujoco.mj_step(model, data)
         sensor.update(data)
         step += 1
+        if args.figure and not figure_saved and data.time >= args.figure_time:
+            cam = camera((0, 0, 0.05), 0.28, -35, 150)
+            print(
+                "Saved",
+                save_figure(
+                    args.figure,
+                    model,
+                    data,
+                    [sensor],
+                    ["Pad"],
+                    cam,
+                    f"{GEAR_MASS_KG} kg gear",
+                    taxel_size=0.0012,
+                    show_unloaded=False,
+                ),
+            )
+            figure_saved = True
+            if args.headless:
+                break
         if step % report_steps == 0:
             forces = sensor.data.normal_forces
             print(f"peak taxel force {forces.max():7.4f} N   total {forces.sum():7.4f} N")

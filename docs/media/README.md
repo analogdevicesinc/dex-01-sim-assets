@@ -90,3 +90,14 @@ edge. Its close-up camera views the face obliquely in the gear's frame.
 
 The repository-only recording instructions and workflow diagram live in
 [DOCUMENTATION.md](../../DOCUMENTATION.md#record-a-simulation).
+
+## MuJoCo figures
+
+`mujoco-hand.webp`, `mujoco-flat-pad.webp` and `mujoco-press.webp` are offscreen
+MuJoCo 3.17.0 renders made by the MuJoCo examples' `--figure` option; the
+commands are in [scripts/mujoco/README.md](../../scripts/mujoco/README.md#figures).
+Each is taken from a single simulation step: the render and the heatmaps use the
+same state, the heatmaps share one force scale, and grey marks unused pixels.
+The hand and flat-pad stills are taken after the load has settled (0.981 N and
+4.905 N); the press still is in the late hold phase (about 1 N). The gear is the
+primitive-built stand-in described there, not NVIDIA's Factory gear.

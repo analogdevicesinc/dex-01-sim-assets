@@ -25,6 +25,26 @@ The DG-5F + DEX-01 hand MJCF is generated from `assets/robots/tesollo/dg5f_right
 Each opens the MuJoCo viewer (taxels drawn as spheres, coloured by force) and a heatmap window
 of the firmware frames. Add `--headless --max-steps N` for a non-interactive run.
 
+| Flat pad | Stationary press |
+|---|---|
+| ![0.5 kg gear settled on the flat pad, 4.905 N](../../docs/media/mujoco-flat-pad.webp) | ![Finger 2 holding about 1 N against the fixed gear](../../docs/media/mujoco-press.webp) |
+| 0.5 kg gear settled on the 32 x 32 pad: 4.905 N. | Finger 2 in the hold phase against the fixed gear: about 1 N. |
+
+![Hand example with the gear on finger 2](../../docs/media/mujoco-hand.webp)
+
+## Figures
+
+`--figure PATH` saves an offscreen render with the five (or one) tactile frames on a shared force
+scale at `--figure-time` seconds of simulation time; with `--headless` the run stops there. The
+figures in `docs/media/mujoco-*.webp` were made with MuJoCo 3.17.0 by:
+
+```bash
+export MUJOCO_GL=egl  # offscreen rendering without a display
+python scripts/mujoco/dex01_on_tesollo_dg5f.py --headless --figure docs/media/mujoco-hand.webp
+python scripts/mujoco/simple_example.py --headless --figure docs/media/mujoco-flat-pad.webp
+python scripts/mujoco/dex01_stationary_press.py --headless --figure docs/media/mujoco-press.webp
+```
+
 ## Differences from the Isaac Lab model
 
 - The sensor model is the same: the counter object's SDF gives taxel penetration depths, and the

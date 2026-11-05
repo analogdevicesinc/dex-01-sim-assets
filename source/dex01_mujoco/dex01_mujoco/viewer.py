@@ -67,6 +67,11 @@ class TactileHeatmaps:
 def draw_taxels(scene: mujoco.MjvScene, sensors, size=0.0003, show_unloaded=True):
     """Draw taxels as small spheres coloured by force (grey when unloaded) into a viewer's user scene."""
     scene.ngeom = 0
+    add_taxels(scene, sensors, size, show_unloaded)
+
+
+def add_taxels(scene: mujoco.MjvScene, sensors, size=0.0003, show_unloaded=True):
+    """Append taxel spheres to a scene after its existing geoms."""
     peak = max(1e-6, max(float(s.data.normal_forces.max()) for s in sensors))
     for sensor in sensors:
         forces = sensor.data.normal_forces

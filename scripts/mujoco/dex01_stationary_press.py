@@ -29,6 +29,7 @@ import mujoco
 import mujoco.viewer
 import numpy as np
 from dex01_mujoco import TactileSensor, dex01_mount, dex01_pattern
+from dex01_mujoco.figures import camera, save_figure
 from dex01_mujoco.scenes import gear_body_xml, hand_scene
 from dex01_mujoco.viewer import TactileHeatmaps, draw_taxels
 
@@ -38,6 +39,8 @@ parser.add_argument(
     "--max-steps", type=int, default=0, help="Stop after this many physics steps (0 runs until closed)."
 )
 parser.add_argument("--no-tactile-ui", action="store_true", help="Hide the heatmap window.")
+parser.add_argument("--figure", type=Path, help="Save a still render with the tactile frames to this image.")
+parser.add_argument("--figure-time", type=float, default=1.45, help="Simulation time of the --figure still (s).")
 parser.add_argument("--press-force-n", type=float, default=1.0, help="Measured normal-load target during the hold.")
 parser.add_argument("--press-time-scale", type=float, default=0.25, help="Scale of the 10 s cycle (default 2.5 s).")
 parser.add_argument("--verification-report", type=Path, help="Write per-step observations and checks as JSON.")
@@ -138,7 +141,7 @@ def main():
     jacp, jacr = np.zeros((3, model.nv)), np.zeros((3, model.nv))
     observations, failure = [], None
     hold_loads, unloaded_loads = [], []
-    step = 0
+    step, figure_saved = 0, False
     wall_start = time.perf_counter()
     while viewer is None or viewer.is_running():
         t = step * dt / args.press_time_scale
@@ -167,6 +170,23 @@ def main():
         for s in sensors:
             s.update(data)
         step += 1
+        if args.figure and not figure_saved and data.time >= args.figure_time:
+            print(
+                "Saved",
+                save_figure(
+                    args.figure,
+                    model,
+                    data,
+                    sensors,
+                    [f"Finger {i}" for i in range(1, 6)],
+                    camera(center, 0.13, -40, 135),
+                    f"{phase}, fixed gear",
+                    taxel_size=0.00025,
+                ),
+            )
+            figure_saved = True
+            if args.headless:
+                break
 
         forces = [float(s.data.normal_forces.sum()) for s in sensors]
         cycle = t % 10.0
