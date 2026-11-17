@@ -1,21 +1,19 @@
-# Flat-pad example
+# Falling-object contact
 
-Watch the gear drop onto a flat sensing grid. The contact footprint appears
-as the load rises, then the total force settles near the gear's weight.
-The heatmap is a top view of the 200 × 100 mm pad, displayed at its physical
-2:1 aspect ratio. Its 32 columns follow the long axis and its 32 rows the short
-axis; the taxel values and pixel mapping are unchanged.
+A 0.5 kg gear falls onto a flat pad with a 32 × 32 sampling grid. Contact
+creates a footprint, and the total normal force approaches the gear's
+4.905 N weight as it settles.
 
 <figure class="example-video">
 <video controls playsinline loop preload="none" width="960" height="800"
        poster="../../_static/videos/flat-pad.webp"
-       aria-label="Actual flat-pad drop and settling, shown 3× slower. The camera and tactile grid come from the same captured simulation steps.">
+       aria-label="A falling gear loads the flat pad and settles. Playback is 3× slower than simulation time.">
   <source src="../../_static/videos/flat-pad.webm" type="video/webm">
   <source src="../../_static/videos/flat-pad.mp4" type="video/mp4">
   <track kind="captions" src="../../_static/videos/flat-pad.vtt" srclang="en" label="Phases">
   <a href="../../_static/videos/flat-pad.mp4">Download the example video</a>
 </video>
-<figcaption>Actual flat-pad drop and settling, shown 3× slower. The camera and tactile grid come from the same captured simulation steps.</figcaption>
+<figcaption>A falling gear loads the flat pad and settles. Playback is 3× slower than simulation time.</figcaption>
 </figure>
 
 <div class="phase-gallery">
@@ -26,34 +24,30 @@ axis; the taxel values and pixel mapping are unchanged.
 
 ## Run the example
 
-Prerequisites: the [installed environment](../getting-started/installation.md).
-Run from the repository root. This scene downloads a gear from NVIDIA’s
-asset server on first use. Run the simpler scene for a broader view of object contact footprints:
+From the repository root in the [installed environment](../getting-started/installation.md):
 
 ```bash
 python scripts/simple_example.py
 ```
 
-The viewport shows a flat sampling grid and live tactile images. Sample
-markers are enabled by default. Use `--no-tactile-ui` to hide the overlay.
-The pixel arrangement belongs to the grid pattern; it is distinct from the
-curved DEX-01 firmware layout. See [patterns](../guides/patterns.md).
-
-For an automated DEX-01 contact sweep and a known-load fixture, use the
-[validation commands](../validation.md).
-
-For a bounded smoke check without a window:
+The object resets every 100 simulation steps; the scene repeats until closed.
+Sampling markers are visible by default. For a bounded run without a window:
 
 ```bash
-MPLBACKEND=Agg python scripts/simple_example.py --headless --max-steps 120
+python scripts/simple_example.py --headless --max-steps 120
 ```
 
-The scene uses a 32 × 32 grid (1,024 samples) on a flat pad and a 0.5 kg gear.
-It drops and resets the object every 100 steps and prints peak taxel force and
-total load. At 60 steps, the checked run reported about 0.1735 N peak taxel
-force and 4.9035 N total load, close to the gear's 4.905 N weight. Transient
-readings vary during impact and reset.
+## Read the tactile output
 
-This example demonstrates grid sensing. The curved DEX-01 has 740 occupied
-firmware pixels; use its 0.1 kg flat-indenter fixture for the quantitative
-[known-load verification](../validation.md).
+The heatmap is a top view of the 200 × 100 mm pad, shown at its physical 2:1
+aspect ratio. Columns follow the long axis and rows the short axis. The
+footprint changes during impact, then steadies as the gear settles. Resetting
+the gear unloads the pad.
+
+The console prints peak force per taxel and total normal load. Expect the
+settled total to approach 4.905 N; impact readings can be higher.
+See [display colors and units](index.md#read-the-tactile-display).
+
+For quantitative checks on the curved DEX-01 fingertip, use the separate
+[known-load validation](../validation.md). To compare this grid with other
+layouts, see [taxel patterns](../guides/patterns.md).

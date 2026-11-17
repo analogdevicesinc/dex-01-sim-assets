@@ -23,7 +23,7 @@ import numpy as np
 
 
 def force_frame_rgba(frame, pixels, vmax):
-    """Map firmware cells to RGBA, preserving rows/columns and absent-cell mask.
+    """Map tactile cells to RGBA, preserving rows/columns and absent-cell mask.
 
     Blue is zero, cyan/yellow/red is increasing normal force. No interpolation
     or reshuffling: an enlarged cell still represents exactly one taxel.
@@ -85,7 +85,7 @@ class ViewportTactileViewer:
                         ui.Rectangle(style={"background_color": 0xEE181818})
                         with ui.VStack(spacing=4):
                             self.status_label = ui.Label(
-                                "Normal force (N); firmware rows/columns", height=28, style={"font_size": 18}
+                                "Normal force (N); taxel rows/columns", height=28, style={"font_size": 18}
                             )
                             with ui.HStack(height=186, spacing=6):
                                 for label in self.labels:
@@ -113,7 +113,7 @@ class ViewportTactileViewer:
             rgba = np.repeat(np.repeat(rgba, 4, axis=0), 4, axis=1)
             provider.set_bytes_data(rgba.ravel().tolist(), [rgba.shape[1], rgba.shape[0]])
         self.scale_label.text = f"Blue 0 -> cyan -> yellow -> red {vmax:.4f} N/taxel; grey: absent"
-        self.status_label.text = status or "Normal force (N); firmware rows/columns; env 0"
+        self.status_label.text = status or "Normal force (N); taxel rows/columns; env 0"
 
     def close(self):
         if self.frame is not None:

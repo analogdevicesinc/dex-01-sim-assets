@@ -1,18 +1,19 @@
-# Tesollo hand demo
+# Sequential fingertip contact
 
-Watch the object contact fingers 2–5 in turn. The active tactile frame follows
-the loaded finger while the remaining fingers stay unloaded.
+A gear is placed above each of the Tesollo hand's fingers 2–5 in turn and
+falls into contact. Compare the loaded fingertip's tactile frame with the
+unloaded frames. The thumb is outside this sequence.
 
 <figure class="example-video">
 <video controls playsinline loop preload="none" width="960" height="800"
        poster="../../_static/videos/hand.webp"
-       aria-label="A captured 5-second hand sequence at simulation-time playback, with synchronized per-finger load and firmware frames.">
+       aria-label="Five seconds of sequential contact on fingers 2–5, shown at simulation-time speed.">
   <source src="../../_static/videos/hand.webm" type="video/webm">
   <source src="../../_static/videos/hand.mp4" type="video/mp4">
   <track kind="captions" src="../../_static/videos/hand.vtt" srclang="en" label="Phases">
   <a href="../../_static/videos/hand.mp4">Download the example video</a>
 </video>
-<figcaption>A captured 5-second hand sequence at simulation-time playback, with synchronized per-finger load and firmware frames.</figcaption>
+<figcaption>Five seconds of sequential contact on fingers 2–5, shown at simulation-time speed.</figcaption>
 </figure>
 
 <div class="phase-gallery">
@@ -21,46 +22,29 @@ the loaded finger while the remaining fingers stay unloaded.
 <figure><img src="../../_static/videos/hand-after.webp" alt="The gear is now supported by finger 5 and its frame is active"><figcaption><strong>Advance to finger 5</strong><span>The active frame follows the loaded finger.</span></figcaption></figure>
 </div>
 
-## Read the sequence
-
-1. The gear is placed above finger 2 and drops into contact.
-2. The contact frame shows the sampled footprint, with its total force in newtons.
-3. The demo resets the gear over each following finger; the active frame moves
-   across fingers 3, 4, and 5. Finger 1 is checked separately by the thumb probe.
-
-The native camera inset follows the gear at its physical size (about 6.29 mm
-wide). Match that contact to the active patch in the corresponding finger's
-unwrapped frame; the heatmap shows force per taxel, not an optical image.
-
 ## Run the example
 
-Prerequisites: [installed environment](../getting-started/installation.md),
-a supported NVIDIA GPU, and fetched Git LFS assets.
-
-For a local desktop:
+From the repository root in the [installed environment](../getting-started/installation.md):
 
 ```bash
 python scripts/dex01_on_tesollo_dg5f.py
 ```
 
-A gear contacts fingers 2–5 in turn. The Isaac Sim viewport includes live
-firmware heatmaps and each finger's measured normal load in newtons, so they
-appear in the WebRTC GUI. Blue is zero load; cyan, yellow and red show increasing
-force per taxel, with a shared adaptive scale printed below the images. Grey
-cells have no sensor taxel. Firmware row/column positions are preserved, with
-no smoothing: the contact footprint (including gear teeth when resolved by the
-sampling) is visible rather than just an aggregate force. These frames unwrap
-the curved fingertip; they are not an optical picture of the object.
+The sequence repeats until closed. The gear is repositioned above each finger;
+the hand holds its pose. For contact driven by finger motion, run
+[stationary-object pressing](stationary-press.md).
 
-## Inspect a known contact
+## Read the tactile output
 
-```{figure} ../media/loaded-contact.webp
-:alt: A 0.1 kilogram cube resting on the DEX-01 pad of finger 2, with the mounting frame and adjacent fingertips visible.
-:width: 100%
+The viewport shows five tactile frames and each finger's total normal load
+in newtons. Contact moves across frames 2, 3, 4, and 5 as the gear advances;
+the other frames remain unloaded. The video inset shows which fingertip is
+supporting the gear.
 
-The local flat-load fixture on finger 2. The corresponding tactile frame
-is active only on the loaded finger; the total load is near 0.981 N after settling.
-```
+Each frame unwraps a curved fingertip onto a 32 × 32 image with 740 sensing
+sites. Match the active patch to the contact location rather than expecting
+an optical outline of the gear. See
+[display colors and units](index.md#read-the-tactile-display).
 
-Use a flat indenter for quantitative [known-load validation](../validation.md).
-The gear can rock and is not a calibration fixture.
+The gear can rock, so use the [flat-load fixture and optional thumb probe](../validation.md)
+for quantitative force checks and thumb coverage.

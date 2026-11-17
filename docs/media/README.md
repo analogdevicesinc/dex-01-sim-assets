@@ -90,3 +90,34 @@ edge. Its close-up camera views the face obliquely in the gear's frame.
 
 The repository-only recording instructions and workflow diagram live in
 [DOCUMENTATION.md](../../DOCUMENTATION.md#record-a-simulation).
+
+## Robotiq grasp, hold, and release
+
+The Robotiq media was captured on October 25, 2026 using the repository's
+`dex01_on_robotiq_2f85.py` example in Isaac Sim **5.1.0.0** and rendered with
+native Isaac Sim **6.1.0.0** RTX cameras. The source gripper is the official
+Isaac Sim 5.1 Robotiq asset. No SimReady Foundation profile validation is
+claimed for this integration.
+
+`robotiq.webm` and `robotiq.mp4` contain all **180 captured frames** at **30 fps**,
+covering the six-second open/close/hold/open/release cycle. The block is a
+free 0.1 kg, 10 × 30 × 18 mm rigid body with gravity and damping disabled.
+Its recorded motion is preserved in the video.
+Separate left/right images show the recorded 32 × 32 normal-force arrays
+with one shared scale, and the inset is a synchronized native contact camera.
+The heatmap aspect ratio comes from distances between captured taxel centers.
+Each displayed cell spans one taxel pitch, giving a 14.4 × 33.6 mm grid extent
+(width × length), rather than the full contact face including its border.
+
+The exporter independently checks bilateral hold loads and block momentum
+against normal and friction impulses before accepting the capture.
+The renderer preserves all ten body poses and all twelve captured
+meshes at every frame, with a 1 µm vertex-error limit, and never advances the
+physics timeline. The before/contact/after stills are frames from that same
+sequence. Captions label the actual phases.
+
+The `robotiq` entry in `examples.json` records capture and renderer versions,
+source-file and output hashes, the resolved gripper source, frame count,
+camera inclusion, and maximum measured pose/vertex errors. The current
+working-tree source hashes accompany the base commit, so uncommitted source
+changes are represented explicitly. Large captured scenes remain outside Git.

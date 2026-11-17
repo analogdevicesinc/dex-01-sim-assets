@@ -15,10 +15,11 @@
 
 """Sub-module for taxel layouts used by the tactile_sensor."""
 
-from .taxel_patterns import custom_pattern, grid_pattern
+from .taxel_patterns import custom_pattern, grid_pattern, rectangular_dex01_pattern
 from .taxel_patterns_cfg import (
     CustomPatternCfg,
     Dex01PatternCfg,
     GridPatternCfg,
     PatternBaseCfg,
+    RectangularDex01PatternCfg,
 )

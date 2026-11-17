@@ -107,3 +107,14 @@ class Dex01PatternCfg(CustomPatternCfg):
     filename: str = os.path.join(os.path.dirname(__file__), "dex01_contact.npz")
 
     resolution: tuple[float, float] = (0.00072, 0.00088)
+
+
+@configclass
+class RectangularDex01PatternCfg(PatternBaseCfg):
+    """The 32 by 32 DEX-01 grid on the custom Robotiq finger, in its local frame."""
+
+    func: Callable = taxel_patterns.rectangular_dex01_pattern
+    filename: str = os.path.join(os.path.dirname(__file__), "dex01_rectangular.npz")
+    """Grid positions and outward normals, each shaped (32, 32, 3)."""
+    resolution: tuple[float, float] = (0.00045, 0.00105)
+    """Column and row pitch in the local taxel tangent axes, in metres."""
