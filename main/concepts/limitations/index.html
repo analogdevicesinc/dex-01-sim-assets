@@ -46,7 +46,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="8184d75d7046244abad8f673f3e49b6cf6ff9a66">
+<meta name="docs-source-ref" content="0a7ebaa6b4ac76d2fc8639293152a88864f72282">
 
   </head>
   
@@ -140,10 +140,20 @@ Content on this topic
 </p>
 
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/stationary-press/">Press a stationary gear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/">Overview</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="../../examples/embodiments/flat-pad/">Flat pad</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="../../examples/embodiments/tesollo-hand/">Tesollo hand</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/stationary-press/">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="../../examples/embodiments/robotiq-2f85/">Robotiq 2F-85</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/robotiq/">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 
 <p class="caption" role="heading">
@@ -152,6 +162,7 @@ Content on this topic
 
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guides/read-data/">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guides/patterns/">Configure taxel patterns</a></li>
 </ul>
@@ -216,6 +227,11 @@ cancel. It is not a sum of individually measured local contact forces.</p>
 </section>
 <section id="dynamics-and-geometry">
 <h2>Dynamics and geometry<a class="headerlink" href="#dynamics-and-geometry" title="Link to this heading"></a></h2>
+<p>Compliant rigid contact is a numerical approximation: its effective stiffness
+depends on the sampled contact manifold. A fixed counter object can support
+unequal reaction forces. The Robotiq grasp example uses a free rigid block and
+checks both bilateral loads and force/momentum balance; this does not identify
+the sensor’s physical material properties.</p>
 <p>The current interface reports normal forces. Shear and material hysteresis
 require a different model. Contact stiffness, damping, timestep, and actuator
 gains are configured simulation parameters; see <a class="reference internal" href="../../reference/numerical-settings/"><span class="std std-doc">numerical settings</span></a>.</p>

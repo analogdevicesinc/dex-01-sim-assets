@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="Simulate normal contact forces on a DEX-01 fingertip in NVIDIA Isaac Lab, with 740 contact samples mapped into the sensor’s 32 × 32 firmware frame." name="description" />
+<meta content="Simulate normal contact forces on DEX-01 sensors in NVIDIA Isaac Lab: the 740-sample humanoid fingertip or the 1,024-sample rectangular Robotiq finger. Both provide 32 × 32 tactile images." name="description" />
 
     <title>DEX-01 Tactile Sensor &#8212; DEX-01 Tactile Sensor documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8e8a900e" />
@@ -45,7 +45,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="8184d75d7046244abad8f673f3e49b6cf6ff9a66">
+<meta name="docs-source-ref" content="0a7ebaa6b4ac76d2fc8639293152a88864f72282">
 
   </head>
   
@@ -140,10 +140,20 @@ Content on this topic
 </p>
 
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/stationary-press/">Press a stationary gear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/">Overview</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="examples/embodiments/flat-pad/">Flat pad</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="examples/embodiments/tesollo-hand/">Tesollo hand</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/stationary-press/">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="examples/embodiments/robotiq-2f85/">Robotiq 2F-85</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/robotiq/">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 
 <p class="caption" role="heading">
@@ -152,6 +162,7 @@ Content on this topic
 
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guides/read-data/">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guides/patterns/">Configure taxel patterns</a></li>
 </ul>
@@ -196,14 +207,15 @@ Content on this topic
             
   <section id="dex-01-tactile-sensor">
 <h1>DEX-01 Tactile Sensor<a class="headerlink" href="#dex-01-tactile-sensor" title="Link to this heading"></a></h1>
-<p>Simulate normal contact forces on a DEX-01 fingertip in NVIDIA Isaac Lab,
-with 740 contact samples mapped into the sensor’s 32 × 32 firmware frame.</p>
+<p>Simulate normal contact forces on DEX-01 sensors in NVIDIA Isaac Lab: the
+740-sample humanoid fingertip or the 1,024-sample rectangular Robotiq finger.
+Both provide 32 × 32 tactile images.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="_images/dex01-demo.webp"><img alt="PhysX scene showing all five dark DEX-01 fingertips mounted on a Tesollo hand, with finger 2 loaded and its tactile frame active." src="_images/dex01-demo.webp" style="width: 100%;" />
 </a>
 <figcaption>
 <p><span class="caption-text">A 0.1 kg cube contacts finger 2 on the Tesollo DG-5F hand. Each panel reports
-physical normal force in newtons using the original firmware pixel mapping.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+physical normal force in newtons using the original row/column mapping.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <p>Browse <a class="reference internal" href="examples/"><span class="std std-doc">the visual examples</span></a> to see contact and articulation
@@ -229,16 +241,31 @@ See <a class="reference internal" href="concepts/model/"><span class="std std-do
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/stationary-press/">Press a stationary gear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/#before-running-a-scenario">Before running a scenario</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/#read-the-tactile-display">Read the tactile display</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/embodiments/flat-pad/">Flat pad</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/embodiments/tesollo-hand/">Tesollo hand</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/stationary-press/">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/embodiments/robotiq-2f85/">Robotiq 2F-85</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/robotiq/">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guides/read-data/">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guides/patterns/">Configure taxel patterns</a></li>
 </ul>

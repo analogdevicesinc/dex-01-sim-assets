@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="ADI-authored code and assets use Apache-2.0. Isaac Lab adaptations and Tesollo geometry retain their BSD-3-Clause terms in NOTICE. The exact Tesollo license is retained in LICENSE_Tesollo." name="description" />
+<meta content="ADI-authored code and assets use Apache-2.0. This includes the custom rectangular finger mesh and materials, its 32 × 32 taxel grid, and the USD integration layer for the Robotiq 2F-85. The asset inventory is listed in NOTICE." name="description" />
 
     <title>Licensing and attribution &#8212; DEX-01 Tactile Sensor documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8e8a900e" />
@@ -46,7 +46,7 @@
     }
   }
 </style>
-<meta name="docs-source-ref" content="8184d75d7046244abad8f673f3e49b6cf6ff9a66">
+<meta name="docs-source-ref" content="0a7ebaa6b4ac76d2fc8639293152a88864f72282">
 
   </head>
   
@@ -136,10 +136,20 @@ Content on this topic
 </p>
 
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/">Explore the examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/flat-pad/">Flat-pad example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/hand/">Tesollo hand demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/stationary-press/">Press a stationary gear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/">Overview</a></li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-1" id="toctree-collapse-1"/><div class="collapse"><a class="reference internal" href="../examples/embodiments/flat-pad/">Flat pad</a><label for="toctree-collapse-1"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/flat-pad/">Falling-object contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-2" id="toctree-collapse-2"/><div class="collapse"><a class="reference internal" href="../examples/embodiments/tesollo-hand/">Tesollo hand</a><label for="toctree-collapse-2"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/hand/">Sequential fingertip contact</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/stationary-press/">Stationary-object pressing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><input class="toctree-collapse" type="checkbox" name="toctree-collapse-3" id="toctree-collapse-3"/><div class="collapse"><a class="reference internal" href="../examples/embodiments/robotiq-2f85/">Robotiq 2F-85</a><label for="toctree-collapse-3"><div class="icon"></div></label></div><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/robotiq/">Grasp, hold, and release</a></li>
+</ul>
+</li>
 </ul>
 
 <p class="caption" role="heading">
@@ -148,6 +158,7 @@ Content on this topic
 
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/attachment/">Attach a sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/robotiq/">Integrate the Robotiq 2F-85</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/read-data/">Read tactile data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/patterns/">Configure taxel patterns</a></li>
 </ul>
@@ -192,14 +203,23 @@ Content on this topic
             
   <section id="licensing-and-attribution">
 <h1>Licensing and attribution<a class="headerlink" href="#licensing-and-attribution" title="Link to this heading"></a></h1>
-<p>ADI-authored code and assets use <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/8184d75d7046244abad8f673f3e49b6cf6ff9a66/LICENSE" target="_blank">Apache-2.0</a>.
-Isaac Lab adaptations and Tesollo geometry retain their BSD-3-Clause terms in
-<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/8184d75d7046244abad8f673f3e49b6cf6ff9a66/NOTICE" target="_blank">NOTICE</a>.
+<p>ADI-authored code and assets use <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/0a7ebaa6b4ac76d2fc8639293152a88864f72282/LICENSE" target="_blank">Apache-2.0</a>.
+This includes the custom rectangular finger mesh and materials, its 32 × 32
+taxel grid, and the USD integration layer for the Robotiq 2F-85. The asset
+inventory is listed in <a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/0a7ebaa6b4ac76d2fc8639293152a88864f72282/NOTICE" target="_blank">NOTICE</a>.</p>
+<p>Isaac Lab adaptations and Tesollo geometry retain their BSD-3-Clause terms in
+<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/0a7ebaa6b4ac76d2fc8639293152a88864f72282/NOTICE" target="_blank">NOTICE</a>.
 The exact Tesollo license is retained in
-<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/8184d75d7046244abad8f673f3e49b6cf6ff9a66/LICENSE_Tesollo" target="_blank">LICENSE_Tesollo</a>.</p>
-<p>The demos fetch the gear from NVIDIA’s asset server under NVIDIA’s terms;
-it is not redistributed here. Documentation images are captures of the demo,
-not downloadable third-party simulation assets.</p>
+<a class="icon link reference external" href="https://github.com/analogdevicesinc/dex-01-sim-assets/blob/0a7ebaa6b4ac76d2fc8639293152a88864f72282/LICENSE_Tesollo" target="_blank">LICENSE_Tesollo</a>.</p>
+<p>The demos obtain the gear and the Robotiq 2F-85 model separately from NVIDIA’s
+Isaac Sim asset library. The gripper model is attributed to Robotiq and supplied
+through NVIDIA. These models and their dependent meshes, materials, and
+textures are not redistributed here and retain their applicable NVIDIA and
+third-party terms. The repository’s Apache-2.0 license does not relicense them.
+See <a class="icon link reference external" href="https://docs.isaacsim.omniverse.nvidia.com/5.1.0/common/licenses-isaac-sim.html" target="_blank">Isaac Sim licensing</a>
+and the <a class="icon link reference external" href="https://docs.isaacsim.omniverse.nvidia.com/5.1.0/common/license-isaac-sim-additional.html" target="_blank">additional software and materials terms</a>.</p>
+<p>Documentation images and videos are rendered simulation outputs depicting
+these assets, rather than downloadable copies of the underlying models.</p>
 <p>Root license files are canonical and are copied unchanged into the built site.
 See <a class="reference internal" href="../contributing/"><span class="std std-doc">contribution requirements</span></a> before submitting changes.</p>
 </section>
